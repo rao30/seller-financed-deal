@@ -920,8 +920,8 @@
     Angela, this page covers how selling your 8 properties works.
     Your timeline. Your price. A check arriving every month.
   </p>
-  <div class="fade-up fade-up-4" style="background:rgba(160,120,64,0.08);border:1px solid rgba(160,120,64,0.2);border-radius:10px;padding:14px 22px;font-size:13px;color:var(--ink3);max-width:480px;line-height:1.7;margin-bottom:8px;">
-    &#x1F4DD; <strong style="color:var(--ink2);">A note on the numbers:</strong> The prices here are estimates. When we sit down, you tell me what you want for each home and I plug your numbers in. Everything on this page updates.
+  <div class="fade-up fade-up-4" style="background:rgba(160,120,64,0.08);border:1px solid rgba(160,120,64,0.2);border-radius:10px;padding:14px 22px;font-size:13px;color:var(--ink3);max-width:520px;line-height:1.7;margin-bottom:8px;">
+    &#x1F4DD; <strong style="color:var(--ink2);">What's on this page:</strong> the numbers reflect what we've agreed to — your prices after the small bank/seller concessions, zero interest on the notes I carry, and a six-month renovation grace period at the start of each closing. You can still edit any number below to see how the totals change.
   </div>
   <div class="hero-scroll fade-up fade-up-5">scroll</div>
 </section>
@@ -937,7 +937,7 @@
     <p class="lead fade-up">
       You sell 8 properties over 4 years, 2 per year.
       A cash payment arrives at the table each time a pair closes.
-      On one house per pair, you hold the loan at 6% interest and receive monthly payments.
+      On one house per pair, you hold the loan — <strong>zero interest</strong> — and receive monthly payments.
       Seven years after each closing, the buyer pays off the remaining balance in a single lump sum.
     </p>
     <p class="body-text fade-up">
@@ -976,9 +976,9 @@
       <h2 class="section-title fade-up">Each year, two houses.<br><em>Two paychecks.</em></h2>
       <p class="lead fade-up">
         Each year you close on one pair. The buyer's bank pays off the first house
-        the normal way. On the second house, you hold the loan yourself at 6% interest.
-        Monthly payments come to you. Seven years later, the buyer pays off
-        the full remaining balance.
+        the normal way. On the second house, you hold the loan yourself at zero interest.
+        After a six-month renovation window, monthly payments come to you.
+        Seven years later, the buyer refinances and pays off the full remaining balance.
       </p>
     </div>
 
@@ -996,9 +996,10 @@
     <h2 class="section-title fade-up">What you actually<br><em>walk away with.</em></h2>
     <p class="lead fade-up">
       Cash arrives at every closing. On each property where you hold the loan,
-      a payment comes every month at 6% interest. At the seven-year mark for each
-      property, the buyer goes to a bank, refinances, and sends the remaining balance
-      as a single payment. That is when each loan is fully retired.
+      monthly payments begin after a six-month renovation period and continue
+      at zero interest. At the seven-year mark for each property, the buyer goes
+      to a bank, refinances, and sends the remaining balance as a single payment.
+      That is when each loan is fully retired.
     </p>
 
     <!-- Year-by-year income chart -->
@@ -1007,10 +1008,11 @@
     <table class="income-table fade-up" id="incomeTable"></table>
 
     <p class="body-text fade-up" style="margin-top:24px;">
-      * Monthly payments are calculated on a 20-year amortization at 6% interest.
-      Every dollar comes directly to you. At year 7, the buyer refinances
-      through a bank and sends the remaining balance in a single payment.
-      The loan is paid off at that point.
+      * Monthly payments are calculated on a 20-year amortization at zero interest —
+      the principal simply divided across 240 months. Every dollar comes directly
+      to you. The first 6 months after each closing are a renovation grace period
+      with no payments; monthly checks begin in month 7. At year 7, the buyer
+      refinances through a bank and sends the remaining balance in a single payment.
     </p>
   </div>
 </section>
@@ -1178,11 +1180,18 @@
     <h2 class="section-title fade-up">Straight questions.<br><em>Straight answers.</em></h2>
 
     <div class="faq-item fade-up">
-      <div class="faq-q">Why is the bank price lower than my per-house ask?</div>
+      <div class="faq-q">What does this deal get me, in plain English?</div>
       <div class="faq-a">
-        <p style="margin-bottom:12px;">Your <strong>pair total</strong> is honored exactly. The bank side shows a lower recorded purchase price because that's what will appraise and what a bank will actually lend on. The $50k difference per pair gets added to the seller-financed side instead.</p>
-        <p style="margin-bottom:12px;">So if your ask is $820k for the pair, you still collect $820k — $360k through the bank at closing and $460k on the note I carry. You never give up a dollar of your ask.</p>
-        <p style="margin-bottom:0;">And because you're earning <strong>6% interest</strong> on the seller-financed balance over 7 years, the monthly checks are meaningfully larger than a 0% note would produce.</p>
+        <p style="margin-bottom:12px;">Across all 8 houses, <strong>$3,111,680 total</strong>, paid out over 11 years. You walk away from being a landlord after 4 years and collect monthly checks and four big balloon payoffs over the following 7.</p>
+        <p style="margin-bottom:12px;">Each pair is structured the same way: one house closes with a bank check to you, the other I carry as a note at <strong>zero interest</strong>. No commissions, no repairs, no vacancies eating your equity while the property sits on the market. No tenant calls after year 4.</p>
+        <p style="margin-bottom:0;">The monthly payments have one small wrinkle — the first 6 months after each closing are renovation months. I need that window to get the properties rent-ready, so there are no payments during those months. Payments start in month 7 and run for the next 6.5 years.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade-up">
+      <div class="faq-q">Why a 6-month grace period before payments start?</div>
+      <div class="faq-a">
+        Each property I take over needs meaningful work — kitchens, bathrooms, paint, mechanicals — before tenants will pay the rents that support the note. The grace period lines up exactly with my renovation timeline. During those 6 months I'm spending my own cash on your properties, which improves your collateral. Once tenants are in place, monthly payments begin and run until year 7, when the refinance closes out the note.
       </div>
     </div>
 
@@ -1301,62 +1310,60 @@
 
 <script>
 // ── Data ──
-// bank.price  = bank purchase price (what the bank sees + wires Angela at close).
-// seller.sfAsk = Angela's effective seller-finance ask (+$50k shift so pair totals match).
-// angelaAsk   = her stated per-property number (for market comparison / reference).
-// The deed price is derived from sfAsk so that monthly pmts + 7yr balloon at 6% = sfAsk.
+// Post-concession pricing: 2% off each bank-financed property, 6% off each SF property.
+// bank.price = what you receive at closing for the bank-financed house.
+// seller.sfAsk = what you receive over the 7-year note for the seller-financed house.
+// At 0% interest: deed recorded = seller.sfAsk = total you collect over the note's life.
+// angelaAsk = your pre-concession per-property ask (kept for reference).
 const PAIRS = [
   {
-    year: 1, balloonYear: 8, askTotal: 820000,
-    bank:   { addr: '116/118 Shadybrook', price: 360000, bal: 73937.15,   rent: 2600, angelaAsk: 410000 },
-    seller: { addr: '141/143 Shadybrook', sfAsk: 460000, bal: 69246.44,   rent: 2600, angelaAsk: 410000 },
+    year: 1, balloonYear: 8, pairTotal: 785200,
+    bank:   { addr: '116/118 Shadybrook', price: 352800, bal: 73937.15,   rent: 2600, angelaAsk: 410000 },
+    seller: { addr: '141/143 Shadybrook', sfAsk: 432400, bal: 69246.44,   rent: 2600, angelaAsk: 410000 },
   },
   {
-    year: 2, balloonYear: 9, askTotal: 832000,
-    bank:   { addr: '144/146 Shadybrook', price: 360000, bal: 76637.59,   rent: 2600, angelaAsk: 410000 },
-    seller: { addr: '125/127 Larchbrook', sfAsk: 472000, bal: 72245.79,   rent: 2600, angelaAsk: 422000 },
+    year: 2, balloonYear: 9, pairTotal: 796480,
+    bank:   { addr: '144/146 Shadybrook', price: 352800, bal: 76637.59,   rent: 2600, angelaAsk: 410000 },
+    seller: { addr: '125/127 Larchbrook', sfAsk: 443680, bal: 72245.79,   rent: 2600, angelaAsk: 422000 },
   },
   {
-    year: 3, balloonYear: 10, askTotal: 844000,
-    bank:   { addr: '120/122 Idlecreek',  price: 372000, bal: 81947.65,   rent: 2600, angelaAsk: 422000 },
-    seller: { addr: '800/802 Summit',     sfAsk: 472000, bal: 130972.34,  rent: 2600, angelaAsk: 422000 },
+    year: 3, balloonYear: 10, pairTotal: 808240,
+    bank:   { addr: '120/122 Idlecreek',  price: 364560, bal: 81947.65,   rent: 2600, angelaAsk: 422000 },
+    seller: { addr: '800/802 Summit',     sfAsk: 443680, bal: 130972.34,  rent: 2600, angelaAsk: 422000 },
   },
   {
-    year: 4, balloonYear: 11, askTotal: 752000,
-    bank:   { addr: '804/806 Summit',     price: 372000, bal: 99764.90,   rent: 2800, angelaAsk: 422000 },
-    seller: { addr: '1419/1421 Deborah',  sfAsk: 380000, bal: 51746.39,   rent: 1800, angelaAsk: 330000 },
+    year: 4, balloonYear: 11, pairTotal: 721760,
+    bank:   { addr: '804/806 Summit',     price: 364560, bal: 99764.90,   rent: 2800, angelaAsk: 422000 },
+    seller: { addr: '1419/1421 Deborah',  sfAsk: 357200, bal: 51746.39,   rent: 1800, angelaAsk: 330000 },
   },
 ];
 
 const AMORT_YRS    = 20;
 const AMORT_MOS    = AMORT_YRS * 12;
-const SF_RATE      = 0.06;
+const SF_RATE      = 0;                      // 0% interest — Angela's agreed terms
 const BALLOON_YRS  = 7;
 const BALLOON_MOS  = BALLOON_YRS * 12;
+const HOLIDAY_MOS  = 6;                      // zero-payment period at the start of each note
+const PMT_MONTHS   = BALLOON_MOS - HOLIDAY_MOS; // 78 actual monthly payments before balloon
 
 function fmt(n) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
 }
 
-// Given Angela's SF ask, return the deed price + monthly note payment + 7-yr balloon
-// such that (84 × pmt) + balloon = sfAsk exactly, with the note amortized at 6% over 20yrs.
+// At 0% interest, the recorded deed = what Angela collects = sfAsk.
+// Monthly payment amortizes on a 20yr schedule (sfAsk / 240). Due to the 6-month
+// holiday, only 78 monthlies land before the balloon; the remaining principal is
+// the balloon payoff at year 7.
 function sfTerms(sfAsk) {
-  const r = SF_RATE / 12;
-  const F = Math.pow(1 + r, BALLOON_MOS);
-  const annuity84 = (F - 1) / r;
-  const k = r / (1 - Math.pow(1 + r, -AMORT_MOS));
-  const deed = sfAsk / (k * (BALLOON_MOS - annuity84) + F);
-  const pmt = deed * k;
-  const balloon = sfAsk - pmt * BALLOON_MOS;
-  return { deed, pmt, balloon };
+  const pmt = sfAsk / AMORT_MOS;
+  const balloon = sfAsk - pmt * PMT_MONTHS;
+  return { deed: sfAsk, pmt, balloon };
 }
 
-// Remaining balance on the seller-financed note after N months of amortized payments at 6%.
+// Remaining balance after N months of amortized payments (0% interest).
 function noteBal(sfAsk, monthsPaid) {
-  const { deed, pmt } = sfTerms(sfAsk);
-  const r = SF_RATE / 12;
-  const F = Math.pow(1 + r, monthsPaid);
-  return Math.max(0, deed * F - pmt * (F - 1) / r);
+  const pmt = sfAsk / AMORT_MOS;
+  return Math.max(0, sfAsk - pmt * monthsPaid);
 }
 
 // ── Build timeline ──
@@ -1393,12 +1400,13 @@ function buildTimeline() {
           <br><br>
           <strong>${pair.seller.addr}</strong> is different. You pay off its mortgage
           (${fmt(pair.seller.bal)}) using the cash from the first closing, then you
-          become the bank — carrying a note at 6% interest, amortized over 20 years.
-          The monthly checks roll in for seven years.
+          become the bank — carrying a note at zero interest over 20 years.
+          The first 6 months are a renovation grace period with no payments, then
+          monthly checks roll in for the next 6.5 years.
           Seven years after this closing (<strong>Year ${pair.balloonYear}</strong>),
-          they refinance through a bank and send you the remaining balance in one
-          final lump-sum check — the loan is done.
-          Across the two houses you realize your full pair ask of <strong>${fmt(pair.askTotal)}</strong>.
+          the buyer refinances and sends you the remaining balance in one final
+          lump-sum check — the loan is done.
+          Across the two houses you collect a total of <strong>${fmt(pair.pairTotal)}</strong>.
         </p>
         <div class="money-row">
           <div class="money-pill">
@@ -1437,7 +1445,7 @@ function buildTimeline() {
         <span class="timeline-tag tag-income">Monthly Income</span>
         <h3 class="timeline-title">All 4 loans active. Steady income, nothing to do.</h3>
         <p class="timeline-body">
-          No new closings this year. All 4 properties you financed are generating monthly payments at 6% interest.
+          No new closings this year. All 4 properties you financed are generating monthly payments at zero interest.
           ${y === 7 ? 'Next year, the first big payoff check arrives — the Year 1 buyers refinance through a bank and send you the remaining balance in full.' : 'You collect and wait.'}
         </p>
         <div class="money-row">
@@ -1715,14 +1723,15 @@ function initNavDots() {
   });
 }
 
-// ── Default prices ──
-// For 'bank-N' this is the bank purchase price (what the bank sees / wires at close).
-// For 'seller-N' this is Angela's SF effective ask — what she collects over 7 years on the note.
+// ── Default prices (post-concession) ──
+// 'bank-N' = bank purchase price you receive at closing for the bank-financed house.
+// 'seller-N' = sale price for the seller-financed house = total you collect across
+// the monthly payments + year-7 balloon on the note I carry at 0% interest.
 const DEFAULT_PRICES = {
-  'bank-0':   360000, 'seller-0': 460000,
-  'bank-1':   360000, 'seller-1': 472000,
-  'bank-2':   372000, 'seller-2': 472000,
-  'bank-3':   372000, 'seller-3': 380000,
+  'bank-0':   352800, 'seller-0': 432400,
+  'bank-1':   352800, 'seller-1': 443680,
+  'bank-2':   364560, 'seller-2': 443680,
+  'bank-3':   364560, 'seller-3': 357200,
 };
 const currentPrices = { ...DEFAULT_PRICES };
 
@@ -1743,7 +1752,7 @@ function syncPricesToPairs() {
   PAIRS.forEach((pair, i) => {
     pair.bank.price    = currentPrices['bank-' + i]   || pair.bank.price;
     pair.seller.sfAsk  = currentPrices['seller-' + i] || pair.seller.sfAsk;
-    pair.askTotal      = pair.bank.price + pair.seller.sfAsk;
+    pair.pairTotal     = pair.bank.price + pair.seller.sfAsk;
   });
 }
 
@@ -1774,7 +1783,7 @@ function cardResult(role, pairIdx) {
     return `Bank loan covers ${fmt(bankLoan)} &middot; Your equity cash out: <strong>${fmt(equity + bankDown)}</strong>`;
   } else {
     const { pmt: notePmt, balloon } = sfTerms(pair.seller.sfAsk);
-    return `Monthly payment to you (6%): <strong>${fmt(notePmt)}/mo</strong> &middot; Final payoff in Year ${pair.balloonYear}: <strong>${fmt(balloon)}</strong>`;
+    return `Monthly payment to you (0% interest): <strong>${fmt(notePmt)}/mo</strong> &middot; Final payoff in Year ${pair.balloonYear}: <strong>${fmt(balloon)}</strong>`;
   }
 }
 
@@ -1816,7 +1825,7 @@ function updateYearSummary(pairIdx) {
 
 function buildPriceEditor() {
   const grid = document.getElementById('priceGrid');
-  const roleLabel = { bank: 'Bank price (recorded)', seller: 'Your SF ask (paid over 7 yrs)' };
+  const roleLabel = { bank: 'Cash at closing', seller: 'Note — paid over 7 yrs at 0%' };
   let html = '';
   PAIRS.forEach((pair, i) => {
     // Year header spanning full grid width
@@ -1871,7 +1880,7 @@ function updatePriceSummary() {
     totalClose  += (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
     const { pmt: notePmt, balloon } = sfTerms(pair.seller.sfAsk);
     totalPayoff += balloon;
-    totalNote    += notePmt * BALLOON_MOS; // 7 years of monthly payments
+    totalNote    += notePmt * PMT_MONTHS;  // 78 monthly payments (after 6mo renovation grace)
   });
   const grand = totalClose + totalPayoff + totalNote;
   document.getElementById('priceSummary').innerHTML = `
