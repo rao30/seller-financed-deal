@@ -253,6 +253,9 @@
   <header>
     <h1>Investor <em>Deal Analyzer</em></h1>
     <p style="max-width:600px;margin:0 auto;">Comprehensive cashflow, return metrics, and timeline modeling for the 8-property portfolio acquisition.</p>
+    <p style="max-width:640px;margin:16px auto 0;font-size:13px;color:var(--ink3);background:rgba(160,120,64,0.08);border:1px solid rgba(160,120,64,0.2);border-radius:8px;padding:10px 16px;">
+      <strong style="color:var(--gold);">Concession scenario baked in:</strong> prices reflect Angela granting <strong>2%</strong> off each bank-financed property and <strong>6%</strong> off each seller-financed property. Total concession: <strong>$136,320</strong> (pair totals drop from $3,248,000 → $3,111,680). Edit any Sale Price in the table below to override.
+    </p>
   </header>
 
   <div class="grid">
@@ -499,25 +502,37 @@ function fmtPct(n) {
 }
 
 // Raw data
-// For bank properties, `price` is what the bank sees (our purchase price + what gets
-// recorded on the deed). For seller-financed properties, `price` is the recorded deed
-// price = what Angela collects over the note (at 0% interest, total pmts = deed).
-// Edit `price` directly to model a lower negotiated deed (=> lower property tax basis).
-// `angelaAsk` is her stated per-property number; `sfAsk` is her original SF effective
-// ask (+$50k shift from the bank side so pair total matched her ask pre-negotiation).
+// Prices below reflect Angela's concessions: 2% off each bank-financed property
+// and 6% off each seller-financed property (applied to her original negotiated ask).
+// For bank properties, `price` is what the bank sees (our purchase price + deed).
+// For seller-financed properties, `price` is the sale price Angela collects over
+// the 7-yr note (pmts + balloon = sale price); deed is derived at calc time.
+// `angelaAsk` = her pre-concession per-property ask; `sfAsk` = her original SF ask
+// (+$50k shift from the bank side pre-concession) so the Angela panel can show the
+// signed gap created by the concessions.
+// Concession amounts per property (for reference):
+//   Pair 1 bank: $360,000 × 0.98 = $352,800  (-$7,200)
+//   Pair 1 SF:   $460,000 × 0.94 = $432,400  (-$27,600)
+//   Pair 2 bank: $360,000 × 0.98 = $352,800  (-$7,200)
+//   Pair 2 SF:   $472,000 × 0.94 = $443,680  (-$28,320)
+//   Pair 3 bank: $372,000 × 0.98 = $364,560  (-$7,440)
+//   Pair 3 SF:   $472,000 × 0.94 = $443,680  (-$28,320)
+//   Pair 4 bank: $372,000 × 0.98 = $364,560  (-$7,440)
+//   Pair 4 SF:   $380,000 × 0.94 = $357,200  (-$22,800)
+//   Total concession to you: $136,320
 const rawData = [
-  // pair 1  (Angela's original ask $820,000 = $360k bank + $460k SF)
-  { pair: 1, type: "bank",   addr: "116/118 Shadybrook", bal: 73937.15,  pmt: 1739.22, curRent: 2600.00, newRent: 3600, price: 360000, angelaAsk: 410000 },
-  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 2600.00, newRent: 3600, price: 460000, angelaAsk: 410000, sfAsk: 460000 },
-  // pair 2  (Angela's original ask $832,000 = $360k bank + $472k SF)
-  { pair: 2, type: "bank",   addr: "144/146 Shadybrook", bal: 76637.59,  pmt: 1749.27, curRent: 2600.00, newRent: 3600, price: 360000, angelaAsk: 410000 },
-  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 2600.00, newRent: 3600, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 3  (Angela's original ask $844,000 = $372k bank + $472k SF)
-  { pair: 3, type: "bank",   addr: "120/122 Idlecreek",  bal: 81947.65,  pmt: 2202.48, curRent: 2600.00, newRent: 3600, price: 372000, angelaAsk: 422000 },
-  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 2600.00, newRent: 3600, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 4  (Angela's original ask $752,000 = $372k bank + $380k SF)
-  { pair: 4, type: "bank",   addr: "804/806 Summit",     bal: 99764.90,  pmt: 1936.05, curRent: 2800.00, newRent: 3600, price: 372000, angelaAsk: 422000 },
-  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 1800.00, newRent: 3000, price: 380000, angelaAsk: 330000, sfAsk: 380000 }
+  // pair 1  (Angela's original ask $820,000; post-concession $785,200)
+  { pair: 1, type: "bank",   addr: "116/118 Shadybrook", bal: 73937.15,  pmt: 1739.22, curRent: 2600.00, newRent: 3600, price: 352800, angelaAsk: 410000 },
+  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 2600.00, newRent: 3600, price: 432400, angelaAsk: 410000, sfAsk: 460000 },
+  // pair 2  (Angela's original ask $832,000; post-concession $796,480)
+  { pair: 2, type: "bank",   addr: "144/146 Shadybrook", bal: 76637.59,  pmt: 1749.27, curRent: 2600.00, newRent: 3600, price: 352800, angelaAsk: 410000 },
+  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 2600.00, newRent: 3600, price: 443680, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 3  (Angela's original ask $844,000; post-concession $808,240)
+  { pair: 3, type: "bank",   addr: "120/122 Idlecreek",  bal: 81947.65,  pmt: 2202.48, curRent: 2600.00, newRent: 3600, price: 364560, angelaAsk: 422000 },
+  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 2600.00, newRent: 3600, price: 443680, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 4  (Angela's original ask $752,000; post-concession $721,760)
+  { pair: 4, type: "bank",   addr: "804/806 Summit",     bal: 99764.90,  pmt: 1936.05, curRent: 2800.00, newRent: 3600, price: 364560, angelaAsk: 422000 },
+  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 1800.00, newRent: 3000, price: 357200, angelaAsk: 330000, sfAsk: 380000 }
 ];
 
 let chartInstance = null;
