@@ -302,7 +302,8 @@
               <tr>
                 <th>Address</th>
                 <th>Role</th>
-                <th class="text-right">Price</th>
+                <th class="text-right" title="For bank: what the bank lends against. For seller: Angela's total take over the 7-yr note (pmts + balloon = sale price).">Sale Price</th>
+                <th class="text-right" title="What gets recorded on the deed. Derived for seller at rate > 0%; = sale price at 0%. Property tax is based on this.">Deed</th>
                 <th class="text-right">Current Bal</th>
                 <th class="text-right">Cur Pmt</th>
                 <th class="text-right">Cur Rent</th>
@@ -383,7 +384,7 @@
       <!-- Angela's Payouts Table -->
       <div class="card mb-4">
         <h2>Angela's Payouts (Pair Math)</h2>
-        <p style="font-size:12px;margin-bottom:12px;">At 0% interest, the seller deed price = what Angela collects over 7 years. Edit prices in the property table to model a lower deed (lower property-tax basis); this panel shows the resulting gap vs. her original pair ask.</p>
+        <p style="font-size:12px;margin-bottom:12px;">Seller sale price = what Angela actually collects over the 7-yr note (pmts + balloon), regardless of the SF rate. Raising the rate lowers the recorded deed (property-tax basis) but keeps her take the same. Gap column shows her pair total vs. her original ask.</p>
         <table id="angela-table" style="font-size:12px;">
           <thead>
             <tr>
@@ -416,7 +417,7 @@
         </div>
 
         <div class="input-group">
-          <label title="Angela agreed to 0% effective interest. At 0%, deed price = what she collects over the life of the note (monthly pmts + balloon). Raise this only to model imputed interest.">Seller Finance Rate (%)</label>
+          <label title="Note interest rate. Angela's sale price (what she collects) is held fixed; raising this auto-lowers the recorded deed price so payments + balloon still sum to her sale price. Useful for modeling lower property-tax basis via higher stated rate.">Seller Finance Rate (%)</label>
           <input type="number" id="inp-sf-rate" value="0" step="0.1" oninput="calculateModel()">
         </div>
 
@@ -550,6 +551,19 @@ function calculateModel() {
     return pv * Math.pow(1 + monthlyRate, monthsPaid) - p * (Math.pow(1 + monthlyRate, monthsPaid) - 1) / monthlyRate;
   }
 
+  // Given Angela's negotiated sale price (what she collects over the note's life:
+  // sum of monthly pmts + balloon balance), back out the recorded deed price
+  // such that amortizing at `rate` over `amortMos` and ballooning at `balloonMos`
+  // sums to exactly `salePrice`. At 0%, deed === salePrice (identity).
+  function deedFromSalePrice(salePrice, rate, amortMos, balloonMos) {
+    if (rate === 0) return salePrice;
+    const r = rate / 12;
+    const F = Math.pow(1 + r, balloonMos);
+    const annuity = (F - 1) / r;
+    const k = r / (1 - Math.pow(1 + r, -amortMos));
+    return salePrice / (k * (balloonMos - annuity) + F);
+  }
+
   let totalCashNeeded = 0;
   let totalMonthlyGross = 0;
   let totalInitMonthlyNetCashflow = 0;
@@ -565,8 +579,15 @@ function calculateModel() {
   const cashflowRows = [];
 
   const tbodyHtml = rawData.map((p, i) => {
-    // Total closing cost for this property is based on its price.
-    const propertyClosingCost = p.price * closingCostsPct;
+    // For seller props: p.price is Angela's fixed sale price (what she collects over the
+    // note's life). Deed price is derived so total pmts + balloon == sale price at any
+    // interest rate. For bank props: sale price == deed (nothing to recharacterize).
+    const deedPrice = (p.type === 'seller')
+      ? deedFromSalePrice(p.price, sfRate, sfAmortMonths, sfBalloonMonths)
+      : p.price;
+
+    // Closing cost is charged against the recorded deed (title, recording, etc.)
+    const propertyClosingCost = deedPrice * closingCostsPct;
 
     let initialMonthlyDebt = 0;
     let refiMonthlyDebt = 0;
@@ -574,28 +595,26 @@ function calculateModel() {
     let bankLoanAmt = 0;
 
     if (p.type === 'bank') {
-      downPayment = p.price * bankDownPct;
-      bankLoanAmt = p.price - downPayment;
+      downPayment = deedPrice * bankDownPct;
+      bankLoanAmt = deedPrice - downPayment;
       initialMonthlyDebt = Math.abs(pmt(bankRate / 12, 360, bankLoanAmt));
       refiMonthlyDebt = initialMonthlyDebt; // Stays the same forever
     } else {
-      // Seller financed: 0% down, interest rate `sfRate`, amortized over sfAmortYears,
-      // balloon at sfBalloonYears. Deed price (p.price) is calibrated so that the sum
-      // of payments + balloon balance equals Angela's SF effective ask.
-      initialMonthlyDebt = Math.abs(pmt(sfMoRate, sfAmortMonths, p.price));
+      // Seller financed: 0% down, amortized at sfRate over sfAmortYears, balloon at sfBalloonYears.
+      initialMonthlyDebt = Math.abs(pmt(sfMoRate, sfAmortMonths, deedPrice));
 
-      const remainingBal = remainingBalance(p.price, sfMoRate, sfAmortMonths, sfBalloonMonths);
+      const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
       refiMonthlyDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
     }
 
     const propCashNeeded = downPayment + propertyClosingCost + rehabPerProp;
     totalCashNeeded += propCashNeeded;
-    
+
     phaseData[p.pair].dp += (downPayment + propertyClosingCost);
     phaseData[p.pair].rehab += rehabPerProp;
 
-    // Fixed / Variable Expenses calculation
-    const monthlyPropTax = (p.price * taxRate) / 12;
+    // Property tax scales with recorded deed price (ad valorem).
+    const monthlyPropTax = (deedPrice * taxRate) / 12;
     const monthlyInsurance = annualInsurance / 12;
     const monthlyVacMaint = p.newRent * vacMaintPct;
     
@@ -638,7 +657,7 @@ function calculateModel() {
       if (p.type === 'seller') {
         if (y === (p.pair + sfBalloonYears)) {
           // Exact remaining balance after `sfBalloonMonths` of amortized payments at sfRate
-          const remainingBal = remainingBalance(p.price, sfMoRate, sfAmortMonths, sfBalloonMonths);
+          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
           const newRefiDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
 
           // Assume balloon hits mid-year: 6mo old debt + 6mo new refi debt as a smoothing abstraction.
@@ -647,7 +666,7 @@ function calculateModel() {
           currentMonthlyDebt = newRefiDebt;
 
         } else if (y > (p.pair + sfBalloonYears)) {
-          const remainingBal = remainingBalance(p.price, sfMoRate, sfAmortMonths, sfBalloonMonths);
+          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
           const newRefiDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
           netForYear += (annualGross - annualExpenses - (newRefiDebt * 12));
           currentMonthlyDebt = newRefiDebt;
@@ -671,11 +690,16 @@ function calculateModel() {
       paymentsByYear: loanPaymentsByYear
     });
 
+    const deedCell = (p.type === 'seller' && Math.abs(deedPrice - p.price) > 1)
+      ? `<span style="color:${CC.gold};font-weight:600" title="Auto-derived from sale price + SF rate">${fmt(deedPrice)}</span>`
+      : `<span style="color:${CC.ink3}">${fmt(deedPrice)}</span>`;
+
     return `
       <tr>
         <td><strong>${p.addr}</strong><br><span style="font-size:11px;color:var(--text-secondary)">Phase ${p.pair}</span></td>
         <td><span class="badge ${p.type === 'bank' ? 'badge-bank' : 'badge-seller'}">${p.type === 'bank' ? 'Bank Purchase' : 'You Finance'}</span></td>
         <td class="text-right"><input type="number" class="table-input" value="${p.price}" step="1000" onchange="updateRawData(${i}, 'price', this.value)" style="width: 90px;"></td>
+        <td class="text-right">${deedCell}</td>
         <td class="text-right" style="color:var(--ink3)">${fmt(p.bal)}</td>
         <td class="text-right" style="color:var(--ink3)">${fmt(p.pmt)}</td>
         <td class="text-right"><input type="number" class="table-input" value="${p.curRent}" step="50" onchange="updateRawData(${i}, 'curRent', this.value)"></td>
