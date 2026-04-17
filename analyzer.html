@@ -316,6 +316,35 @@
         </div>
       </div>
 
+      <!-- Per-Property Monthly Cashflow -->
+      <div class="card mb-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2>Per-Property Monthly Cashflow</h2>
+          <span class="badge">Stabilized</span>
+        </div>
+        <p style="font-size:13px; margin-bottom: 16px;">Stabilized monthly income minus debt service, taxes, insurance, and vacancy/maintenance reserves. "Initial" = first 7 years; "Post-Refi" = after SF balloon refinances at the bank rate (same number for bank-financed properties).</p>
+        <div style="overflow-x: auto;">
+          <table id="cashflow-table" style="font-size:13px;">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th class="text-right">Rent</th>
+                <th class="text-right" title="Principal + interest">Debt (init)</th>
+                <th class="text-right">Tax</th>
+                <th class="text-right">Ins</th>
+                <th class="text-right" title="Vacancy + Maintenance reserve">Vac/Mnt</th>
+                <th class="text-right">Net Init</th>
+                <th class="text-right">Net Post-Refi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Individual Loan Modeling -->
       <div class="card mb-4">
         <div class="flex justify-between items-center mb-4">
@@ -449,6 +478,9 @@
 </div>
 
 <script>
+// Concrete colors (chart.js draws on canvas and cannot resolve CSS custom properties)
+const CC = { red:'#9B3A3A', green:'#3A7D5C', ink2:'#3D342A', ink3:'#6B5E52', cream3:'#E6DDD0', gold:'#A07840', gold2:'#C49A58', blue:'#2C5282' };
+
 // Format currency
 function fmt(n) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
@@ -528,6 +560,8 @@ function calculateModel() {
 
   // For loan matrix
   const propertyLoanTracking = [];
+  // For per-property monthly cashflow table
+  const cashflowRows = [];
 
   const tbodyHtml = rawData.map((p, i) => {
     // Total closing cost for this property is based on its price.
@@ -573,6 +607,14 @@ function calculateModel() {
     totalMonthlyGross += p.newRent;
     totalInitMonthlyNetCashflow += initialMonthlyNetCashflow;
     totalRefiMonthlyNetCashflow += refiMonthlyNetCashflow;
+
+    cashflowRows.push({
+      addr: p.addr, type: p.type, pair: p.pair,
+      rent: p.newRent,
+      debtInit: initialMonthlyDebt, debtRefi: refiMonthlyDebt,
+      tax: monthlyPropTax, ins: monthlyInsurance, vac: monthlyVacMaint,
+      netInit: initialMonthlyNetCashflow, netRefi: refiMonthlyNetCashflow,
+    });
 
     let loanPaymentsByYear = new Array(N_YEARS + 1).fill(0);
 
@@ -721,6 +763,42 @@ function calculateModel() {
   }).join('');
   document.querySelector('#loans-table tbody').innerHTML = matrixBodyHtml;
 
+  // Per-property monthly cashflow table
+  const netColor = v => v < 0 ? CC.red : v < 100 ? CC.gold : CC.green;
+  const cashflowBody = cashflowRows.map(r => `
+    <tr>
+      <td><strong>${r.addr}</strong><br><span style="font-size:10px;color:${CC.ink3}">Phase ${r.pair}</span></td>
+      <td><span class="badge ${r.type === 'bank' ? 'badge-bank' : 'badge-seller'}">${r.type === 'bank' ? 'Bank' : 'SF'}</span></td>
+      <td class="text-right">${fmt(r.rent)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.debtInit)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.tax)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.ins)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.vac)}</td>
+      <td class="text-right" style="color:${netColor(r.netInit)};font-weight:700">${r.netInit < 0 ? '-' : ''}${fmt(Math.abs(r.netInit))}</td>
+      <td class="text-right" style="color:${netColor(r.netRefi)};font-weight:700">${r.netRefi < 0 ? '-' : ''}${fmt(Math.abs(r.netRefi))}</td>
+    </tr>`).join('');
+
+  const totRent = cashflowRows.reduce((s,r) => s + r.rent, 0);
+  const totDebtInit = cashflowRows.reduce((s,r) => s + r.debtInit, 0);
+  const totTax = cashflowRows.reduce((s,r) => s + r.tax, 0);
+  const totIns = cashflowRows.reduce((s,r) => s + r.ins, 0);
+  const totVac = cashflowRows.reduce((s,r) => s + r.vac, 0);
+  const totNetInit = cashflowRows.reduce((s,r) => s + r.netInit, 0);
+  const totNetRefi = cashflowRows.reduce((s,r) => s + r.netRefi, 0);
+  const cashflowFooter = `
+    <tr style="background:var(--cream2);font-weight:700;">
+      <td><strong>Portfolio Total</strong></td>
+      <td></td>
+      <td class="text-right">${fmt(totRent)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totDebtInit)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totTax)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totIns)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totVac)}</td>
+      <td class="text-right" style="color:${netColor(totNetInit)};font-weight:700">${totNetInit < 0 ? '-' : ''}${fmt(Math.abs(totNetInit))}</td>
+      <td class="text-right" style="color:${netColor(totNetRefi)};font-weight:700">${totNetRefi < 0 ? '-' : ''}${fmt(Math.abs(totNetRefi))}</td>
+    </tr>`;
+  document.querySelector('#cashflow-table tbody').innerHTML = cashflowBody + cashflowFooter;
+
   let initAnnualNetCashflow = totalInitMonthlyNetCashflow * 12;
   let initOverallCoC = totalCashNeeded > 0 ? (initAnnualNetCashflow / totalCashNeeded) : 0;
 
@@ -747,13 +825,13 @@ function calculateModel() {
 
   const labels = Array.from({length: N_YEARS}, (_, i) => `Year ${i + 1}`);
   const data = yearCashflows.slice(1);
-  const colors = data.map(v => v < 0 ? 'var(--red)' : 'var(--green)');
+  const colors = data.map(v => v < 0 ? CC.red : CC.green);
 
-  // Setting defaults for chart fonts
-  Chart.defaults.color = '#6B5E52';
+  Chart.defaults.color = CC.ink3;
   Chart.defaults.font.family = "'DM Sans', sans-serif";
 
   if (chartInstance) {
+    chartInstance.data.labels = labels;
     chartInstance.data.datasets[0].data = data;
     chartInstance.data.datasets[0].backgroundColor = colors;
     chartInstance.update();
@@ -776,21 +854,17 @@ function calculateModel() {
         plugins: {
           legend: { display: false },
           tooltip: {
-            callbacks: {
-              label: function(context) {
-                return fmt(context.raw);
-              }
-            }
+            callbacks: { label: ctx => fmt(ctx.raw) }
           }
         },
         scales: {
           y: {
-            grid: { color: 'var(--cream3)' },
-            ticks: { callback: value => fmt(value), color: 'var(--ink3)' }
+            grid: { color: CC.cream3 },
+            ticks: { callback: value => fmt(value), color: CC.ink3 }
           },
           x: {
             grid: { display: false },
-            ticks: { color: 'var(--ink3)' }
+            ticks: { color: CC.ink3 }
           }
         }
       }
