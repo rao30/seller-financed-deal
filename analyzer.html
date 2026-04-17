@@ -303,6 +303,7 @@
                 <th>Address</th>
                 <th>Role</th>
                 <th class="text-right" title="For bank: what the bank lends against. For seller: Angela's total take over the 7-yr note (pmts + balloon = sale price).">Sale Price</th>
+                <th class="text-right" title="Sale price minus interest tax shield over the note life. Formula: sale − (sale − deed) × marginal tax rate. Only differs from Sale for seller notes at rate > 0%.">Effective</th>
                 <th class="text-right" title="What gets recorded on the deed. Derived for seller at rate > 0%; = sale price at 0%. Property tax is based on this.">Deed</th>
                 <th class="text-right">Current Bal</th>
                 <th class="text-right">Cur Pmt</th>
@@ -455,6 +456,11 @@
           <label title="Percentage of gross rents set aside for vacancy, maintenance, and CapEx reserves">Vacancy & CapEx / Maint (%)</label>
           <input type="number" id="inp-vacancy-maint" value="10" step="1" oninput="calculateModel()">
         </div>
+
+        <div class="input-group">
+          <label title="Your marginal federal + state tax rate. Used to compute the 'Effective' price: sale price minus interest tax shield over the note's life.">Marginal Tax Rate (%)</label>
+          <input type="number" id="inp-marginal-tax" value="37" step="1" oninput="calculateModel()">
+        </div>
       </div>
 
       <div class="card">
@@ -535,6 +541,7 @@ function calculateModel() {
   const taxRate = parseFloat(document.getElementById('inp-tax-rate').value) / 100;
   const annualInsurance = parseFloat(document.getElementById('inp-ins-yr').value);
   const vacMaintPct = parseFloat(document.getElementById('inp-vacancy-maint').value) / 100;
+  const marginalTaxRate = parseFloat(document.getElementById('inp-marginal-tax').value) / 100;
 
   // Seller finance parameters
   const sfRate = parseFloat(document.getElementById('inp-sf-rate').value) / 100;
@@ -694,11 +701,22 @@ function calculateModel() {
       ? `<span style="color:${CC.gold};font-weight:600" title="Auto-derived from sale price + SF rate">${fmt(deedPrice)}</span>`
       : `<span style="color:${CC.ink3}">${fmt(deedPrice)}</span>`;
 
+    // Effective price = sale − interest_tax_shield. Over the SF note life, total interest
+    // paid = sale − deed (principal repayment sums to deed). For bank props the rate is
+    // fixed so there's no toggle and we leave Effective = sale price for a clean compare.
+    const interestOverLife = (p.type === 'seller') ? (p.price - deedPrice) : 0;
+    const effectivePrice = p.price - interestOverLife * marginalTaxRate;
+    const effectiveSavings = p.price - effectivePrice;
+    const effectiveCell = effectiveSavings > 1
+      ? `<span style="color:${CC.green};font-weight:600" title="Saves ${fmt(effectiveSavings)} via deductible interest at ${(marginalTaxRate*100).toFixed(0)}% marginal">${fmt(effectivePrice)}</span>`
+      : `<span style="color:${CC.ink3}">${fmt(effectivePrice)}</span>`;
+
     return `
       <tr>
         <td><strong>${p.addr}</strong><br><span style="font-size:11px;color:var(--text-secondary)">Phase ${p.pair}</span></td>
         <td><span class="badge ${p.type === 'bank' ? 'badge-bank' : 'badge-seller'}">${p.type === 'bank' ? 'Bank Purchase' : 'You Finance'}</span></td>
         <td class="text-right"><input type="number" class="table-input" value="${p.price}" step="1000" onchange="updateRawData(${i}, 'price', this.value)" style="width: 90px;"></td>
+        <td class="text-right">${effectiveCell}</td>
         <td class="text-right">${deedCell}</td>
         <td class="text-right" style="color:var(--ink3)">${fmt(p.bal)}</td>
         <td class="text-right" style="color:var(--ink3)">${fmt(p.pmt)}</td>
