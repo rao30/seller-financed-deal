@@ -937,8 +937,8 @@
     <p class="lead fade-up">
       You sell 8 properties over 4 years, 2 per year.
       A cash payment arrives at the table each time a pair closes.
-      On one house per pair, you hold the loan and receive monthly payments.
-      Five years after each closing, the buyer pays off the remaining balance in a single lump sum.
+      On one house per pair, you hold the loan at 6% interest and receive monthly payments.
+      Seven years after each closing, the buyer pays off the remaining balance in a single lump sum.
     </p>
     <p class="body-text fade-up">
       Selling all 8 at once to a single buyer almost never works out.
@@ -959,7 +959,7 @@
       </div>
       <div class="fade-up fade-up-4">
         <div class="big-number">4</div>
-        <div class="big-number-label">Big payoff checks<br>arriving Years 6–9</div>
+        <div class="big-number-label">Big payoff checks<br>arriving Years 8–11</div>
       </div>
     </div>
   </div>
@@ -976,8 +976,8 @@
       <h2 class="section-title fade-up">Each year, two houses.<br><em>Two paychecks.</em></h2>
       <p class="lead fade-up">
         Each year you close on one pair. The buyer's bank pays off the first house
-        the normal way. On the second house, you hold the loan yourself.
-        Monthly payments come to you. Five years later, the buyer pays off
+        the normal way. On the second house, you hold the loan yourself at 6% interest.
+        Monthly payments come to you. Seven years later, the buyer pays off
         the full remaining balance.
       </p>
     </div>
@@ -996,8 +996,8 @@
     <h2 class="section-title fade-up">What you actually<br><em>walk away with.</em></h2>
     <p class="lead fade-up">
       Cash arrives at every closing. On each property where you hold the loan,
-      a payment comes every month. At the five-year mark for each property,
-      the buyer goes to a bank, refinances, and sends the remaining balance
+      a payment comes every month at 6% interest. At the seven-year mark for each
+      property, the buyer goes to a bank, refinances, and sends the remaining balance
       as a single payment. That is when each loan is fully retired.
     </p>
 
@@ -1007,8 +1007,8 @@
     <table class="income-table fade-up" id="incomeTable"></table>
 
     <p class="body-text fade-up" style="margin-top:24px;">
-      * Monthly payments are calculated on a 20-year repayment schedule.
-      Every dollar comes directly to you. At year 5, the buyer refinances
+      * Monthly payments are calculated on a 20-year amortization at 6% interest.
+      Every dollar comes directly to you. At year 7, the buyer refinances
       through a bank and sends the remaining balance in a single payment.
       The loan is paid off at that point.
     </p>
@@ -1022,7 +1022,7 @@
 <div class="total-strip" id="s-total">
   <div class="total-strip-label">Your grand total</div>
   <div class="total-strip-number" id="grandTotal">—</div>
-  <div class="total-strip-sub">Total you receive across all 8 properties, all 9 years</div>
+  <div class="total-strip-sub">Total you receive across all 8 properties, all 11 years</div>
   <div class="total-grid" id="totalGrid"></div>
 </div>
 
@@ -1141,7 +1141,7 @@
         <div class="protection-icon">🔒</div>
         <div>
           <strong>The final payoff is required by the contract.</strong><br>
-          At year 5, I must refinance through a bank and pay the remaining balance.
+          At year 7, I must refinance through a bank and pay the remaining balance.
           If I do not, I am in default. You keep every payment received
           and reclaim the property.
         </div>
@@ -1178,25 +1178,25 @@
     <h2 class="section-title fade-up">Straight questions.<br><em>Straight answers.</em></h2>
 
     <div class="faq-item fade-up">
-      <div class="faq-q">Why would you accept 0% interest on the loan?</div>
+      <div class="faq-q">Why is the bank price lower than my per-house ask?</div>
       <div class="faq-a">
-        <p style="margin-bottom:12px;">I see this as a trade for value. I spend money on your properties. My funds go into new kitchens, bathrooms, paint, and landscaping. These improvements cost money.</p>
-        <p style="margin-bottom:12px;">Your collateral becomes more valuable while I pay you. Banks charge interest because they have other places to put cash. You mentioned selling one house a year. This plan moves eight houses in four years. You get a steady check for nine years.</p>
-        <p style="margin-bottom:0;">I am the one with skin in the game. I protect your investment by improving the structures. The homes will be worth more when the final payoff arrives.</p>
+        <p style="margin-bottom:12px;">Your <strong>pair total</strong> is honored exactly. The bank side shows a lower recorded purchase price because that's what will appraise and what a bank will actually lend on. The $50k difference per pair gets added to the seller-financed side instead.</p>
+        <p style="margin-bottom:12px;">So if your ask is $820k for the pair, you still collect $820k — $360k through the bank at closing and $460k on the note I carry. You never give up a dollar of your ask.</p>
+        <p style="margin-bottom:0;">And because you're earning <strong>6% interest</strong> on the seller-financed balance over 7 years, the monthly checks are meaningfully larger than a 0% note would produce.</p>
       </div>
     </div>
 
     <div class="faq-item fade-up">
       <div class="faq-q">When do you receive the final payoff checks?</div>
       <div class="faq-a">
-        The five year clock starts when each pair closes. House pairs sold in Year 1 pay out in Year 6. Pairs from Year 2 pay out in Year 7. This pattern continues through Year 9. You receive four large payments. This schedule spreads your tax liability over several years.
+        The seven year clock starts when each pair closes. House pairs sold in Year 1 pay out in Year 8. Pairs from Year 2 pay out in Year 9. This pattern continues through Year 11. You receive four large payments. This schedule spreads your tax liability over several years.
       </div>
     </div>
 
     <div class="faq-item fade-up">
       <div class="faq-q">What happens if you cannot refinance?</div>
       <div class="faq-a">
-        I would be in default. You have the legal right to take the houses back. You keep every payment I made. I want to avoid that. A buyer who pays for five years and increases rents has a profile banks like. I have every reason to finish the deal.
+        I would be in default. You have the legal right to take the houses back. You keep every payment I made. I want to avoid that. A buyer who pays for seven years and increases rents has a profile banks like. I have every reason to finish the deal.
       </div>
     </div>
 
@@ -1301,40 +1301,62 @@
 
 <script>
 // ── Data ──
+// bank.price  = bank purchase price (what the bank sees + wires Angela at close).
+// seller.sfAsk = Angela's effective seller-finance ask (+$50k shift so pair totals match).
+// angelaAsk   = her stated per-property number (for market comparison / reference).
+// The deed price is derived from sfAsk so that monthly pmts + 7yr balloon at 6% = sfAsk.
 const PAIRS = [
   {
-    year: 1, balloonYear: 6,
-    bank:   { addr: '116/118 Shadybrook', price: 410000, bal: 73937.15,   rent: 2600 },
-    seller: { addr: '141/143 Shadybrook', price: 410000, bal: 69246.44,   rent: 2600 },
+    year: 1, balloonYear: 8, askTotal: 820000,
+    bank:   { addr: '116/118 Shadybrook', price: 360000, bal: 73937.15,   rent: 2600, angelaAsk: 410000 },
+    seller: { addr: '141/143 Shadybrook', sfAsk: 460000, bal: 69246.44,   rent: 2600, angelaAsk: 410000 },
   },
   {
-    year: 2, balloonYear: 7,
-    bank:   { addr: '144/146 Shadybrook', price: 410000, bal: 76637.59,   rent: 2600 },
-    seller: { addr: '125/127 Larchbrook', price: 410000, bal: 72245.79,   rent: 2600 },
+    year: 2, balloonYear: 9, askTotal: 832000,
+    bank:   { addr: '144/146 Shadybrook', price: 360000, bal: 76637.59,   rent: 2600, angelaAsk: 410000 },
+    seller: { addr: '125/127 Larchbrook', sfAsk: 472000, bal: 72245.79,   rent: 2600, angelaAsk: 422000 },
   },
   {
-    year: 3, balloonYear: 8,
-    bank:   { addr: '120/122 Idlecreek',  price: 410000, bal: 81947.65,   rent: 2600 },
-    seller: { addr: '800/802 Summit',     price: 410000, bal: 130972.34,  rent: 2600 },
+    year: 3, balloonYear: 10, askTotal: 844000,
+    bank:   { addr: '120/122 Idlecreek',  price: 372000, bal: 81947.65,   rent: 2600, angelaAsk: 422000 },
+    seller: { addr: '800/802 Summit',     sfAsk: 472000, bal: 130972.34,  rent: 2600, angelaAsk: 422000 },
   },
   {
-    year: 4, balloonYear: 9,
-    bank:   { addr: '804/806 Summit',     price: 410000, bal: 99764.90,   rent: 2800 },
-    seller: { addr: '1419/1421 Deborah',  price: 310000, bal: 51746.39,   rent: 1800 },
+    year: 4, balloonYear: 11, askTotal: 752000,
+    bank:   { addr: '804/806 Summit',     price: 372000, bal: 99764.90,   rent: 2800, angelaAsk: 422000 },
+    seller: { addr: '1419/1421 Deborah',  sfAsk: 380000, bal: 51746.39,   rent: 1800, angelaAsk: 330000 },
   },
 ];
 
-const AMORT_YRS = 20;
-const AMORT_MOS = AMORT_YRS * 12;
+const AMORT_YRS    = 20;
+const AMORT_MOS    = AMORT_YRS * 12;
+const SF_RATE      = 0.06;
+const BALLOON_YRS  = 7;
+const BALLOON_MOS  = BALLOON_YRS * 12;
 
 function fmt(n) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
 }
 
-// Note balance remaining after N months of 0% amort payments
-function noteBal(noteAmt, monthsPaid) {
-  const pmt = noteAmt / AMORT_MOS;
-  return Math.max(0, noteAmt - pmt * monthsPaid);
+// Given Angela's SF ask, return the deed price + monthly note payment + 7-yr balloon
+// such that (84 × pmt) + balloon = sfAsk exactly, with the note amortized at 6% over 20yrs.
+function sfTerms(sfAsk) {
+  const r = SF_RATE / 12;
+  const F = Math.pow(1 + r, BALLOON_MOS);
+  const annuity84 = (F - 1) / r;
+  const k = r / (1 - Math.pow(1 + r, -AMORT_MOS));
+  const deed = sfAsk / (k * (BALLOON_MOS - annuity84) + F);
+  const pmt = deed * k;
+  const balloon = sfAsk - pmt * BALLOON_MOS;
+  return { deed, pmt, balloon };
+}
+
+// Remaining balance on the seller-financed note after N months of amortized payments at 6%.
+function noteBal(sfAsk, monthsPaid) {
+  const { deed, pmt } = sfTerms(sfAsk);
+  const r = SF_RATE / 12;
+  const F = Math.pow(1 + r, monthsPaid);
+  return Math.max(0, deed * F - pmt * (F - 1) / r);
 }
 
 // ── Build timeline ──
@@ -1348,9 +1370,9 @@ function buildTimeline() {
     const bankDown    = pair.bank.price * 0.20;
     const h1Equity    = bankLoan - pair.bank.bal;
     const h1Cash      = h1Equity + bankDown;
-    const h2NoteAmt   = pair.seller.price;
-    const h2NotePmt   = h2NoteAmt / AMORT_MOS;
-    const h2Bal60     = noteBal(h2NoteAmt, 60); // balance after 5 years
+    const terms       = sfTerms(pair.seller.sfAsk);
+    const h2NotePmt   = terms.pmt;
+    const h2Balloon   = terms.balloon;
     const angelaCash  = h1Cash - pair.seller.bal;
 
     html += `
@@ -1364,17 +1386,19 @@ function buildTimeline() {
         <span class="timeline-tag tag-seller">Seller Finance</span>
         <h3 class="timeline-title">Two houses close. You get paid twice.</h3>
         <p class="timeline-body">
-          <strong>${pair.bank.addr}</strong> sells the normal way — a bank gives the buyer a loan,
-          that loan pays off your existing mortgage (${fmt(pair.bank.bal)}),
+          <strong>${pair.bank.addr}</strong> sells the normal way — a bank gives the buyer a loan
+          at the recorded price of <strong>${fmt(pair.bank.price)}</strong>.
+          That loan pays off your existing mortgage (${fmt(pair.bank.bal)}),
           and you pocket the equity difference in cash right at the table.
           <br><br>
           <strong>${pair.seller.addr}</strong> is different. You pay off its mortgage
           (${fmt(pair.seller.bal)}) using the cash from the first closing, then you
-          become the bank — lending the buyer the full purchase price at 0% interest,
-          paid back over 20 years. Every month they send you a check.
-          Five years after this closing (<strong>Year ${pair.balloonYear}</strong>),
+          become the bank — carrying a note at 6% interest, amortized over 20 years.
+          The monthly checks roll in for seven years.
+          Seven years after this closing (<strong>Year ${pair.balloonYear}</strong>),
           they refinance through a bank and send you the remaining balance in one
           final lump-sum check — the loan is done.
+          Across the two houses you realize your full pair ask of <strong>${fmt(pair.askTotal)}</strong>.
         </p>
         <div class="money-row">
           <div class="money-pill">
@@ -1390,7 +1414,7 @@ function buildTimeline() {
             <div class="money-pill-label">Monthly income / yr</div>
           </div>
           <div class="money-pill">
-            <div class="money-pill-amount">${fmt(h2Bal60)}</div>
+            <div class="money-pill-amount">${fmt(h2Balloon)}</div>
             <div class="money-pill-label">Final payoff · Year ${pair.balloonYear}</div>
           </div>
         </div>
@@ -1398,45 +1422,45 @@ function buildTimeline() {
     </div>`;
   });
 
-  // Years 5–9: note income continues, payoffs arrive one per year
-  const allNotesMo = PAIRS.reduce((s,p) => s + p.seller.price / AMORT_MOS, 0);
+  // Years 5–11: note income continues, payoffs arrive one per year starting year 8
+  const allNotesMo = PAIRS.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
 
-  // Year 5 — all notes active, no payoff yet
-  html += `
-  <div class="timeline-item fade-up">
-    <div class="timeline-year">
-      <div class="year-bubble" style="background:var(--ink2);">5</div>
-      <div class="year-label">Year 5</div>
-    </div>
-    <div class="timeline-content">
-      <span class="timeline-tag tag-income">Monthly Income</span>
-      <h3 class="timeline-title">All 4 loans active. Steady income, nothing to do.</h3>
-      <p class="timeline-body">
-        No new closings this year. All 4 properties you financed are generating monthly payments.
-        Next year, the first big payoff check arrives — the Year 1 buyers refinance
-        through a bank and send you the remaining balance in full.
-      </p>
-      <div class="money-row">
-        <div class="money-pill">
-          <div class="money-pill-amount">${fmt(allNotesMo)}/mo</div>
-          <div class="money-pill-label">Total monthly income (all 4 loans)</div>
-        </div>
-        <div class="money-pill">
-          <div class="money-pill-amount">${fmt(allNotesMo * 12)}</div>
-          <div class="money-pill-label">Monthly income this year</div>
+  // Years 5–7 — all notes active, no payoff yet
+  [5, 6, 7].forEach(y => {
+    html += `
+    <div class="timeline-item fade-up">
+      <div class="timeline-year">
+        <div class="year-bubble" style="background:var(--ink2);">${y}</div>
+        <div class="year-label">Year ${y}</div>
+      </div>
+      <div class="timeline-content">
+        <span class="timeline-tag tag-income">Monthly Income</span>
+        <h3 class="timeline-title">All 4 loans active. Steady income, nothing to do.</h3>
+        <p class="timeline-body">
+          No new closings this year. All 4 properties you financed are generating monthly payments at 6% interest.
+          ${y === 7 ? 'Next year, the first big payoff check arrives — the Year 1 buyers refinance through a bank and send you the remaining balance in full.' : 'You collect and wait.'}
+        </p>
+        <div class="money-row">
+          <div class="money-pill">
+            <div class="money-pill-amount">${fmt(allNotesMo)}/mo</div>
+            <div class="money-pill-label">Total monthly income (all 4 loans)</div>
+          </div>
+          <div class="money-pill">
+            <div class="money-pill-amount">${fmt(allNotesMo * 12)}</div>
+            <div class="money-pill-label">Monthly income this year</div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>`;
+    </div>`;
+  });
 
-  // Years 6–9: one payoff per year
+  // Years 8–11: one payoff per year
   PAIRS.forEach(pair => {
     const yr = pair.balloonYear;
-    const monthsPaid = 60; // 5 years × 12
-    const payoff = noteBal(pair.seller.price, monthsPaid);
+    const payoff = sfTerms(pair.seller.sfAsk).balloon;
     // Active notes this year = pairs whose payoff year > this year (still paying)
     const stillActive = PAIRS.filter(p => p.balloonYear > yr);
-    const stillActiveMo = stillActive.reduce((s,p) => s + p.seller.price / AMORT_MOS, 0);
+    const stillActiveMo = stillActive.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
 
     html += `
     <div class="timeline-item fade-up">
@@ -1448,7 +1472,7 @@ function buildTimeline() {
         <span class="timeline-tag tag-refi">Final Payoff</span>
         <h3 class="timeline-title" style="color:var(--green);">${pair.seller.addr} — big check arrives.</h3>
         <p class="timeline-body">
-          It has been exactly 5 years since you sold <strong>${pair.seller.addr}</strong> in Year ${pair.year}.
+          It has been exactly 7 years since you sold <strong>${pair.seller.addr}</strong> in Year ${pair.year}.
           The buyer goes to a bank, refinances, and wires you the remaining loan balance in full.
           This loan is fully paid off — you have no further involvement with this property.
           ${stillActive.length > 0
@@ -1478,7 +1502,7 @@ function buildIncomeChart() {
   const yearData = [];
   let maxTotal = 0;
 
-  for (let yr = 1; yr <= 9; yr++) {
+  for (let yr = 1; yr <= 11; yr++) {
     const pair = PAIRS.find(p => p.year === yr);
     let closingCash = 0;
     if (pair) {
@@ -1487,9 +1511,9 @@ function buildIncomeChart() {
       closingCash = (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
     }
     const activeNotes = PAIRS.filter(p => p.year <= yr && p.balloonYear >= yr);
-    const noteYr = activeNotes.reduce((s, p) => s + p.seller.price / AMORT_MOS, 0) * 12;
+    const noteYr = activeNotes.reduce((s, p) => s + sfTerms(p.seller.sfAsk).pmt, 0) * 12;
     const payoffPair = PAIRS.find(p => p.balloonYear === yr);
-    const payoffAmt = payoffPair ? noteBal(payoffPair.seller.price, 60) : 0;
+    const payoffAmt = payoffPair ? sfTerms(payoffPair.seller.sfAsk).balloon : 0;
     const total = closingCash + noteYr + payoffAmt;
     maxTotal = Math.max(maxTotal, total);
     yearData.push({ yr, closingCash, noteYr, payoffAmt, total });
@@ -1561,8 +1585,8 @@ function buildIncomeTable() {
   let totalNoteIncome = 0;
   let totalBalloons = 0;
 
-  // Years 1–9
-  for (let yr = 1; yr <= 9; yr++) {
+  // Years 1–11
+  for (let yr = 1; yr <= 11; yr++) {
     // Closing cash — only in years 1–4
     const pair = PAIRS.find(p => p.year === yr);
     let closingCash = 0;
@@ -1577,7 +1601,7 @@ function buildIncomeTable() {
 
     // Active notes this year
     const activeNotes = PAIRS.filter(p => p.year <= yr && p.balloonYear >= yr);
-    const noteMo = activeNotes.reduce((s, p) => s + p.seller.price / AMORT_MOS, 0);
+    const noteMo = activeNotes.reduce((s, p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
     const noteYr = noteMo * 12;
     totalNoteIncome += noteYr;
 
@@ -1586,7 +1610,7 @@ function buildIncomeTable() {
     let payoffAmt = 0;
     let payoffLabel = '—';
     if (payoffPair) {
-      payoffAmt = noteBal(payoffPair.seller.price, 60);
+      payoffAmt = sfTerms(payoffPair.seller.sfAsk).balloon;
       payoffLabel = `${fmt(payoffAmt)}<div class="income-sub" style="color:var(--green);">${payoffPair.seller.addr} — paid in full</div>`;
       totalBalloons += payoffAmt;
     }
@@ -1627,12 +1651,12 @@ function buildIncomeTable() {
   // Update overview monthly stat
   const overviewMonthly = document.getElementById('overview-monthly');
   if (overviewMonthly) {
-    const peakMo = PAIRS.reduce((s,p) => s + p.seller.price / AMORT_MOS, 0);
+    const peakMo = PAIRS.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
     overviewMonthly.textContent = fmt(peakMo) + '/mo';
   }
 
   // Total grid
-  const peakNotesMo = PAIRS.reduce((s,p) => s + p.seller.price / AMORT_MOS, 0);
+  const peakNotesMo = PAIRS.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
   document.getElementById('totalGrid').innerHTML = `
     <div class="total-cell">
       <div class="total-cell-amount">${fmt(totalClosingCash)}</div>
@@ -1644,11 +1668,11 @@ function buildIncomeTable() {
     </div>
     <div class="total-cell">
       <div class="total-cell-amount">${fmt(totalBalloons)}</div>
-      <div class="total-cell-label">Final payoffs<br>(Years 6–9)</div>
+      <div class="total-cell-label">Final payoffs<br>(Years 8–11)</div>
     </div>
     <div class="total-cell">
       <div class="total-cell-amount">${fmt(peakNotesMo)}/mo</div>
-      <div class="total-cell-label">Peak monthly income<br>(Years 4–6)</div>
+      <div class="total-cell-label">Peak monthly income<br>(Years 4–7)</div>
     </div>
   `;
 }
@@ -1692,11 +1716,13 @@ function initNavDots() {
 }
 
 // ── Default prices ──
+// For 'bank-N' this is the bank purchase price (what the bank sees / wires at close).
+// For 'seller-N' this is Angela's SF effective ask — what she collects over 7 years on the note.
 const DEFAULT_PRICES = {
-  'bank-0':   410000, 'seller-0': 410000,
-  'bank-1':   410000, 'seller-1': 410000,
-  'bank-2':   410000, 'seller-2': 410000,
-  'bank-3':   410000, 'seller-3': 310000,
+  'bank-0':   360000, 'seller-0': 460000,
+  'bank-1':   360000, 'seller-1': 472000,
+  'bank-2':   372000, 'seller-2': 472000,
+  'bank-3':   372000, 'seller-3': 380000,
 };
 const currentPrices = { ...DEFAULT_PRICES };
 
@@ -1715,8 +1741,9 @@ function resetPrices() {
 
 function syncPricesToPairs() {
   PAIRS.forEach((pair, i) => {
-    pair.bank.price   = currentPrices['bank-' + i]   || pair.bank.price;
-    pair.seller.price = currentPrices['seller-' + i] || pair.seller.price;
+    pair.bank.price    = currentPrices['bank-' + i]   || pair.bank.price;
+    pair.seller.sfAsk  = currentPrices['seller-' + i] || pair.seller.sfAsk;
+    pair.askTotal      = pair.bank.price + pair.seller.sfAsk;
   });
 }
 
@@ -1746,9 +1773,8 @@ function cardResult(role, pairIdx) {
     const equity = bankLoan - pair.bank.bal;
     return `Bank loan covers ${fmt(bankLoan)} &middot; Your equity cash out: <strong>${fmt(equity + bankDown)}</strong>`;
   } else {
-    const notePmt = pair.seller.price / AMORT_MOS;
-    const payoff = pair.seller.price - notePmt * 60;
-    return `Monthly payment to you: <strong>${fmt(notePmt)}/mo</strong> &middot; Final payoff in Year ${pair.balloonYear}: <strong>${fmt(payoff)}</strong>`;
+    const { pmt: notePmt, balloon } = sfTerms(pair.seller.sfAsk);
+    return `Monthly payment to you (6%): <strong>${fmt(notePmt)}/mo</strong> &middot; Final payoff in Year ${pair.balloonYear}: <strong>${fmt(balloon)}</strong>`;
   }
 }
 
@@ -1764,8 +1790,7 @@ function yearSummaryInner(pairIdx) {
   const bankLoan    = pair.bank.price * 0.80;
   const bankDown    = pair.bank.price * 0.20;
   const cashAtClose = (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
-  const notePmt     = pair.seller.price / AMORT_MOS;
-  const payoff      = pair.seller.price - notePmt * 60;
+  const { pmt: notePmt, balloon: payoff } = sfTerms(pair.seller.sfAsk);
   return `
     <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:16px;">Year ${pair.year} — what you walk away with</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;text-align:center;">
@@ -1791,7 +1816,7 @@ function updateYearSummary(pairIdx) {
 
 function buildPriceEditor() {
   const grid = document.getElementById('priceGrid');
-  const roleLabel = { bank: 'Bank purchase', seller: 'You finance' };
+  const roleLabel = { bank: 'Bank price (recorded)', seller: 'Your SF ask (paid over 7 yrs)' };
   let html = '';
   PAIRS.forEach((pair, i) => {
     // Year header spanning full grid width
@@ -1844,9 +1869,9 @@ function updatePriceSummary() {
     const bankLoan = pair.bank.price * 0.80;
     const bankDown = pair.bank.price * 0.20;
     totalClose  += (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
-    const notePmt = pair.seller.price / AMORT_MOS;
-    totalPayoff += pair.seller.price - notePmt * 60;
-    totalNote    += notePmt * 12 * 5; // ~5 active years per note approx
+    const { pmt: notePmt, balloon } = sfTerms(pair.seller.sfAsk);
+    totalPayoff += balloon;
+    totalNote    += notePmt * BALLOON_MOS; // 7 years of monthly payments
   });
   const grand = totalClose + totalPayoff + totalNote;
   document.getElementById('priceSummary').innerHTML = `
@@ -1856,11 +1881,11 @@ function updatePriceSummary() {
     </div>
     <div>
       <div class="ps-cell-amount">${fmt(totalNote)}</div>
-      <div class="ps-cell-label">Est. monthly income<br>(all payments)</div>
+      <div class="ps-cell-label">Est. monthly income<br>(7 yrs per note)</div>
     </div>
     <div>
       <div class="ps-cell-amount">${fmt(totalPayoff)}</div>
-      <div class="ps-cell-label">Final payoffs<br>Years 6–9</div>
+      <div class="ps-cell-label">Final payoffs<br>Years 8–11</div>
     </div>
     <div>
       <div class="ps-cell-amount">${fmt(grand)}</div>
@@ -1874,11 +1899,18 @@ function updatePriceSummary() {
 const ALL_PROPS = [];
 PAIRS.forEach(pair => { ALL_PROPS.push(pair.bank); ALL_PROPS.push(pair.seller); });
 
+// For the traditional-sale cost comparison, use Angela's stated per-house ask
+// (the same number she'd list at if she sold on the open market).
+function marketPrice(prop) {
+  return prop.angelaAsk || prop.price || 0;
+}
+
 function costDefaults(prop) {
+  const mp = marketPrice(prop);
   return {
-    agent:     Math.round(prop.price * 0.06),
-    makeReady: Math.round(prop.price * 0.03),
-    closing:   Math.round(prop.price * 0.02),
+    agent:     Math.round(mp * 0.06),
+    makeReady: Math.round(mp * 0.03),
+    closing:   Math.round(mp * 0.02),
     holding:   1303 * 3,
   };
 }
@@ -1931,7 +1963,7 @@ function buildCostInputCards() {
                 value="${vals[field].toLocaleString()}"
                 style="border:none;background:transparent;font-family:'Cormorant Garamond',serif;font-size:16px;width:90px;padding:5px 8px;color:var(--ink);outline:none;"
                 oninput="onCostInput('${prop.addr}','${field}',this.value)"
-                onblur="this.value=(costInputs['${prop.addr}']||costDefaults({price:${prop.price}}))['${field}'].toLocaleString()">
+                onblur="this.value=(costInputs['${prop.addr}']||costDefaults({angelaAsk:${prop.angelaAsk}}))['${field}'].toLocaleString()">
             </div>
           </div>`;
         }).join('')}
@@ -1973,7 +2005,7 @@ function buildCostSection() {
     const total = vals.agent + vals.makeReady + vals.closing + vals.holding;
     totAgent += vals.agent; totMakeReady += vals.makeReady;
     totClosing += vals.closing; totHolding += vals.holding;
-    totTotal += total; totPrice += prop.price;
+    totTotal += total; totPrice += marketPrice(prop);
 
     tableHtml += `<tr>
       <td><strong>${prop.addr}</strong></td>
