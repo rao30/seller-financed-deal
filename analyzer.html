@@ -436,6 +436,11 @@
         </div>
 
         <div class="input-group">
+          <label title="Months at the start of each SF note with $0 payments. Payments resume after the holiday and amortize on the 20yr schedule; balloon still hits at the balloon year. At 0% interest, the holiday shifts dollars from monthlies into the balloon.">SF Payment Holiday (mos)</label>
+          <input type="number" id="inp-sf-holiday" value="6" step="1" min="0" max="12" oninput="calculateModel()">
+        </div>
+
+        <div class="input-group">
           <label title="Estimated rehab costs per property to achieve the new rents">Rehab Per Property ($)</label>
           <input type="number" id="inp-rehab-cost" value="30000" step="1000" oninput="calculateModel()">
         </div>
@@ -562,9 +567,12 @@ function calculateModel() {
   const sfRate = parseFloat(document.getElementById('inp-sf-rate').value) / 100;
   const sfAmortYears = parseFloat(document.getElementById('inp-sf-amort').value);
   const sfBalloonYears = parseFloat(document.getElementById('inp-sf-balloon').value);
+  const sfHolidayMonths = Math.max(0, Math.min(12, parseFloat(document.getElementById('inp-sf-holiday').value) || 0));
   const sfAmortMonths = sfAmortYears * 12;
   const sfBalloonMonths = sfBalloonYears * 12;
   const sfMoRate = sfRate / 12;
+  // Number of amortized payments actually made before the balloon (after holiday).
+  const sfPaymentsMade = Math.max(0, sfBalloonMonths - sfHolidayMonths);
 
   // Remaining balance on an amortizing loan after k payments.
   function remainingBalance(pv, monthlyRate, totalMonths, monthsPaid) {
@@ -678,8 +686,8 @@ function calculateModel() {
       // Handle the balloon payoff / refi for Seller Finance
       if (p.type === 'seller') {
         if (y === (p.pair + sfBalloonYears)) {
-          // Exact remaining balance after `sfBalloonMonths` of amortized payments at sfRate
-          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
+          // Remaining balance after `sfPaymentsMade` amortized pmts (balloon window minus holiday)
+          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfPaymentsMade);
           const newRefiDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
 
           // Assume balloon hits mid-year: 6mo old debt + 6mo new refi debt as a smoothing abstraction.
@@ -688,13 +696,17 @@ function calculateModel() {
           currentMonthlyDebt = newRefiDebt;
 
         } else if (y > (p.pair + sfBalloonYears)) {
-          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
+          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfPaymentsMade);
           const newRefiDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
           netForYear += (annualGross - annualExpenses - (newRefiDebt * 12));
           currentMonthlyDebt = newRefiDebt;
         } else {
-          // Still paying Angela on the SF note at sfRate
-          netForYear += (annualGross - annualExpenses - (initialMonthlyDebt * 12));
+          // Still paying Angela on the SF note at sfRate, minus any payment-holiday months
+          // that land in this calendar year. Holiday runs from month 0 of the acquisition
+          // year; capped at 12 so it stays within year p.pair.
+          const holidayThisYear = (y === p.pair) ? sfHolidayMonths : 0;
+          const debtMonths = 12 - holidayThisYear;
+          netForYear += (annualGross - annualExpenses - (initialMonthlyDebt * debtMonths));
         }
       } else {
         // Standard bank loan always has fixed initial monthly debt
