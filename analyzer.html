@@ -272,7 +272,7 @@
             <div class="metric-value success" id="tot-monthly-income">—</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label" title="Years 1-5 before Seller Financing ballons">Initial Mo. Cashflow</div>
+            <div class="metric-label" title="Before SF balloons — Angela is still being paid the 6% note">Initial Mo. Cashflow</div>
             <div class="metric-value success" id="tot-init-cashflow">—</div>
           </div>
           <div class="metric-card" style="background:var(--cream2)">
@@ -280,7 +280,7 @@
             <div class="metric-value accent" id="tot-init-coc">—</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label" title="Years 6-10+ after Seller properties are refinanced">Post-Refi Mo. Cashflow</div>
+            <div class="metric-label" title="After 7-year balloon: SF notes are refinanced through the bank at the bank rate">Post-Refi Mo. Cashflow</div>
             <div class="metric-value success" id="tot-refi-cashflow">—</div>
           </div>
           <div class="metric-card" style="background:var(--cream2)">
@@ -302,7 +302,9 @@
               <tr>
                 <th>Address</th>
                 <th>Role</th>
-                <th class="text-right">Price</th>
+                <th class="text-right" title="For bank: what the bank lends against. For seller: Angela's total take over the 7-yr note (pmts + balloon = sale price).">Sale Price</th>
+                <th class="text-right" title="Sale price minus interest tax shield over the note life. Formula: sale − (sale − deed) × marginal tax rate. Only differs from Sale for seller notes at rate > 0%.">Effective</th>
+                <th class="text-right" title="What gets recorded on the deed. Derived for seller at rate > 0%; = sale price at 0%. Property tax is based on this.">Deed</th>
                 <th class="text-right">Current Bal</th>
                 <th class="text-right">Cur Pmt</th>
                 <th class="text-right">Cur Rent</th>
@@ -316,13 +318,42 @@
         </div>
       </div>
 
+      <!-- Per-Property Monthly Cashflow -->
+      <div class="card mb-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2>Per-Property Monthly Cashflow</h2>
+          <span class="badge">Stabilized</span>
+        </div>
+        <p style="font-size:13px; margin-bottom: 16px;">Stabilized monthly income minus debt service, taxes, insurance, and vacancy/maintenance reserves. "Initial" = first 7 years; "Post-Refi" = after SF balloon refinances at the bank rate (same as Initial for bank-financed properties). Property tax scales with the recorded deed price — lowering seller prices directly lowers the Tax column.</p>
+        <div style="overflow-x: auto;">
+          <table id="cashflow-table" style="font-size:13px;">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th class="text-right">Rent</th>
+                <th class="text-right" title="Principal + interest">Debt (init)</th>
+                <th class="text-right">Tax</th>
+                <th class="text-right">Ins</th>
+                <th class="text-right" title="Vacancy + Maintenance reserve">Vac/Mnt</th>
+                <th class="text-right">Net Init</th>
+                <th class="text-right">Net Post-Refi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Individual Loan Modeling -->
       <div class="card mb-4">
         <div class="flex justify-between items-center mb-4">
-          <h2>10-Year Loan & Pmt Matrix</h2>
+          <h2>12-Year Loan & Pmt Matrix</h2>
           <span class="badge">Individual Modeling</span>
         </div>
-        <p style="font-size:13px; margin-bottom: 16px;">Shows the active monthly payment for each property over time. Notice the seller-financed (SF) loans start at 0% down / 0% interest and then jump when refinanced at year 5.</p>
+        <p style="font-size:13px; margin-bottom: 16px;">Shows the active monthly payment for each property over time. Seller-financed (SF) loans run at 6% amortized over 20 years with a 7-year balloon — paid to Angela, then refinanced through the bank at maturity.</p>
         <div style="overflow-x: auto;">
           <table id="loans-table" style="font-size:12px;">
             <thead>
@@ -339,8 +370,8 @@
 
       <!-- Year by Year Cashflow Chart -->
       <div class="card">
-        <h2>10-Year Cashflow Projection</h2>
-        <p style="font-size:13px; margin-bottom: 16px;">Models the phased acquisition (2 properties/yr), renovation period (reduced rent for 3 months), and balloon payoffs.</p>
+        <h2>12-Year Cashflow Projection</h2>
+        <p style="font-size:13px; margin-bottom: 16px;">Models the phased acquisition (one pair/yr), renovation period (reduced rent for 3 months), and the 7-year SF balloon payoffs — pair 1 refi hits year 8, pair 4 refi lands in year 11.</p>
         <div class="chart-container">
           <canvas id="cashflowChart"></canvas>
         </div>
@@ -353,16 +384,17 @@
       
       <!-- Angela's Payouts Table -->
       <div class="card mb-4">
-        <h2>Angela's Payouts (Validation)</h2>
-        <p style="font-size:12px;margin-bottom:12px;">This proves the bank loan covers both her existing debts for the pairing, leaving her with cash.</p>
-        <table id="angela-table">
+        <h2>Angela's Payouts (Pair Math)</h2>
+        <p style="font-size:12px;margin-bottom:12px;">Seller sale price = what Angela actually collects over the 7-yr note (pmts + balloon), regardless of the SF rate. Raising the rate lowers the recorded deed (property-tax basis) but keeps her take the same. Gap column shows her pair total vs. her original ask.</p>
+        <table id="angela-table" style="font-size:12px;">
           <thead>
             <tr>
-              <th>Year</th>
-              <th class="text-right">Bank Checks</th>
-              <th class="text-right">Debts Paid</th>
-              <th class="text-right">Closing Costs</th>
-              <th class="text-right">Net Cash</th>
+              <th>Pair</th>
+              <th class="text-right">Bank $</th>
+              <th class="text-right">Seller $ (0%, 7yr)</th>
+              <th class="text-right">Pair Total</th>
+              <th class="text-right">vs. Orig. Ask</th>
+              <th class="text-right">Cash @ Close</th>
             </tr>
           </thead>
           <tbody>
@@ -376,23 +408,28 @@
         <h2>Global Assumptions</h2>
         
         <div class="input-group">
-          <label title="Interest rate roughly for the commercial/bank loans used to buy the 'bank' half of the deal and the refi's later">Bank / Refi Rate (%)</label>
-          <input type="number" id="inp-bank-rate" value="6.5" step="0.1" oninput="calculateModel()">
+          <label title="Interest rate for the commercial/bank loans used to buy the 'bank' half of the deal and the refi at balloon">Bank / Refi Rate (%)</label>
+          <input type="number" id="inp-bank-rate" value="7.75" step="0.05" oninput="calculateModel()">
         </div>
-        
+
         <div class="input-group">
           <label title="Down payment required for the commercial/bank loans (Seller loans are 0% down)">Bank Down Payment (%)</label>
           <input type="number" id="inp-bank-down" value="20" step="1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="The length of the amortization period for the 0% down seller loans">Seller Finance Amortization (Yrs)</label>
+          <label title="Note interest rate. Angela's sale price (what she collects) is held fixed; raising this auto-lowers the recorded deed price so payments + balloon still sum to her sale price. Useful for modeling lower property-tax basis via higher stated rate.">Seller Finance Rate (%)</label>
+          <input type="number" id="inp-sf-rate" value="0" step="0.1" oninput="calculateModel()">
+        </div>
+
+        <div class="input-group">
+          <label title="The length of the amortization period for the seller-financed loans">Seller Finance Amortization (Yrs)</label>
           <input type="number" id="inp-sf-amort" value="20" step="1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
           <label title="When the balloon refi is due on the seller financed properties">Seller Finance Balloon (Yrs)</label>
-          <input type="number" id="inp-sf-balloon" value="5" step="1" oninput="calculateModel()">
+          <input type="number" id="inp-sf-balloon" value="7" step="1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
@@ -419,6 +456,11 @@
           <label title="Percentage of gross rents set aside for vacancy, maintenance, and CapEx reserves">Vacancy & CapEx / Maint (%)</label>
           <input type="number" id="inp-vacancy-maint" value="10" step="1" oninput="calculateModel()">
         </div>
+
+        <div class="input-group">
+          <label title="Your marginal federal + state tax rate. Used to compute the 'Effective' price: sale price minus interest tax shield over the note's life.">Marginal Tax Rate (%)</label>
+          <input type="number" id="inp-marginal-tax" value="37" step="1" oninput="calculateModel()">
+        </div>
       </div>
 
       <div class="card">
@@ -443,6 +485,9 @@
 </div>
 
 <script>
+// Concrete colors (chart.js draws on canvas and cannot resolve CSS custom properties)
+const CC = { red:'#9B3A3A', green:'#3A7D5C', ink2:'#3D342A', ink3:'#6B5E52', cream3:'#E6DDD0', gold:'#A07840', gold2:'#C49A58', blue:'#2C5282' };
+
 // Format currency
 function fmt(n) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
@@ -454,19 +499,25 @@ function fmtPct(n) {
 }
 
 // Raw data
+// For bank properties, `price` is what the bank sees (our purchase price + what gets
+// recorded on the deed). For seller-financed properties, `price` is the recorded deed
+// price = what Angela collects over the note (at 0% interest, total pmts = deed).
+// Edit `price` directly to model a lower negotiated deed (=> lower property tax basis).
+// `angelaAsk` is her stated per-property number; `sfAsk` is her original SF effective
+// ask (+$50k shift from the bank side so pair total matched her ask pre-negotiation).
 const rawData = [
-  // pair 1
-  { pair: 1, type: "bank", addr: "116/118 Shadybrook", bal: 73937.15, pmt: 1739.22, curRent: 2600.00, newRent: 3600, price: 410000 },
-  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44, pmt: 1723.22, curRent: 2600.00, newRent: 3600, price: 410000 },
-  // pair 2
-  { pair: 2, type: "bank", addr: "144/146 Shadybrook", bal: 76637.59, pmt: 1749.27, curRent: 2600.00, newRent: 3600, price: 410000 },
-  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79, pmt: 1817.59, curRent: 2600.00, newRent: 3600, price: 410000 },
-  // pair 3
-  { pair: 3, type: "bank", addr: "120/122 Idlecreek", bal: 81947.65, pmt: 2202.48, curRent: 2600.00, newRent: 3600, price: 410000 },
-  { pair: 3, type: "seller", addr: "800/802 Summit", bal: 130972.34, pmt: 2005.17, curRent: 2600.00, newRent: 3600, price: 410000 },
-  // pair 4
-  { pair: 4, type: "bank", addr: "804/806 Summit", bal: 99764.90, pmt: 1936.05, curRent: 2800.00, newRent: 3600, price: 410000 },
-  { pair: 4, type: "seller", addr: "1419/1421 Deborah", bal: 51746.39, pmt: 1269.69, curRent: 1800.00, newRent: 3000, price: 310000 }
+  // pair 1  (Angela's original ask $820,000 = $360k bank + $460k SF)
+  { pair: 1, type: "bank",   addr: "116/118 Shadybrook", bal: 73937.15,  pmt: 1739.22, curRent: 2600.00, newRent: 3600, price: 360000, angelaAsk: 410000 },
+  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 2600.00, newRent: 3600, price: 460000, angelaAsk: 410000, sfAsk: 460000 },
+  // pair 2  (Angela's original ask $832,000 = $360k bank + $472k SF)
+  { pair: 2, type: "bank",   addr: "144/146 Shadybrook", bal: 76637.59,  pmt: 1749.27, curRent: 2600.00, newRent: 3600, price: 360000, angelaAsk: 410000 },
+  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 2600.00, newRent: 3600, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 3  (Angela's original ask $844,000 = $372k bank + $472k SF)
+  { pair: 3, type: "bank",   addr: "120/122 Idlecreek",  bal: 81947.65,  pmt: 2202.48, curRent: 2600.00, newRent: 3600, price: 372000, angelaAsk: 422000 },
+  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 2600.00, newRent: 3600, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 4  (Angela's original ask $752,000 = $372k bank + $380k SF)
+  { pair: 4, type: "bank",   addr: "804/806 Summit",     bal: 99764.90,  pmt: 1936.05, curRent: 2800.00, newRent: 3600, price: 372000, angelaAsk: 422000 },
+  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 1800.00, newRent: 3000, price: 380000, angelaAsk: 330000, sfAsk: 380000 }
 ];
 
 let chartInstance = null;
@@ -490,12 +541,35 @@ function calculateModel() {
   const taxRate = parseFloat(document.getElementById('inp-tax-rate').value) / 100;
   const annualInsurance = parseFloat(document.getElementById('inp-ins-yr').value);
   const vacMaintPct = parseFloat(document.getElementById('inp-vacancy-maint').value) / 100;
+  const marginalTaxRate = parseFloat(document.getElementById('inp-marginal-tax').value) / 100;
 
   // Seller finance parameters
+  const sfRate = parseFloat(document.getElementById('inp-sf-rate').value) / 100;
   const sfAmortYears = parseFloat(document.getElementById('inp-sf-amort').value);
   const sfBalloonYears = parseFloat(document.getElementById('inp-sf-balloon').value);
   const sfAmortMonths = sfAmortYears * 12;
   const sfBalloonMonths = sfBalloonYears * 12;
+  const sfMoRate = sfRate / 12;
+
+  // Remaining balance on an amortizing loan after k payments.
+  function remainingBalance(pv, monthlyRate, totalMonths, monthsPaid) {
+    if (monthlyRate === 0) return pv - (pv / totalMonths) * monthsPaid;
+    const p = Math.abs(pmt(monthlyRate, totalMonths, pv));
+    return pv * Math.pow(1 + monthlyRate, monthsPaid) - p * (Math.pow(1 + monthlyRate, monthsPaid) - 1) / monthlyRate;
+  }
+
+  // Given Angela's negotiated sale price (what she collects over the note's life:
+  // sum of monthly pmts + balloon balance), back out the recorded deed price
+  // such that amortizing at `rate` over `amortMos` and ballooning at `balloonMos`
+  // sums to exactly `salePrice`. At 0%, deed === salePrice (identity).
+  function deedFromSalePrice(salePrice, rate, amortMos, balloonMos) {
+    if (rate === 0) return salePrice;
+    const r = rate / 12;
+    const F = Math.pow(1 + r, balloonMos);
+    const annuity = (F - 1) / r;
+    const k = r / (1 - Math.pow(1 + r, -amortMos));
+    return salePrice / (k * (balloonMos - annuity) + F);
+  }
 
   let totalCashNeeded = 0;
   let totalMonthlyGross = 0;
@@ -503,14 +577,24 @@ function calculateModel() {
   let totalRefiMonthlyNetCashflow = 0;
   
   const phaseData = { 1: {dp:0, rehab:0}, 2: {dp:0, rehab:0}, 3: {dp:0, rehab:0}, 4: {dp:0, rehab:0} };
-  const yearCashflows = new Array(11).fill(0); // Year 0 to 10
+  const N_YEARS = 12;
+  const yearCashflows = new Array(N_YEARS + 1).fill(0); // Year 0 to N_YEARS
 
   // For loan matrix
   const propertyLoanTracking = [];
+  // For per-property monthly cashflow table
+  const cashflowRows = [];
 
   const tbodyHtml = rawData.map((p, i) => {
-    // Total closing cost for this property is based on its price.
-    const propertyClosingCost = p.price * closingCostsPct;
+    // For seller props: p.price is Angela's fixed sale price (what she collects over the
+    // note's life). Deed price is derived so total pmts + balloon == sale price at any
+    // interest rate. For bank props: sale price == deed (nothing to recharacterize).
+    const deedPrice = (p.type === 'seller')
+      ? deedFromSalePrice(p.price, sfRate, sfAmortMonths, sfBalloonMonths)
+      : p.price;
+
+    // Closing cost is charged against the recorded deed (title, recording, etc.)
+    const propertyClosingCost = deedPrice * closingCostsPct;
 
     let initialMonthlyDebt = 0;
     let refiMonthlyDebt = 0;
@@ -518,26 +602,26 @@ function calculateModel() {
     let bankLoanAmt = 0;
 
     if (p.type === 'bank') {
-      downPayment = p.price * bankDownPct;
-      bankLoanAmt = p.price - downPayment;
+      downPayment = deedPrice * bankDownPct;
+      bankLoanAmt = deedPrice - downPayment;
       initialMonthlyDebt = Math.abs(pmt(bankRate / 12, 360, bankLoanAmt));
       refiMonthlyDebt = initialMonthlyDebt; // Stays the same forever
     } else {
-      // Seller financed at 0% down, 0% interest over X years
-      initialMonthlyDebt = p.price / sfAmortMonths; 
-      
-      const remainingBal = p.price - (initialMonthlyDebt * sfBalloonMonths);
+      // Seller financed: 0% down, amortized at sfRate over sfAmortYears, balloon at sfBalloonYears.
+      initialMonthlyDebt = Math.abs(pmt(sfMoRate, sfAmortMonths, deedPrice));
+
+      const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
       refiMonthlyDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
     }
 
     const propCashNeeded = downPayment + propertyClosingCost + rehabPerProp;
     totalCashNeeded += propCashNeeded;
-    
+
     phaseData[p.pair].dp += (downPayment + propertyClosingCost);
     phaseData[p.pair].rehab += rehabPerProp;
 
-    // Fixed / Variable Expenses calculation
-    const monthlyPropTax = (p.price * taxRate) / 12;
+    // Property tax scales with recorded deed price (ad valorem).
+    const monthlyPropTax = (deedPrice * taxRate) / 12;
     const monthlyInsurance = annualInsurance / 12;
     const monthlyVacMaint = p.newRent * vacMaintPct;
     
@@ -551,9 +635,17 @@ function calculateModel() {
     totalInitMonthlyNetCashflow += initialMonthlyNetCashflow;
     totalRefiMonthlyNetCashflow += refiMonthlyNetCashflow;
 
-    let loanPaymentsByYear = new Array(11).fill(0);
+    cashflowRows.push({
+      addr: p.addr, type: p.type, pair: p.pair,
+      rent: p.newRent,
+      debtInit: initialMonthlyDebt, debtRefi: refiMonthlyDebt,
+      tax: monthlyPropTax, ins: monthlyInsurance, vac: monthlyVacMaint,
+      netInit: initialMonthlyNetCashflow, netRefi: refiMonthlyNetCashflow,
+    });
 
-    for (let y = 1; y <= 10; y++) {
+    let loanPaymentsByYear = new Array(N_YEARS + 1).fill(0);
+
+    for (let y = 1; y <= N_YEARS; y++) {
       if (y < p.pair) continue; // Not acquired yet
 
       let activeMonths = 12;
@@ -571,23 +663,22 @@ function calculateModel() {
       // Handle the balloon payoff / refi for Seller Finance
       if (p.type === 'seller') {
         if (y === (p.pair + sfBalloonYears)) {
-          // Calculate the EXACT remaining balance based on the payments made during balloon term
-          const remainingBal = p.price - (initialMonthlyDebt * sfBalloonMonths);
+          // Exact remaining balance after `sfBalloonMonths` of amortized payments at sfRate
+          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
           const newRefiDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
-          
-          // Split the year based on balloon maturity (we'll just assume half year for simplicity if it hits mid-year, or full new debt if the balloon triggered completely)
-          // For a standard 5 year balloon, we assume year 6 is half-old / half-new for a smooth transition, but this is an abstraction.
+
+          // Assume balloon hits mid-year: 6mo old debt + 6mo new refi debt as a smoothing abstraction.
           const blendedAnnualDebt = (initialMonthlyDebt * 6) + (newRefiDebt * 6);
           netForYear += (annualGross - annualExpenses - blendedAnnualDebt);
-          currentMonthlyDebt = newRefiDebt; // Display latest rate
-          
+          currentMonthlyDebt = newRefiDebt;
+
         } else if (y > (p.pair + sfBalloonYears)) {
-          const remainingBal = p.price - (initialMonthlyDebt * sfBalloonMonths);
+          const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
           const newRefiDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
           netForYear += (annualGross - annualExpenses - (newRefiDebt * 12));
           currentMonthlyDebt = newRefiDebt;
         } else {
-          // Still in the 0% period
+          // Still paying Angela on the SF note at sfRate
           netForYear += (annualGross - annualExpenses - (initialMonthlyDebt * 12));
         }
       } else {
@@ -606,11 +697,27 @@ function calculateModel() {
       paymentsByYear: loanPaymentsByYear
     });
 
+    const deedCell = (p.type === 'seller' && Math.abs(deedPrice - p.price) > 1)
+      ? `<span style="color:${CC.gold};font-weight:600" title="Auto-derived from sale price + SF rate">${fmt(deedPrice)}</span>`
+      : `<span style="color:${CC.ink3}">${fmt(deedPrice)}</span>`;
+
+    // Effective price = sale − interest_tax_shield. Over the SF note life, total interest
+    // paid = sale − deed (principal repayment sums to deed). For bank props the rate is
+    // fixed so there's no toggle and we leave Effective = sale price for a clean compare.
+    const interestOverLife = (p.type === 'seller') ? (p.price - deedPrice) : 0;
+    const effectivePrice = p.price - interestOverLife * marginalTaxRate;
+    const effectiveSavings = p.price - effectivePrice;
+    const effectiveCell = effectiveSavings > 1
+      ? `<span style="color:${CC.green};font-weight:600" title="Saves ${fmt(effectiveSavings)} via deductible interest at ${(marginalTaxRate*100).toFixed(0)}% marginal">${fmt(effectivePrice)}</span>`
+      : `<span style="color:${CC.ink3}">${fmt(effectivePrice)}</span>`;
+
     return `
       <tr>
         <td><strong>${p.addr}</strong><br><span style="font-size:11px;color:var(--text-secondary)">Phase ${p.pair}</span></td>
         <td><span class="badge ${p.type === 'bank' ? 'badge-bank' : 'badge-seller'}">${p.type === 'bank' ? 'Bank Purchase' : 'You Finance'}</span></td>
         <td class="text-right"><input type="number" class="table-input" value="${p.price}" step="1000" onchange="updateRawData(${i}, 'price', this.value)" style="width: 90px;"></td>
+        <td class="text-right">${effectiveCell}</td>
+        <td class="text-right">${deedCell}</td>
         <td class="text-right" style="color:var(--ink3)">${fmt(p.bal)}</td>
         <td class="text-right" style="color:var(--ink3)">${fmt(p.pmt)}</td>
         <td class="text-right"><input type="number" class="table-input" value="${p.curRent}" step="50" onchange="updateRawData(${i}, 'curRent', this.value)"></td>
@@ -619,38 +726,69 @@ function calculateModel() {
     `;
   }).join('');
 
-  // Angela's validation table (Are we covering her debts?)
-  const angelaData = { 1: {bankCheck:0, debtsPaid:0, closing: 0, net:0}, 2: {bankCheck:0, debtsPaid:0, closing: 0, net:0}, 3: {bankCheck:0, debtsPaid:0, closing: 0, net:0}, 4: {bankCheck:0, debtsPaid:0, closing: 0, net:0} };
-  rawData.forEach(p => {
-    if (p.type === 'bank') {
-      // The bank wires her the full purchase price
-      angelaData[p.pair].bankCheck += p.price;
-    }
-    // She pays off BOTH underlying debts in the pair
-    angelaData[p.pair].debtsPaid += p.bal;
-  });
-  
+  // Angela's pair-math validation table
+  const angelaData = { 1:{}, 2:{}, 3:{}, 4:{} };
   Object.keys(angelaData).forEach(k => {
-    // Minus closing costs from bank check (she covers closing costs)
-    const bankPrice = rawData.find(x => x.pair == k && x.type === 'bank').price;
-    const closingFees = bankPrice * closingCostsPct;
-    angelaData[k].closing = closingFees;
-    angelaData[k].net = angelaData[k].bankCheck - angelaData[k].debtsPaid - closingFees;
+    angelaData[k] = { bankPrice:0, sellerPrice:0, askTotal:0, debtsPaid:0, closing:0, cashAtClose:0 };
   });
 
-  document.querySelector('#angela-table tbody').innerHTML = Object.keys(angelaData).map(k => `
+  rawData.forEach(p => {
+    const d = angelaData[p.pair];
+    d.askTotal += (p.angelaAsk || 0);
+    d.debtsPaid += p.bal;
+    if (p.type === 'bank')   d.bankPrice   = p.price;
+    if (p.type === 'seller') d.sellerPrice = p.price; // editable deed price = Angela's take at 0%
+  });
+
+  Object.keys(angelaData).forEach(k => {
+    const d = angelaData[k];
+    d.closing = d.bankPrice * closingCostsPct;
+    // At close she gets the bank wire, pays off both underlying mortgages and her
+    // share of closing. The seller price is collected over the 7-year note term.
+    d.cashAtClose = d.bankPrice - d.debtsPaid - d.closing;
+    d.pairTotal = d.bankPrice + d.sellerPrice;
+  });
+
+  const gapLabel = (pairTotal, askTotal) => {
+    const diff = pairTotal - askTotal;
+    if (diff >= 0) return `<span style="color:${CC.green}">✓ ${fmt(askTotal)}</span>`;
+    return `<span style="color:${CC.red}">${fmt(diff)} <span style="font-size:10px;color:${CC.ink3}">(ask ${fmt(askTotal)})</span></span>`;
+  };
+
+  document.querySelector('#angela-table tbody').innerHTML = Object.keys(angelaData).map(k => {
+    const d = angelaData[k];
+    return `
     <tr>
-      <td>Year ${k}</td>
-      <td class="text-right" style="color:var(--green)">+${fmt(angelaData[k].bankCheck)}</td>
-      <td class="text-right" style="color:var(--red)">-${fmt(angelaData[k].debtsPaid)}</td>
-      <td class="text-right" style="color:var(--red)">-${fmt(angelaData[k].closing)}</td>
-      <td class="text-right" style="font-weight:600; color:var(--gold);">${fmt(angelaData[k].net)}</td>
-    </tr>
-  `).join('');
+      <td><strong>${k}</strong></td>
+      <td class="text-right" style="color:${CC.blue}">${fmt(d.bankPrice)}</td>
+      <td class="text-right" style="color:${CC.gold}">${fmt(d.sellerPrice)}</td>
+      <td class="text-right" style="font-weight:600">${fmt(d.pairTotal)}</td>
+      <td class="text-right">${gapLabel(d.pairTotal, d.askTotal)}</td>
+      <td class="text-right" style="color:${CC.ink2}">${fmt(d.cashAtClose)}</td>
+    </tr>`;
+  }).join('');
+
+  // Totals footer row
+  const tot = Object.values(angelaData).reduce((a, d) => ({
+    bankPrice: a.bankPrice + d.bankPrice,
+    sellerPrice: a.sellerPrice + d.sellerPrice,
+    pairTotal: a.pairTotal + d.pairTotal,
+    askTotal: a.askTotal + d.askTotal,
+    cashAtClose: a.cashAtClose + d.cashAtClose,
+  }), {bankPrice:0, sellerPrice:0, pairTotal:0, askTotal:0, cashAtClose:0});
+  document.querySelector('#angela-table tbody').innerHTML += `
+    <tr style="background:var(--cream2);">
+      <td><strong>Total</strong></td>
+      <td class="text-right" style="color:${CC.blue};font-weight:600">${fmt(tot.bankPrice)}</td>
+      <td class="text-right" style="color:${CC.gold};font-weight:600">${fmt(tot.sellerPrice)}</td>
+      <td class="text-right" style="font-weight:700">${fmt(tot.pairTotal)}</td>
+      <td class="text-right" style="font-weight:600">${gapLabel(tot.pairTotal, tot.askTotal)}</td>
+      <td class="text-right" style="font-weight:600">${fmt(tot.cashAtClose)}</td>
+    </tr>`;
 
   // Loan matrix formatting
   let matrixHeadHtml = `<th>Property</th><th>Type</th>`;
-  for(let y=1; y<=10; y++) matrixHeadHtml += `<th class="text-right">Yr ${y}</th>`;
+  for(let y=1; y<=N_YEARS; y++) matrixHeadHtml += `<th class="text-right">Yr ${y}</th>`;
   document.getElementById('loans-head').innerHTML = matrixHeadHtml;
 
   const matrixBodyHtml = propertyLoanTracking.map(p => {
@@ -658,7 +796,7 @@ function calculateModel() {
       <td>${p.addr}</td>
       <td><span class="badge ${p.type === 'bank' ? 'badge-bank' : 'badge-seller'}">${p.type === 'bank' ? 'Bank Purchase' : 'You Finance'}</span></td>`;
     
-    for(let y=1; y<=10; y++) {
+    for(let y=1; y<=N_YEARS; y++) {
       const pmt = p.paymentsByYear[y];
       const isRefiYear = p.type === 'seller' && y >= (p.pair + sfBalloonYears);
       if (pmt === 0) {
@@ -671,6 +809,42 @@ function calculateModel() {
     return row;
   }).join('');
   document.querySelector('#loans-table tbody').innerHTML = matrixBodyHtml;
+
+  // Per-property monthly cashflow table
+  const netColor = v => v < 0 ? CC.red : v < 100 ? CC.gold : CC.green;
+  const cashflowBody = cashflowRows.map(r => `
+    <tr>
+      <td><strong>${r.addr}</strong><br><span style="font-size:10px;color:${CC.ink3}">Phase ${r.pair}</span></td>
+      <td><span class="badge ${r.type === 'bank' ? 'badge-bank' : 'badge-seller'}">${r.type === 'bank' ? 'Bank' : 'SF'}</span></td>
+      <td class="text-right">${fmt(r.rent)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.debtInit)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.tax)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.ins)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(r.vac)}</td>
+      <td class="text-right" style="color:${netColor(r.netInit)};font-weight:700">${r.netInit < 0 ? '-' : ''}${fmt(Math.abs(r.netInit))}</td>
+      <td class="text-right" style="color:${netColor(r.netRefi)};font-weight:700">${r.netRefi < 0 ? '-' : ''}${fmt(Math.abs(r.netRefi))}</td>
+    </tr>`).join('');
+
+  const totRent = cashflowRows.reduce((s,r) => s + r.rent, 0);
+  const totDebtInit = cashflowRows.reduce((s,r) => s + r.debtInit, 0);
+  const totTax = cashflowRows.reduce((s,r) => s + r.tax, 0);
+  const totIns = cashflowRows.reduce((s,r) => s + r.ins, 0);
+  const totVac = cashflowRows.reduce((s,r) => s + r.vac, 0);
+  const totNetInit = cashflowRows.reduce((s,r) => s + r.netInit, 0);
+  const totNetRefi = cashflowRows.reduce((s,r) => s + r.netRefi, 0);
+  const cashflowFooter = `
+    <tr style="background:var(--cream2);font-weight:700;">
+      <td><strong>Portfolio Total</strong></td>
+      <td></td>
+      <td class="text-right">${fmt(totRent)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totDebtInit)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totTax)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totIns)}</td>
+      <td class="text-right" style="color:${CC.ink3}">-${fmt(totVac)}</td>
+      <td class="text-right" style="color:${netColor(totNetInit)};font-weight:700">${totNetInit < 0 ? '-' : ''}${fmt(Math.abs(totNetInit))}</td>
+      <td class="text-right" style="color:${netColor(totNetRefi)};font-weight:700">${totNetRefi < 0 ? '-' : ''}${fmt(Math.abs(totNetRefi))}</td>
+    </tr>`;
+  document.querySelector('#cashflow-table tbody').innerHTML = cashflowBody + cashflowFooter;
 
   let initAnnualNetCashflow = totalInitMonthlyNetCashflow * 12;
   let initOverallCoC = totalCashNeeded > 0 ? (initAnnualNetCashflow / totalCashNeeded) : 0;
@@ -696,15 +870,15 @@ function calculateModel() {
     </tr>
   `).join('');
 
-  const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(y => `Year ${y}`);
+  const labels = Array.from({length: N_YEARS}, (_, i) => `Year ${i + 1}`);
   const data = yearCashflows.slice(1);
-  const colors = data.map(v => v < 0 ? 'var(--red)' : 'var(--green)');
+  const colors = data.map(v => v < 0 ? CC.red : CC.green);
 
-  // Setting defaults for chart fonts
-  Chart.defaults.color = '#6B5E52';
+  Chart.defaults.color = CC.ink3;
   Chart.defaults.font.family = "'DM Sans', sans-serif";
 
   if (chartInstance) {
+    chartInstance.data.labels = labels;
     chartInstance.data.datasets[0].data = data;
     chartInstance.data.datasets[0].backgroundColor = colors;
     chartInstance.update();
@@ -727,21 +901,17 @@ function calculateModel() {
         plugins: {
           legend: { display: false },
           tooltip: {
-            callbacks: {
-              label: function(context) {
-                return fmt(context.raw);
-              }
-            }
+            callbacks: { label: ctx => fmt(ctx.raw) }
           }
         },
         scales: {
           y: {
-            grid: { color: 'var(--cream3)' },
-            ticks: { callback: value => fmt(value), color: 'var(--ink3)' }
+            grid: { color: CC.cream3 },
+            ticks: { callback: value => fmt(value), color: CC.ink3 }
           },
           x: {
             grid: { display: false },
-            ticks: { color: 'var(--ink3)' }
+            ticks: { color: CC.ink3 }
           }
         }
       }
