@@ -322,7 +322,7 @@
           <h2>Per-Property Monthly Cashflow</h2>
           <span class="badge">Stabilized</span>
         </div>
-        <p style="font-size:13px; margin-bottom: 16px;">Stabilized monthly income minus debt service, taxes, insurance, and vacancy/maintenance reserves. "Initial" = first 7 years; "Post-Refi" = after SF balloon refinances at the bank rate (same number for bank-financed properties).</p>
+        <p style="font-size:13px; margin-bottom: 16px;">Stabilized monthly income minus debt service, taxes, insurance, and vacancy/maintenance reserves. "Initial" = first 7 years; "Post-Refi" = after SF balloon refinances at the bank rate (same as Initial for bank-financed properties). Property tax scales with the recorded deed price — lowering seller prices directly lowers the Tax column.</p>
         <div style="overflow-x: auto;">
           <table id="cashflow-table" style="font-size:13px;">
             <thead>
@@ -383,15 +383,15 @@
       <!-- Angela's Payouts Table -->
       <div class="card mb-4">
         <h2>Angela's Payouts (Pair Math)</h2>
-        <p style="font-size:12px;margin-bottom:12px;">Bank sees only the lower purchase price, but Angela's full ask per pair is honored through the SF effective ask (+$50k shift).</p>
+        <p style="font-size:12px;margin-bottom:12px;">At 0% interest, the seller deed price = what Angela collects over 7 years. Edit prices in the property table to model a lower deed (lower property-tax basis); this panel shows the resulting gap vs. her original pair ask.</p>
         <table id="angela-table" style="font-size:12px;">
           <thead>
             <tr>
               <th>Pair</th>
               <th class="text-right">Bank $</th>
-              <th class="text-right">SF Ask (7yr)</th>
+              <th class="text-right">Seller $ (0%, 7yr)</th>
               <th class="text-right">Pair Total</th>
-              <th class="text-right">vs. Ask</th>
+              <th class="text-right">vs. Orig. Ask</th>
               <th class="text-right">Cash @ Close</th>
             </tr>
           </thead>
@@ -416,8 +416,8 @@
         </div>
 
         <div class="input-group">
-          <label title="Interest rate Angela carries on the seller-financed note (deed price is adjusted so the effective total matches her SF ask)">Seller Finance Rate (%)</label>
-          <input type="number" id="inp-sf-rate" value="6" step="0.1" oninput="calculateModel()">
+          <label title="Angela agreed to 0% effective interest. At 0%, deed price = what she collects over the life of the note (monthly pmts + balloon). Raise this only to model imputed interest.">Seller Finance Rate (%)</label>
+          <input type="number" id="inp-sf-rate" value="0" step="0.1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
@@ -492,24 +492,25 @@ function fmtPct(n) {
 }
 
 // Raw data
-// For bank properties, `price` is the amount the bank sees (our purchase price).
-// For seller-financed properties, `price` is the recorded deed price (adjusted so the
-// monthly payments + 7yr balloon at 6% total Angela's effective SF ask).
-// `angelaAsk` is her stated per-property number; `sfAsk` is the SF effective ask
-// (+$50k shift from the bank side so the pair total still matches her ask total).
+// For bank properties, `price` is what the bank sees (our purchase price + what gets
+// recorded on the deed). For seller-financed properties, `price` is the recorded deed
+// price = what Angela collects over the note (at 0% interest, total pmts = deed).
+// Edit `price` directly to model a lower negotiated deed (=> lower property tax basis).
+// `angelaAsk` is her stated per-property number; `sfAsk` is her original SF effective
+// ask (+$50k shift from the bank side so pair total matched her ask pre-negotiation).
 const rawData = [
-  // pair 1  (Angela's ask $820,000 = $360k bank + $460k SF)
+  // pair 1  (Angela's original ask $820,000 = $360k bank + $460k SF)
   { pair: 1, type: "bank",   addr: "116/118 Shadybrook", bal: 73937.15,  pmt: 1739.22, curRent: 2600.00, newRent: 3600, price: 360000, angelaAsk: 410000 },
-  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 2600.00, newRent: 3600, price: 334168, angelaAsk: 410000, sfAsk: 460000 },
-  // pair 2  (Angela's ask $832,000 = $360k bank + $472k SF)
+  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 2600.00, newRent: 3600, price: 460000, angelaAsk: 410000, sfAsk: 460000 },
+  // pair 2  (Angela's original ask $832,000 = $360k bank + $472k SF)
   { pair: 2, type: "bank",   addr: "144/146 Shadybrook", bal: 76637.59,  pmt: 1749.27, curRent: 2600.00, newRent: 3600, price: 360000, angelaAsk: 410000 },
-  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 2600.00, newRent: 3600, price: 342885, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 3  (Angela's ask $844,000 = $372k bank + $472k SF)
+  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 2600.00, newRent: 3600, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 3  (Angela's original ask $844,000 = $372k bank + $472k SF)
   { pair: 3, type: "bank",   addr: "120/122 Idlecreek",  bal: 81947.65,  pmt: 2202.48, curRent: 2600.00, newRent: 3600, price: 372000, angelaAsk: 422000 },
-  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 2600.00, newRent: 3600, price: 342885, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 4  (Angela's ask $752,000 = $372k bank + $380k SF)
+  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 2600.00, newRent: 3600, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 4  (Angela's original ask $752,000 = $372k bank + $380k SF)
   { pair: 4, type: "bank",   addr: "804/806 Summit",     bal: 99764.90,  pmt: 1936.05, curRent: 2800.00, newRent: 3600, price: 372000, angelaAsk: 422000 },
-  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 1800.00, newRent: 3000, price: 276052, angelaAsk: 330000, sfAsk: 380000 }
+  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 1800.00, newRent: 3000, price: 380000, angelaAsk: 330000, sfAsk: 380000 }
 ];
 
 let chartInstance = null;
@@ -686,56 +687,60 @@ function calculateModel() {
   // Angela's pair-math validation table
   const angelaData = { 1:{}, 2:{}, 3:{}, 4:{} };
   Object.keys(angelaData).forEach(k => {
-    angelaData[k] = { bankPrice:0, sfAsk:0, askTotal:0, debtsPaid:0, closing:0, cashAtClose:0 };
+    angelaData[k] = { bankPrice:0, sellerPrice:0, askTotal:0, debtsPaid:0, closing:0, cashAtClose:0 };
   });
 
   rawData.forEach(p => {
     const d = angelaData[p.pair];
     d.askTotal += (p.angelaAsk || 0);
     d.debtsPaid += p.bal;
-    if (p.type === 'bank')  d.bankPrice = p.price;
-    if (p.type === 'seller') d.sfAsk = p.sfAsk || 0;
+    if (p.type === 'bank')   d.bankPrice   = p.price;
+    if (p.type === 'seller') d.sellerPrice = p.price; // editable deed price = Angela's take at 0%
   });
 
   Object.keys(angelaData).forEach(k => {
     const d = angelaData[k];
     d.closing = d.bankPrice * closingCostsPct;
     // At close she gets the bank wire, pays off both underlying mortgages and her
-    // share of closing. The SF ask is collected over the 7-year note term.
+    // share of closing. The seller price is collected over the 7-year note term.
     d.cashAtClose = d.bankPrice - d.debtsPaid - d.closing;
-    d.pairTotal = d.bankPrice + d.sfAsk;
+    d.pairTotal = d.bankPrice + d.sellerPrice;
   });
+
+  const gapLabel = (pairTotal, askTotal) => {
+    const diff = pairTotal - askTotal;
+    if (diff >= 0) return `<span style="color:${CC.green}">✓ ${fmt(askTotal)}</span>`;
+    return `<span style="color:${CC.red}">${fmt(diff)} <span style="font-size:10px;color:${CC.ink3}">(ask ${fmt(askTotal)})</span></span>`;
+  };
 
   document.querySelector('#angela-table tbody').innerHTML = Object.keys(angelaData).map(k => {
     const d = angelaData[k];
-    const match = d.pairTotal >= d.askTotal;
     return `
     <tr>
       <td><strong>${k}</strong></td>
-      <td class="text-right" style="color:var(--blue)">${fmt(d.bankPrice)}</td>
-      <td class="text-right" style="color:var(--gold)">${fmt(d.sfAsk)}</td>
+      <td class="text-right" style="color:${CC.blue}">${fmt(d.bankPrice)}</td>
+      <td class="text-right" style="color:${CC.gold}">${fmt(d.sellerPrice)}</td>
       <td class="text-right" style="font-weight:600">${fmt(d.pairTotal)}</td>
-      <td class="text-right" style="color:${match ? 'var(--green)' : 'var(--red)'}">${match ? '✓' : '✗'} ${fmt(d.askTotal)}</td>
-      <td class="text-right" style="color:var(--ink2)">${fmt(d.cashAtClose)}</td>
+      <td class="text-right">${gapLabel(d.pairTotal, d.askTotal)}</td>
+      <td class="text-right" style="color:${CC.ink2}">${fmt(d.cashAtClose)}</td>
     </tr>`;
   }).join('');
 
   // Totals footer row
   const tot = Object.values(angelaData).reduce((a, d) => ({
     bankPrice: a.bankPrice + d.bankPrice,
-    sfAsk: a.sfAsk + d.sfAsk,
+    sellerPrice: a.sellerPrice + d.sellerPrice,
     pairTotal: a.pairTotal + d.pairTotal,
     askTotal: a.askTotal + d.askTotal,
     cashAtClose: a.cashAtClose + d.cashAtClose,
-  }), {bankPrice:0, sfAsk:0, pairTotal:0, askTotal:0, cashAtClose:0});
-  const allMatch = tot.pairTotal >= tot.askTotal;
+  }), {bankPrice:0, sellerPrice:0, pairTotal:0, askTotal:0, cashAtClose:0});
   document.querySelector('#angela-table tbody').innerHTML += `
     <tr style="background:var(--cream2);">
       <td><strong>Total</strong></td>
-      <td class="text-right" style="color:var(--blue);font-weight:600">${fmt(tot.bankPrice)}</td>
-      <td class="text-right" style="color:var(--gold);font-weight:600">${fmt(tot.sfAsk)}</td>
+      <td class="text-right" style="color:${CC.blue};font-weight:600">${fmt(tot.bankPrice)}</td>
+      <td class="text-right" style="color:${CC.gold};font-weight:600">${fmt(tot.sellerPrice)}</td>
       <td class="text-right" style="font-weight:700">${fmt(tot.pairTotal)}</td>
-      <td class="text-right" style="color:${allMatch ? 'var(--green)' : 'var(--red)'};font-weight:600">${allMatch ? '✓' : '✗'} ${fmt(tot.askTotal)}</td>
+      <td class="text-right" style="font-weight:600">${gapLabel(tot.pairTotal, tot.askTotal)}</td>
       <td class="text-right" style="font-weight:600">${fmt(tot.cashAtClose)}</td>
     </tr>`;
 
