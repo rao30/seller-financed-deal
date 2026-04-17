@@ -372,11 +372,77 @@
       </div>
 
       <!-- Year by Year Cashflow Chart -->
-      <div class="card">
+      <div class="card mb-4">
         <h2>12-Year Cashflow Projection</h2>
         <p style="font-size:13px; margin-bottom: 16px;">Models the phased acquisition (one pair/yr), renovation period (reduced rent for 3 months), and the 7-year SF balloon payoffs — pair 1 refi hits year 8, pair 4 refi lands in year 11.</p>
         <div class="chart-container">
           <canvas id="cashflowChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Long-Term Deal Calculator -->
+      <div class="card">
+        <div class="flex justify-between items-center mb-4">
+          <h2>Long-term Deal Calculator</h2>
+          <span class="badge">BP-style</span>
+        </div>
+        <p style="font-size:13px; margin-bottom: 16px;">Forward projection with growth assumptions. Adjusts appreciation, rent growth, expense inflation, and hold period to see equity buildup, cumulative cashflow, and IRR on your ~$600k of initial cash in.</p>
+
+        <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+          <div class="input-group" style="margin-bottom:0">
+            <label title="How many years to project forward from year 1">Hold Years</label>
+            <input type="number" id="inp-hold-years" value="20" min="5" max="40" step="1" oninput="calculateModel()">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label title="Annual property value appreciation">Appreciation (%/yr)</label>
+            <input type="number" id="inp-appreciation" value="3" step="0.25" oninput="calculateModel()">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label title="Annual rent growth rate">Rent Growth (%/yr)</label>
+            <input type="number" id="inp-rent-growth" value="3" step="0.25" oninput="calculateModel()">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label title="Annual growth in property taxes, insurance, and maintenance">Expense Growth (%/yr)</label>
+            <input type="number" id="inp-exp-growth" value="3" step="0.25" oninput="calculateModel()">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label title="Agent commissions, closing costs, capital gains, etc. when selling">Sale Costs (%)</label>
+            <input type="number" id="inp-disposition" value="8" step="0.5" oninput="calculateModel()">
+          </div>
+        </div>
+
+        <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-top: 24px;">
+          <div class="metric-card">
+            <div class="metric-label">Total Cash In</div>
+            <div class="metric-value danger" id="lt-invested">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" title="Sum of annual net cashflows across the hold period">Cumulative Cashflow</div>
+            <div class="metric-value success" id="lt-cumcash">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" title="Portfolio value minus outstanding debt at year N">Equity @ Year N</div>
+            <div class="metric-value accent" id="lt-equity">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" title="Total wealth created (cashflow + net sale proceeds) minus cash invested">Total Profit if Sold</div>
+            <div class="metric-value success" id="lt-profit">—</div>
+          </div>
+          <div class="metric-card" style="background:var(--cream2)">
+            <div class="metric-label" style="color:var(--ink2)" title="Internal rate of return on all cashflows incl. sale proceeds">IRR</div>
+            <div class="metric-value accent" id="lt-irr">—</div>
+          </div>
+          <div class="metric-card" style="background:var(--cream2)">
+            <div class="metric-label" style="color:var(--ink2)" title="Total return multiple on cash invested">Multiple on Cash</div>
+            <div class="metric-value accent" id="lt-multiple">—</div>
+          </div>
+        </div>
+
+        <div class="chart-container" style="margin-top: 24px; height: 320px;">
+          <canvas id="equityChart"></canvas>
+        </div>
+        <div class="chart-container" style="margin-top: 24px; height: 280px;">
+          <canvas id="longCashflowChart"></canvas>
         </div>
       </div>
 
@@ -541,6 +607,25 @@ const rawData = [
 ];
 
 let chartInstance = null;
+let equityChartInstance = null;
+let longCashflowChartInstance = null;
+
+// IRR via Newton-Raphson on a cashflow stream (cf[0] = year 0, etc.)
+function irr(cashflows, guess = 0.1) {
+  const npv = r => cashflows.reduce((s, cf, t) => s + cf / Math.pow(1 + r, t), 0);
+  const dnpv = r => cashflows.reduce((s, cf, t) => s - t * cf / Math.pow(1 + r, t + 1), 0);
+  let rate = guess;
+  for (let i = 0; i < 200; i++) {
+    const v = npv(rate);
+    const d = dnpv(rate);
+    if (!isFinite(v) || !isFinite(d) || Math.abs(d) < 1e-12) break;
+    const next = rate - v / d;
+    if (!isFinite(next)) break;
+    if (Math.abs(next - rate) < 1e-7) return next;
+    rate = Math.max(-0.99, next);
+  }
+  return rate;
+}
 
 function pmt(rate, nper, pv) {
   if (rate === 0) return -(pv / nper);
@@ -903,6 +988,225 @@ function calculateModel() {
 
   Chart.defaults.color = CC.ink3;
   Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+  // ── Long-term projection (BP-style) ──
+  const holdYears = Math.max(5, Math.min(40, parseInt(document.getElementById('inp-hold-years').value, 10) || 20));
+  const apprRate = (parseFloat(document.getElementById('inp-appreciation').value) || 0) / 100;
+  const rentGrowth = (parseFloat(document.getElementById('inp-rent-growth').value) || 0) / 100;
+  const expGrowth = (parseFloat(document.getElementById('inp-exp-growth').value) || 0) / 100;
+  const dispositionPct = (parseFloat(document.getElementById('inp-disposition').value) || 0) / 100;
+
+  // Per-property static snapshot (deed, monthly debt, refi debt, base expenses)
+  const ltProps = rawData.map(p => {
+    const deedP = (p.type === 'seller')
+      ? deedFromSalePrice(p.price, sfRate, sfAmortMonths, sfBalloonMonths)
+      : p.price;
+    let initDebt, refiDebt, bankLoan = 0;
+    if (p.type === 'bank') {
+      bankLoan = deedP * (1 - bankDownPct);
+      initDebt = Math.abs(pmt(bankRate / 12, 360, bankLoan));
+      refiDebt = initDebt;
+    } else {
+      initDebt = Math.abs(pmt(sfMoRate, sfAmortMonths, deedP));
+      const bal = remainingBalance(deedP, sfMoRate, sfAmortMonths, sfPaymentsMade);
+      refiDebt = Math.abs(pmt(bankRate / 12, 360, bal));
+    }
+    return {
+      ...p, deed: deedP,
+      bankLoan,
+      downPayment: (p.type === 'bank') ? deedP * bankDownPct : 0,
+      closing: deedP * closingCostsPct,
+      rehab: rehabPerProp,
+      initDebt, refiDebt,
+      baseTax: deedP * taxRate, baseIns: annualInsurance, baseRent: p.newRent,
+    };
+  });
+
+  // Year-by-year aggregates
+  const projYears = [];
+  let cumCashflow = 0;
+  for (let y = 1; y <= holdYears; y++) {
+    let portfolioValue = 0, totalDebt = 0;
+    let yearGross = 0, yearExp = 0, yearDebt = 0, yearCapEx = 0;
+    let cashOutThisYear = 0;
+
+    for (const p of ltProps) {
+      if (y < p.pair) continue;
+      const yearsHeld = y - p.pair;                    // 0 at acquisition year
+      const growthExp = Math.pow(1 + expGrowth, yearsHeld);
+      const growthRent = Math.pow(1 + rentGrowth, yearsHeld);
+      const growthVal = Math.pow(1 + apprRate, yearsHeld + 1);
+
+      // Property value appreciates from purchase price
+      portfolioValue += p.deed * growthVal;
+
+      // Months of operation this year (9 if acquisition year, else 12)
+      const activeMos = (y === p.pair) ? 9 : 12;
+
+      // Rent (rent growth stays constant within a year; grows each year after)
+      const rentThisYear = p.baseRent * growthRent * activeMos;
+      yearGross += rentThisYear;
+
+      // Operating expenses: tax + insurance (full year) + vac/maint on rent
+      const taxYr = p.baseTax * growthExp;
+      const insYr = p.baseIns * growthExp;
+      const vacYr = rentThisYear * vacMaintPct;
+      yearExp += taxYr + insYr + vacYr;
+
+      // Capital expenses (down + closing + rehab) hit in year of acquisition
+      if (y === p.pair) {
+        cashOutThisYear += p.downPayment + p.closing + p.rehab;
+        yearCapEx += p.downPayment + p.closing + p.rehab;
+      }
+
+      // Debt service & remaining balance
+      if (p.type === 'bank') {
+        const monthsInto = yearsHeld * 12 + (y === p.pair ? 0 : 0);
+        const bankMonthsPaid = Math.max(0, y === p.pair ? 12 : monthsInto);
+        const bal = remainingBalance(p.bankLoan, bankRate / 12, 360, Math.min(360, bankMonthsPaid + 12));
+        totalDebt += Math.max(0, bal);
+        yearDebt += p.initDebt * 12;
+      } else {
+        const yearsSincePair = yearsHeld;
+        if (yearsSincePair < sfBalloonYears) {
+          // Still on SF note. Skip holiday months in year p.pair.
+          const holidayThisYear = (y === p.pair) ? sfHolidayMonths : 0;
+          const debtMos = 12 - holidayThisYear;
+          yearDebt += p.initDebt * debtMos;
+          // Balance today: deed minus (months paid since start) of amort
+          const monthsPaidSoFar = Math.max(0, yearsSincePair * 12 + (12 - holidayThisYear) - (y === p.pair ? 0 : 0));
+          const paidTillEoY = Math.min(sfPaymentsMade, monthsPaidSoFar);
+          const bal = remainingBalance(p.deed, sfMoRate, sfAmortMonths, paidTillEoY);
+          totalDebt += Math.max(0, bal);
+        } else {
+          // Post-refi: new bank loan at bank rate, 30yr
+          const monthsSinceRefi = (yearsSincePair - sfBalloonYears) * 12 + 12;
+          const refiPrincipal = remainingBalance(p.deed, sfMoRate, sfAmortMonths, sfPaymentsMade);
+          const bal = remainingBalance(refiPrincipal, bankRate / 12, 360, Math.min(360, monthsSinceRefi));
+          totalDebt += Math.max(0, bal);
+          yearDebt += p.refiDebt * 12;
+        }
+      }
+    }
+
+    // Expense growth applies to recurring opex, already done above.
+    const netOperating = yearGross - yearExp;       // NOI
+    const netCashflow = netOperating - yearDebt;    // after debt service, before capex
+    const netWithCapEx = netCashflow - yearCapEx;   // year's true cash movement
+    cumCashflow += netWithCapEx;
+    const equity = portfolioValue - totalDebt;
+
+    projYears.push({
+      y, portfolioValue, totalDebt, equity,
+      yearGross, yearExp, yearDebt, yearCapEx,
+      netCashflow, netWithCapEx, cumCashflow,
+    });
+  }
+
+  // Total cash invested = sum of capex across acquisition years
+  const totalCashIn = projYears.reduce((s, r) => s + r.yearCapEx, 0);
+  // Net sale proceeds = equity at end × (1 − disposition costs)
+  const finalYear = projYears[projYears.length - 1];
+  const netSale = finalYear.equity * (1 - dispositionPct);
+  const totalProfit = cumCashflow + netSale - totalCashIn;
+
+  // IRR: year-0 = 0 (no cash before acquisition), years 1..holdYears = netWithCapEx + (sale proceeds in final year)
+  const cashflowsForIrr = [0];
+  projYears.forEach((r, i) => {
+    let cf = r.netWithCapEx;
+    if (i === projYears.length - 1) cf += netSale;
+    cashflowsForIrr.push(cf);
+  });
+  const irrValue = irr(cashflowsForIrr, 0.1);
+  const multiple = totalCashIn > 0 ? (cumCashflow + netSale) / totalCashIn : 0;
+
+  // Populate metric cards
+  document.getElementById('lt-invested').textContent = fmt(totalCashIn);
+  document.getElementById('lt-cumcash').textContent = fmt(cumCashflow);
+  document.getElementById('lt-equity').textContent = fmt(finalYear.equity);
+  document.getElementById('lt-profit').textContent = fmt(totalProfit);
+  document.getElementById('lt-irr').textContent = isFinite(irrValue) ? (irrValue * 100).toFixed(1) + '%' : '—';
+  document.getElementById('lt-multiple').textContent = multiple.toFixed(2) + 'x';
+
+  // Chart 1: equity build (portfolio value / debt / equity line)
+  const ltLabels = projYears.map(r => 'Yr ' + r.y);
+  const valueSeries = projYears.map(r => Math.round(r.portfolioValue));
+  const debtSeries = projYears.map(r => Math.round(r.totalDebt));
+  const equitySeries = projYears.map(r => Math.round(r.equity));
+
+  const hexRGBA = (hex, a) => {
+    const n = parseInt(hex.slice(1), 16);
+    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+  };
+
+  if (equityChartInstance) {
+    equityChartInstance.data.labels = ltLabels;
+    equityChartInstance.data.datasets[0].data = valueSeries;
+    equityChartInstance.data.datasets[1].data = debtSeries;
+    equityChartInstance.data.datasets[2].data = equitySeries;
+    equityChartInstance.update();
+  } else {
+    const ctx = document.getElementById('equityChart').getContext('2d');
+    equityChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ltLabels,
+        datasets: [
+          { label: 'Portfolio Value', data: valueSeries, borderColor: CC.green, backgroundColor: hexRGBA(CC.green, 0.15), fill: true, tension: 0.25, pointRadius: 0, borderWidth: 2 },
+          { label: 'Total Debt',      data: debtSeries,  borderColor: CC.red,   backgroundColor: hexRGBA(CC.red, 0.15),   fill: true, tension: 0.25, pointRadius: 0, borderWidth: 2 },
+          { label: 'Equity',          data: equitySeries, borderColor: CC.gold, backgroundColor: 'transparent',           fill: false, tension: 0.25, pointRadius: 0, borderWidth: 3, borderDash: [6, 4] },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { labels: { usePointStyle: true, font: { size: 11 } } },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmt(ctx.raw) } },
+        },
+        scales: {
+          y: { grid: { color: CC.cream3 }, ticks: { callback: v => fmt(v), color: CC.ink3 } },
+          x: { grid: { display: false }, ticks: { color: CC.ink3, autoSkip: true, maxTicksLimit: 12 } },
+        },
+      },
+    });
+  }
+
+  // Chart 2: annual + cumulative cashflow
+  const cfSeries = projYears.map(r => Math.round(r.netCashflow));
+  const cumCfSeries = projYears.map(r => Math.round(r.cumCashflow));
+  const cfColors = cfSeries.map(v => v < 0 ? CC.red : CC.green);
+
+  if (longCashflowChartInstance) {
+    longCashflowChartInstance.data.labels = ltLabels;
+    longCashflowChartInstance.data.datasets[0].data = cfSeries;
+    longCashflowChartInstance.data.datasets[0].backgroundColor = cfColors;
+    longCashflowChartInstance.data.datasets[1].data = cumCfSeries;
+    longCashflowChartInstance.update();
+  } else {
+    const ctx = document.getElementById('longCashflowChart').getContext('2d');
+    longCashflowChartInstance = new Chart(ctx, {
+      data: {
+        labels: ltLabels,
+        datasets: [
+          { type: 'bar', label: 'Annual Cashflow (post-debt, pre-capex)', data: cfSeries, backgroundColor: cfColors, borderRadius: 3, yAxisID: 'y' },
+          { type: 'line', label: 'Cumulative Cashflow (incl. capex)', data: cumCfSeries, borderColor: CC.gold, backgroundColor: 'transparent', fill: false, tension: 0.25, pointRadius: 0, borderWidth: 2.5, yAxisID: 'y' },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { labels: { usePointStyle: true, font: { size: 11 } } },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmt(ctx.raw) } },
+        },
+        scales: {
+          y: { grid: { color: CC.cream3 }, ticks: { callback: v => fmt(v), color: CC.ink3 } },
+          x: { grid: { display: false }, ticks: { color: CC.ink3, autoSkip: true, maxTicksLimit: 12 } },
+        },
+      },
+    });
+  }
 
   if (chartInstance) {
     chartInstance.data.labels = labels;
