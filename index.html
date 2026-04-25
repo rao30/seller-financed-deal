@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Proposal for Angela</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #F7F3EC;
@@ -16,17 +16,12 @@
     --gold: #A07840;
     --gold2: #C49A58;
     --gold3: #E8C98A;
-    --amber: #C47B2B;
-    --gold-light: rgba(160,120,64,0.10);
     --green: #3A7D5C;
-    --green-light: rgba(58,125,92,0.10);
-    --red: #9B3A3A;
     --blue: #2C5282;
     --warm-shadow: rgba(80,50,20,0.10);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -37,73 +32,33 @@
     overflow-x: hidden;
   }
 
-  /* ── Grain texture ── */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9999;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
-    opacity: 0.6;
-  }
-
-  /* ── Typography ── */
   .serif { font-family: 'Cormorant Garamond', serif; }
   .mono  { font-family: 'DM Mono', monospace; }
 
-  /* ── Layout ── */
   .container { max-width: 760px; margin: 0 auto; padding: 0 32px; }
-  .container-wide { max-width: 1000px; margin: 0 auto; padding: 0 32px; }
 
-  /* ── Animations ── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(28px); }
+    from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes drawLine {
-    from { transform: scaleX(0); }
-    to   { transform: scaleX(1); }
-  }
-  @keyframes countUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-8px); }
-  }
-  @keyframes shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position: 200% center; }
-  }
-
-  .fade-up { animation: fadeUp 0.8s ease forwards; opacity: 0; }
+  .fade-up { animation: fadeUp 0.7s ease forwards; opacity: 0; }
   .fade-up-1 { animation-delay: 0.1s; }
   .fade-up-2 { animation-delay: 0.25s; }
   .fade-up-3 { animation-delay: 0.4s; }
-  .fade-up-4 { animation-delay: 0.55s; }
-  .fade-up-5 { animation-delay: 0.7s; }
 
   /* ── Hero ── */
   .hero {
-    min-height: 100vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    position: relative;
     padding: 80px 32px;
     background:
       radial-gradient(ellipse 80% 60% at 50% 30%, rgba(160,120,64,0.08) 0%, transparent 70%),
       var(--cream);
   }
-
   .hero-eyebrow {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -115,444 +70,57 @@
     align-items: center;
     gap: 12px;
   }
-  .hero-eyebrow::before,
-  .hero-eyebrow::after {
+  .hero-eyebrow::before, .hero-eyebrow::after {
     content: '';
-    display: block;
     width: 40px;
     height: 1px;
     background: var(--gold3);
   }
-
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 8vw, 96px);
+    font-size: clamp(48px, 7vw, 84px);
     font-weight: 300;
-    line-height: 0.95;
+    line-height: 1;
     color: var(--ink);
-    margin-bottom: 12px;
     letter-spacing: -0.01em;
   }
-  .hero-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
+  .hero-title em { font-style: italic; color: var(--gold); }
   .hero-sub {
     font-size: 17px;
     color: var(--ink3);
-    max-width: 480px;
-    margin: 24px auto 48px;
+    max-width: 460px;
+    margin: 24px auto 0;
     font-weight: 300;
-    line-height: 1.75;
   }
 
-  .hero-scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: var(--ink3);
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    animation: float 2.5s ease-in-out infinite;
-  }
-  .hero-scroll::after {
-    content: '';
-    display: block;
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--gold3), transparent);
-  }
-
-  /* ── Section ── */
-  section {
-    padding: 100px 0;
-  }
-
+  /* ── Sections ── */
+  section { padding: 80px 0; }
   .section-label {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
-
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 5vw, 56px);
+    font-size: clamp(34px, 4.5vw, 48px);
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.15;
     color: var(--ink);
-    margin-bottom: 24px;
-  }
-  .section-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .lead {
-    font-size: 18px;
-    color: var(--ink2);
-    line-height: 1.8;
-    font-weight: 300;
     margin-bottom: 20px;
-    max-width: 620px;
   }
-
-  .body-text {
-    font-size: 15px;
-    color: var(--ink3);
-    line-height: 1.85;
-    margin-bottom: 16px;
-    max-width: 620px;
-  }
-
-  /* ── Big number display ── */
-  .big-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(64px, 10vw, 110px);
+  .section-title em { font-style: italic; color: var(--gold); }
+  .lead {
+    font-size: 17px;
+    color: var(--ink2);
+    line-height: 1.75;
     font-weight: 300;
-    line-height: 1;
-    color: var(--gold);
-    letter-spacing: -0.02em;
-  }
-  .big-number-label {
-    font-size: 13px;
-    color: var(--ink3);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-top: 6px;
-    font-weight: 400;
+    max-width: 600px;
   }
 
-  /* ── Divider ── */
-  .divider {
-    width: 60px;
-    height: 1px;
-    background: var(--gold3);
-    margin: 36px 0;
-    transform-origin: left;
-    animation: drawLine 1s ease forwards;
-  }
-
-  /* ── Step cards — timeline ── */
-  .timeline {
-    position: relative;
-    padding-left: 0;
-    margin-top: 48px;
-  }
-
-  .timeline-item {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 32px;
-    margin-bottom: 60px;
-    position: relative;
-  }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: 39px;
-    top: 60px;
-    bottom: -30px;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--gold3), transparent);
-  }
-  .timeline-item:last-child::before { display: none; }
-
-  .timeline-year {
-    text-align: center;
-    padding-top: 4px;
-    flex-shrink: 0;
-  }
-
-  .year-bubble {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 500;
-    color: #fff;
-    margin: 0 auto 6px;
-    box-shadow: 0 4px 20px rgba(160,120,64,0.25);
-  }
-
-  .year-label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-  }
-
-  .timeline-content {
-    background: #fff;
-    border: 1px solid var(--cream3);
-    border-radius: 16px;
-    padding: 28px 32px;
-    box-shadow: 0 2px 24px var(--warm-shadow);
-    position: relative;
-  }
-
-  .timeline-content::before {
-    content: '';
-    position: absolute;
-    left: -8px;
-    top: 20px;
-    width: 16px;
-    height: 16px;
-    background: #fff;
-    border: 1px solid var(--cream3);
-    border-right: none;
-    border-top: none;
-    transform: rotate(45deg);
-  }
-
-  .timeline-tag {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .tag-bank   { background: rgba(44,82,130,0.1);  color: var(--blue); }
-  .tag-seller { background: rgba(160,120,64,0.12); color: var(--gold); }
-  .tag-refi   { background: rgba(58,125,92,0.1);  color: var(--green); }
-  .tag-income { background: rgba(160,120,64,0.12); color: var(--gold); }
-
-  .timeline-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 10px;
-    line-height: 1.2;
-  }
-
-  .timeline-body {
-    font-size: 14.5px;
-    color: var(--ink3);
-    line-height: 1.8;
-    margin-bottom: 16px;
-  }
-
-  .money-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 16px;
-  }
-
-  .money-pill {
-    background: var(--cream);
-    border: 1px solid var(--cream3);
-    border-radius: 10px;
-    padding: 10px 16px;
-    text-align: center;
-  }
-  .money-pill-amount {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 1;
-    color: var(--gold);
-  }
-  .money-pill-label {
-    font-size: 10px;
-    color: var(--ink3);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 3px;
-  }
-
-  /* ── Analogy boxes ── */
-  .analogy-box {
-    background: linear-gradient(135deg, rgba(160,120,64,0.06), rgba(160,120,64,0.02));
-    border: 1px solid rgba(160,120,64,0.2);
-    border-radius: 16px;
-    padding: 28px 32px;
-    margin: 28px 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .analogy-box::before {
-    content: '"';
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 160px;
-    color: rgba(160,120,64,0.08);
-    position: absolute;
-    top: -20px;
-    left: 16px;
-    line-height: 1;
-    pointer-events: none;
-  }
-  .analogy-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-style: italic;
-    font-weight: 400;
-    color: var(--ink2);
-    line-height: 1.6;
-    position: relative;
-    z-index: 1;
-  }
-  .analogy-caption {
-    font-size: 13px;
-    color: var(--ink3);
-    margin-top: 10px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ── Income summary table ── */
-  .income-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 24px;
-  }
-  .income-table th {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink3);
-    font-weight: 500;
-    padding: 10px 16px;
-    text-align: left;
-    border-bottom: 1px solid var(--cream3);
-    background: var(--cream2);
-  }
-  .income-table th:last-child { text-align: right; }
-  .income-table td {
-    padding: 14px 16px;
-    font-size: 14px;
-    color: var(--ink2);
-    border-bottom: 1px solid var(--cream3);
-    vertical-align: top;
-  }
-  .income-table td:last-child {
-    text-align: right;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--gold);
-  }
-  .income-table tr:last-child td {
-    border-bottom: none;
-    font-weight: 600;
-    color: var(--ink);
-    background: rgba(160,120,64,0.06);
-  }
-  .income-table tr:last-child td:last-child {
-    color: var(--green);
-    font-size: 28px;
-  }
-  .income-sub {
-    font-size: 12px;
-    color: var(--ink3);
-    margin-top: 3px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-  }
-
-  /* ── Income chart ── */
-  .income-chart {
-    margin: 36px 0 8px;
-  }
-  .income-chart-row {
-    display: grid;
-    grid-template-columns: 52px 1fr 110px;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 8px;
-  }
-  .income-chart-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10.5px;
-    color: var(--ink3);
-    text-align: right;
-    letter-spacing: 0.05em;
-  }
-  .income-chart-bar-wrap {
-    height: 26px;
-    background: var(--cream3);
-    border-radius: 5px;
-    overflow: hidden;
-    display: flex;
-  }
-  .income-chart-amount {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-    font-weight: 500;
-    text-align: right;
-    white-space: nowrap;
-  }
-  .income-chart-legend {
-    display: flex;
-    gap: 18px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-  .income-chart-legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--ink3);
-  }
-  .income-chart-legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-
-  /* ── Protection list ── */
-  .protection-list {
-    list-style: none;
-    margin-top: 24px;
-  }
-  .protection-list li {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--cream3);
-    font-size: 15px;
-    color: var(--ink2);
-    line-height: 1.65;
-  }
-  .protection-list li:last-child { border-bottom: none; }
-  .protection-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--green-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .protection-icon.gold { background: var(--gold-light); }
-
-  /* ── Total summary hero strip ── */
+  /* ── Total strip ── */
   .total-strip {
     background: var(--ink);
     color: #fff;
@@ -574,24 +142,22 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold3);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .total-strip-number {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(72px, 12vw, 130px);
+    font-size: clamp(64px, 11vw, 110px);
     font-weight: 300;
     line-height: 1;
-    color: #fff;
-    letter-spacing: -0.02em;
     background: linear-gradient(135deg, #fff 30%, var(--gold3) 70%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .total-strip-sub {
-    font-size: 16px;
+    font-size: 15px;
     color: rgba(255,255,255,0.5);
-    margin-top: 12px;
+    margin-top: 10px;
     font-weight: 300;
   }
   .total-grid {
@@ -600,27 +166,25 @@
     gap: 1px;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
-    margin-top: 56px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 48px auto 0;
+    max-width: 720px;
   }
   .total-cell {
-    padding: 28px 24px;
+    padding: 24px 20px;
     background: rgba(255,255,255,0.02);
     text-align: center;
   }
   .total-cell-amount {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 400;
     color: var(--gold3);
     line-height: 1;
   }
   .total-cell-label {
-    font-size: 11px;
+    font-size: 10.5px;
     color: rgba(255,255,255,0.4);
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -628,746 +192,303 @@
     line-height: 1.4;
   }
 
-  /* ── Q&A / FAQ ── */
-  .faq-item {
-    border-bottom: 1px solid var(--cream3);
-    padding: 24px 0;
+  /* ── Year-by-year table ── */
+  .income-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 28px;
   }
-  .faq-q {
+  .income-table th {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    font-weight: 500;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--cream3);
+    background: var(--cream2);
+  }
+  .income-table th:last-child { text-align: right; }
+  .income-table td {
+    padding: 14px;
+    font-size: 14px;
+    color: var(--ink2);
+    border-bottom: 1px solid var(--cream3);
+    vertical-align: top;
+  }
+  .income-table td:last-child {
+    text-align: right;
     font-family: 'Cormorant Garamond', serif;
     font-size: 22px;
     font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 12px;
+    color: var(--gold);
   }
-  .faq-a {
-    font-size: 15px;
+  .income-table tr:last-child td {
+    border-bottom: none;
+    font-weight: 600;
+    color: var(--ink);
+    background: rgba(160,120,64,0.06);
+  }
+  .income-table tr:last-child td:last-child {
+    color: var(--green);
+    font-size: 26px;
+  }
+  .income-sub {
+    font-size: 12px;
     color: var(--ink3);
-    line-height: 1.8;
+    margin-top: 3px;
+    font-weight: 300;
+  }
+
+  /* ── Pair cards ── */
+  .pair-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .pair-card {
+    background: #fff;
+    border: 1px solid var(--cream3);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 16px var(--warm-shadow);
+  }
+  .pair-card-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .pair-card-addr {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--ink);
+    font-weight: 500;
+    margin: 4px 0 16px;
+    line-height: 1.3;
+  }
+  .pair-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--ink3);
+  }
+  .pair-card-row strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .pair-card-total {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--cream3);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .pair-card-total span {
+    font-size: 11px;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .pair-card-total strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--gold);
+  }
+
+  /* ── Protections ── */
+  .protection-list { list-style: none; margin-top: 24px; }
+  .protection-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--cream3);
+    font-size: 15px;
+    color: var(--ink2);
+    line-height: 1.65;
+  }
+  .protection-list li:last-child { border-bottom: none; }
+  .protection-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(58,125,92,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   /* ── Closing ── */
   .closing {
     padding: 100px 32px;
     text-align: center;
-    background: var(--cream);
   }
   .closing-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(40px, 6vw, 64px);
+    font-size: clamp(34px, 5vw, 52px);
     font-weight: 300;
     font-style: italic;
     color: var(--ink);
-    max-width: 600px;
-    margin: 0 auto 24px;
+    max-width: 560px;
+    margin: 0 auto 20px;
     line-height: 1.2;
   }
-  .closing-body {
-    font-size: 16px;
-    color: var(--ink3);
-    max-width: 480px;
-    margin: 0 auto;
-    line-height: 1.8;
-    font-weight: 300;
-  }
   .closing-sig {
-    margin-top: 56px;
+    margin-top: 36px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
+    font-size: 18px;
     font-style: italic;
     color: var(--gold);
   }
 
-  /* ── Nav dot ── */
-  .nav-dots {
-    position: fixed;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 100;
-  }
-  .nav-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--cream3);
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-  }
-  .nav-dot.active {
-    background: var(--gold);
-    transform: scale(1.4);
-  }
-  /* Tooltip on hover */
-  .nav-dot::after {
-    content: attr(data-label);
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--ink);
-    color: rgba(255,255,255,0.85);
-    font-size: 10px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.08em;
-    padding: 4px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .nav-dot:hover::after {
-    opacity: 1;
-  }
-
-  /* ── Responsive ── */
   @media (max-width: 600px) {
-    .timeline-item { grid-template-columns: 60px 1fr; gap: 16px; }
-    .timeline-content { padding: 20px; }
-    .container, .container-wide { padding: 0 20px; }
+    .container { padding: 0 20px; }
+    section { padding: 60px 0; }
   }
-
-  /* ── Price editor ── */
-  .price-editor {
-    background: var(--cream2);
-    padding: 100px 0;
-  }
-  .price-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 36px;
-  }
-  .price-grid-year-header {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--cream3);
-    margin-top: 8px;
-  }
-  .price-grid-year-header:first-child {
-    margin-top: 0;
-  }
-  .price-card {
-    background: #fff;
-    border: 1px solid var(--cream3);
-    border-radius: 14px;
-    padding: 22px 24px;
-    box-shadow: 0 2px 16px var(--warm-shadow);
-    transition: box-shadow 0.2s;
-  }
-  .price-card:hover { box-shadow: 0 4px 28px var(--warm-shadow); }
-  .price-card-addr {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 2px;
-  }
-  .price-card-role {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-bottom: 14px;
-  }
-  .role-bank   { background: rgba(44,82,130,0.08); color: var(--blue); }
-  .role-seller { background: rgba(160,120,64,0.10); color: var(--gold); }
-  .price-input-wrap {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    border: 1.5px solid var(--cream3);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: border-color 0.2s;
-    background: var(--cream);
-  }
-  .price-input-wrap:focus-within {
-    border-color: var(--gold2);
-    background: #fff;
-  }
-  .price-input-prefix {
-    padding: 10px 12px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    color: var(--gold);
-    background: transparent;
-    border-right: 1px solid var(--cream3);
-    line-height: 1;
-  }
-  .price-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--ink);
-    padding: 10px 12px;
-    outline: none;
-    min-width: 0;
-  }
-  .price-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-  .price-card-result {
-    margin-top: 12px;
-    font-size: 12.5px;
-    color: var(--ink3);
-    line-height: 1.8;
-    padding-top: 12px;
-    border-top: 1px solid var(--cream3);
-  }
-  .price-card-result strong { color: var(--gold); }
-  .price-summary {
-    background: var(--ink);
-    border-radius: 16px;
-    padding: 32px;
-    margin-top: 36px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
-    gap: 24px;
-    text-align: center;
-  }
-  .ps-cell-amount {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    font-weight: 400;
-    color: var(--gold3);
-    line-height: 1;
-  }
-  .ps-cell-label {
-    font-size: 10.5px;
-    color: rgba(255,255,255,0.4);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 7px;
-    line-height: 1.5;
-  }
-  .reset-btn {
-    display: inline-block;
-    margin-top: 24px;
-    padding: 10px 24px;
-    border-radius: 8px;
-    border: 1.5px solid var(--cream3);
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--ink3);
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
-  }
-  .reset-btn:hover { border-color: var(--gold2); color: var(--gold); }
-
-  /* ── Cost reveal ── */
-  .cost-reveal {
-    padding: 60px 32px;
-    text-align: center;
-    background: var(--cream2);
-    border-top: 1px solid var(--cream3);
-  }
-  .cost-reveal-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink3);
-    background: none;
-    border: 1px solid var(--cream3);
-    padding: 10px 22px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .cost-reveal-btn:hover { border-color: var(--gold2); color: var(--gold); }
-
 </style>
 </head>
 <body>
 
-<!-- Nav dots -->
-<nav class="nav-dots" id="navDots">
-  <div class="nav-dot active" data-label="Welcome" onclick="scrollTo(0)"></div>
-  <div class="nav-dot" data-label="Overview" onclick="document.getElementById('s-overview').scrollIntoView({behavior:'smooth'})"></div>
-  <div class="nav-dot" data-label="How It Works" onclick="document.getElementById('s-how').scrollIntoView({behavior:'smooth'})"></div>
-  <div class="nav-dot" data-label="Your Income" onclick="document.getElementById('s-income').scrollIntoView({behavior:'smooth'})"></div>
-  <div class="nav-dot" data-label="Your Total" onclick="document.getElementById('s-total').scrollIntoView({behavior:'smooth'})"></div>
-  <div class="nav-dot" data-label="Your Prices" onclick="document.getElementById('s-prices').scrollIntoView({behavior:'smooth'})"></div>
-  <div class="nav-dot" data-label="Savings" onclick="document.getElementById('s-savings').scrollIntoView({behavior:'smooth'})"></div>
-  <div class="nav-dot" data-label="Protections" onclick="document.getElementById('s-protection').scrollIntoView({behavior:'smooth'})"></div>
-  <div class="nav-dot" data-label="FAQ" onclick="document.getElementById('s-faq').scrollIntoView({behavior:'smooth'})"></div>
-</nav>
-
-<!-- ══════════════════════════════════
-     HERO
-══════════════════════════════════ -->
-<section class="hero" id="s-hero">
-  <div class="hero-eyebrow fade-up fade-up-1">A personal proposal</div>
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-eyebrow fade-up fade-up-1">A proposal for Angela</div>
   <h1 class="hero-title serif fade-up fade-up-2">
-    A fresh start<br><em>for your portfolio.</em>
+    Eight homes,<br><em>four years.</em>
   </h1>
   <p class="hero-sub fade-up fade-up-3">
-    Angela, this page covers how selling your 8 properties works.
-    Your timeline. Your price. A check arriving every month.
+    A simple way to sell your portfolio at full price —
+    paid out as cash, monthly checks, and four lump sums.
   </p>
-  <div class="fade-up fade-up-4" style="background:rgba(160,120,64,0.08);border:1px solid rgba(160,120,64,0.2);border-radius:10px;padding:14px 22px;font-size:13px;color:var(--ink3);max-width:480px;line-height:1.7;margin-bottom:8px;">
-    &#x1F4DD; <strong style="color:var(--ink2);">A note on the numbers:</strong> The prices here are estimates. When we sit down, you tell me what you want for each home and I plug your numbers in. Everything on this page updates.
-  </div>
-  <div class="hero-scroll fade-up fade-up-5">scroll</div>
 </section>
 
-
-<!-- ══════════════════════════════════
-     OVERVIEW
-══════════════════════════════════ -->
-<section id="s-overview">
-  <div class="container">
-    <div class="section-label fade-up">The big picture</div>
-    <h2 class="section-title fade-up">Here's the short version.</h2>
-    <p class="lead fade-up">
-      You sell 8 properties over 4 years, 2 per year.
-      A cash payment arrives at the table each time a pair closes.
-      On one house per pair, you hold the loan at 6% interest and receive monthly payments.
-      Seven years after each closing, the buyer pays off the remaining balance in a single lump sum.
-    </p>
-    <p class="body-text fade-up">
-      Selling all 8 at once to a single buyer almost never works out.
-      Selling in pairs means you get paid four separate times
-      and collect monthly income the whole way through.
-    </p>
-
-    <div class="divider"></div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px;margin-top:8px;">
-      <div class="fade-up fade-up-1">
-        <div class="big-number">4</div>
-        <div class="big-number-label">Years to sell<br>all 8 properties</div>
-      </div>
-      <div class="fade-up fade-up-2">
-        <div class="big-number">2</div>
-        <div class="big-number-label">Properties closed<br>each year</div>
-      </div>
-      <div class="fade-up fade-up-4">
-        <div class="big-number">4</div>
-        <div class="big-number-label">Big payoff checks<br>arriving Years 8–11</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════
-     HOW IT WORKS — TIMELINE
-══════════════════════════════════ -->
-<section id="s-how" style="background:var(--cream2);">
-  <div class="container-wide">
-    <div class="container" style="padding:0;">
-      <div class="section-label fade-up">How it works, step by step</div>
-      <h2 class="section-title fade-up">Each year, two houses.<br><em>Two paychecks.</em></h2>
-      <p class="lead fade-up">
-        Each year you close on one pair. The buyer's bank pays off the first house
-        the normal way. On the second house, you hold the loan yourself at 6% interest.
-        Monthly payments come to you. Seven years later, the buyer pays off
-        the full remaining balance.
-      </p>
-    </div>
-
-    <div class="timeline" style="margin-top:56px;" id="timeline"></div>
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════
-     YOUR INCOME
-══════════════════════════════════ -->
-<section id="s-income">
-  <div class="container">
-    <div class="section-label fade-up">Your money</div>
-    <h2 class="section-title fade-up">What you actually<br><em>walk away with.</em></h2>
-    <p class="lead fade-up">
-      Cash arrives at every closing. On each property where you hold the loan,
-      a payment comes every month at 6% interest. At the seven-year mark for each
-      property, the buyer goes to a bank, refinances, and sends the remaining balance
-      as a single payment. That is when each loan is fully retired.
-    </p>
-
-    <!-- Year-by-year income chart -->
-    <div class="income-chart fade-up" id="incomeChart"></div>
-
-    <table class="income-table fade-up" id="incomeTable"></table>
-
-    <p class="body-text fade-up" style="margin-top:24px;">
-      * Monthly payments are calculated on a 20-year amortization at 6% interest.
-      Every dollar comes directly to you. At year 7, the buyer refinances
-      through a bank and sends the remaining balance in a single payment.
-      The loan is paid off at that point.
-    </p>
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════
-     TOTAL STRIP
-══════════════════════════════════ -->
-<div class="total-strip" id="s-total">
-  <div class="total-strip-label">Your grand total</div>
+<!-- ── The grand total ── -->
+<div class="total-strip">
+  <div class="total-strip-label">What you walk away with</div>
   <div class="total-strip-number" id="grandTotal">—</div>
-  <div class="total-strip-sub">Total you receive across all 8 properties, all 11 years</div>
+  <div class="total-strip-sub">Across all 8 properties, all 11 years</div>
   <div class="total-grid" id="totalGrid"></div>
 </div>
 
-
-<!-- ══════════════════════════════════
-     YOUR PRICES
-══════════════════════════════════ -->
-<div class="price-editor" id="s-prices">
+<!-- ── How it works in one paragraph ── -->
+<section>
   <div class="container">
-    <div class="section-label fade-up">Your numbers, your call</div>
-    <h2 class="section-title fade-up">What do <em>you</em> want<br>for each home?</h2>
+    <div class="section-label fade-up">How it works</div>
+    <h2 class="section-title fade-up">Two homes a year.<br><em>Two paychecks a year.</em></h2>
     <p class="lead fade-up">
-      The prices on this page are starting estimates — not final offers.
-      Type in what you feel each property is worth to you and watch
-      everything update instantly. We'll use these conversations as
-      the starting point when we're ready to make it official.
+      Each year, one pair closes. The first home sells the normal way — a bank pays
+      you cash at closing. On the second home, you hold the loan at 6% interest.
+      Monthly checks come to you for seven years, then the buyer refinances and
+      sends the remaining balance in one final payment.
     </p>
-
-    <div class="price-grid fade-up" id="priceGrid"></div>
-
-    <div style="text-align:center;">
-      <button class="reset-btn" onclick="resetPrices()">↺ Reset to original estimates</button>
-    </div>
-
-    <div class="price-summary" id="priceSummary"></div>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════════════
-     SAVINGS
-══════════════════════════════════ -->
-<section id="s-savings">
-  <div class="container">
-    <div class="section-label fade-up" style="color:var(--green);">The Bottom Line</div>
-    <h2 class="section-title fade-up">Keeping more of<br><em>your own money.</em></h2>
-    <p class="lead fade-up">
-      Traditional sales bleed your equity through commissions, repairs, and empty-house costs. Skipping the market saves you tens of thousands per property.
-    </p>
-
-    <!-- Key numbers row -->
-    <div class="fade-up fade-up-1" style="display:flex;flex-wrap:wrap;gap:40px;margin-top:24px;">
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--green);font-weight:300;line-height:1;" id="sav-total">—</div>
-        <div style="font-size:11px;color:var(--ink3);letter-spacing:0.1em;text-transform:uppercase;margin-top:8px;">Estimated Total Equity Kept</div>
-      </div>
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--green);font-weight:300;line-height:1;" id="sav-per-prop">—</div>
-        <div style="font-size:11px;color:var(--ink3);letter-spacing:0.1em;text-transform:uppercase;margin-top:8px;">Average Kept Per Property</div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:24px;margin-top:40px;">
-      <div class="fade-up fade-up-2" style="background:#fff;border:1px solid var(--cream3);border-radius:16px;padding:32px;box-shadow:0 2px 14px var(--warm-shadow);">
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--ink);margin-bottom:16px;">The Old Way</h3>
-        <ul style="list-style:none;color:var(--ink3);font-size:15px;line-height:1.8;">
-          <li style="margin-bottom:12px;"><span style="color:var(--red);margin-right:8px;">✗</span> <strong>6% Agent Commissions</strong></li>
-          <li style="margin-bottom:12px;"><span style="color:var(--red);margin-right:8px;">✗</span> <strong>Make-Ready Costs</strong> (paint, staging, repairs)</li>
-          <li style="margin-bottom:12px;"><span style="color:var(--red);margin-right:8px;">✗</span> <strong>Holding Costs</strong> (taxes during sale)</li>
-        </ul>
-      </div>
-
-      <div class="fade-up fade-up-3" style="background:var(--green-light);border:1px solid rgba(58,125,92,0.2);border-radius:16px;padding:32px;">
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--green);margin-bottom:16px;">Selling To Me</h3>
-        <ul style="list-style:none;color:var(--ink2);font-size:15px;line-height:1.8;">
-          <li style="margin-bottom:12px;"><span style="color:var(--green);font-weight:bold;margin-right:8px;">✓</span> <strong>Zero Agent Fees</strong> (you keep the 6%)</li>
-          <li style="margin-bottom:12px;"><span style="color:var(--green);font-weight:bold;margin-right:8px;">✓</span> <strong>Zero Make-Ready</strong> (I buy exactly as-is)</li>
-          <li style="margin-bottom:12px;"><span style="color:var(--green);font-weight:bold;margin-right:8px;">✓</span> <strong>Instant Timeline</strong> (no holding costs)</li>
-        </ul>
-      </div>
-    </div>
   </div>
 </section>
 
+<!-- ── The four pairs ── -->
+<section style="background:var(--cream2);">
+  <div class="container">
+    <div class="section-label fade-up">The four pairs</div>
+    <h2 class="section-title fade-up">One pair, <em>each year.</em></h2>
+    <div class="pair-grid" id="pairGrid"></div>
+  </div>
+</section>
 
-<!-- ══════════════════════════════════
-     PROTECTIONS
-══════════════════════════════════ -->
-<section id="s-protection" style="background:var(--cream2);">
+<!-- ── Year-by-year ── -->
+<section>
+  <div class="container">
+    <div class="section-label fade-up">Year by year</div>
+    <h2 class="section-title fade-up">Money in, <em>every year.</em></h2>
+    <table class="income-table fade-up" id="incomeTable"></table>
+  </div>
+</section>
+
+<!-- ── Protections ── -->
+<section style="background:var(--cream2);">
   <div class="container">
     <div class="section-label fade-up">Your protections</div>
     <h2 class="section-title fade-up">You are protected<br><em>at every step.</em></h2>
-    <p class="lead fade-up">
-      This is not a handshake. Every protection from a standard sale applies here.
-      A few terms actually tilt further in your favor.
-    </p>
-
     <ul class="protection-list fade-up">
       <li>
         <div class="protection-icon">🏠</div>
         <div>
           <strong>You hold the mortgage until paid in full.</strong><br>
-          On every property where you hold the loan, you remain on title.
-          If a payment is missed, the property reverts to you.
-          You keep what was paid and take back the house.
+          On every seller-financed home, if a payment is missed the property reverts
+          to you. You keep what was paid and take back the house.
         </div>
       </li>
       <li>
         <div class="protection-icon">📋</div>
         <div>
-          <strong>Every price is locked in writing before we close anything.</strong><br>
-          We sign a Master Purchase Agreement covering all 8 properties,
-          with agreed prices and a closing schedule.
-          It is legally binding from day one, before a single key changes hands.
+          <strong>Every price is locked in writing before we close.</strong><br>
+          A Master Purchase Agreement covers all 8 properties, with agreed prices and
+          a closing schedule, legally binding from day one.
         </div>
       </li>
       <li>
-        <div class="protection-icon gold">💰</div>
+        <div class="protection-icon">💰</div>
         <div>
-          <strong>Cash at every closing. No waiting.</strong><br>
+          <strong>Cash at every closing — no waiting.</strong><br>
           Once a year, a pair closes and you receive a cash payment at the table.
-          Not a promise. Not a note. Actual money in your account that day.
+          Actual money in your account that day.
         </div>
       </li>
       <li>
         <div class="protection-icon">🔒</div>
         <div>
-          <strong>The final payoff is required by the contract.</strong><br>
-          At year 7, I must refinance through a bank and pay the remaining balance.
-          If I do not, I am in default. You keep every payment received
-          and reclaim the property.
-        </div>
-      </li>
-      <li>
-        <div class="protection-icon gold">📅</div>
-        <div>
-          <strong>All 8 properties transfer within 4 years.</strong><br>
-          After year 4, you are no longer a landlord.
-          No repair calls. No tenant issues. No property management.
-          Monthly payments arrive in your account and that is it.
-        </div>
-      </li>
-      <li>
-        <div class="protection-icon">⚖️</div>
-        <div>
-          <strong>All paperwork is recorded at the county.</strong><br>
-          Your financing is documented with a standard payment agreement
-          and security document, the same type any bank uses for a mortgage.
-          Fully enforceable in court.
-        </div>
-      </li>
-      <li>
-        <div class="protection-icon gold">⏱️</div>
-        <div>
-          <strong>If I pay off early, you get a prepayment penalty.</strong><br>
-          The note carries a <strong>5% prepayment penalty in years 1–2</strong>,
-          stepping down to 1% by year 7. That means the interest income you're
-          counting on can't be cut short by an early refinance — if I pull the
-          trigger sooner, you get compensated for the years of interest you'd lose.
-        </div>
-      </li>
-      <li>
-        <div class="protection-icon">🛠️</div>
-        <div>
-          <strong>The properties leave you the day we close.</strong><br>
-          On every seller-financed closing, a <strong>$25,000 repair escrow</strong>
-          gets credited to the buyer LLC at the table — used to fund unit turns
-          as tenants roll. You're done with the make-ready, the contractors,
-          the punch lists. You hold the note, not the toolbox.
+          <strong>The final payoff is required by contract.</strong><br>
+          Seven years after each closing, the buyer must refinance and pay the
+          remaining balance. If not, they're in default and you reclaim the property.
         </div>
       </li>
     </ul>
   </div>
 </section>
 
-
-<!-- ══════════════════════════════════
-     FAQ
-══════════════════════════════════ -->
-<section id="s-faq">
-  <div class="container">
-    <div class="section-label fade-up">Questions worth asking</div>
-    <h2 class="section-title fade-up">Straight questions.<br><em>Straight answers.</em></h2>
-
-    <div class="faq-item fade-up">
-      <div class="faq-q">Why is the bank price lower than my per-house ask?</div>
-      <div class="faq-a">
-        <p style="margin-bottom:12px;">Your <strong>pair total</strong> is honored exactly. The bank side shows a lower recorded purchase price because that's what will appraise and what a bank will actually lend on. The $50k difference per pair gets added to the seller-financed side instead.</p>
-        <p style="margin-bottom:12px;">So if your ask is $820k for the pair, you still collect $820k — $360k through the bank at closing, plus $460k from me on the note (monthly checks for 7 years + one final payoff). You never give up a dollar of your ask.</p>
-        <p style="margin-bottom:0;">The note carries a stated <strong>6% interest rate</strong>. Practically, that means more cash in your pocket every month and a slightly smaller final payoff — but the total you receive is the same $460k either way.</p>
-      </div>
-    </div>
-
-    <div class="faq-item fade-up">
-      <div class="faq-q">Why does the recorded deed on the seller-financed house show less than what I'm collecting?</div>
-      <div class="faq-a">
-        <p style="margin-bottom:12px;">The county records the <strong>principal</strong> on the note — the starting loan balance. With 6% interest stated on the note, that principal is set just low enough that 84 monthly payments plus the final payoff equal your full ask. Interest never appears on the deed (under tax law it isn't a transfer of property — it's the cost of carrying the loan).</p>
-        <p style="margin-bottom:0;">For you, the practical effect is simple: you collect every dollar of your ask, just split between principal and interest on the IRS forms each year. Your CPA will appreciate the cleaner installment-sale treatment on your end.</p>
-      </div>
-    </div>
-
-    <div class="faq-item fade-up">
-      <div class="faq-q">When do you receive the final payoff checks?</div>
-      <div class="faq-a">
-        The seven year clock starts when each pair closes. House pairs sold in Year 1 pay out in Year 8. Pairs from Year 2 pay out in Year 9. This pattern continues through Year 11. You receive four large payments. This schedule spreads your tax liability over several years.
-      </div>
-    </div>
-
-    <div class="faq-item fade-up">
-      <div class="faq-q">What happens if you cannot refinance?</div>
-      <div class="faq-a">
-        I would be in default. You have the legal right to take the houses back. You keep every payment I made. I want to avoid that. A buyer who pays for seven years and increases rents has a profile banks like. I have every reason to finish the deal.
-      </div>
-    </div>
-
-    <div class="faq-item fade-up">
-      <div class="faq-q">What if you need more cash in a specific year?</div>
-      <div class="faq-a">
-        We can talk about that. I can change the cash amounts at closing. If you need more in Year 1, I can adjust the structure. My goal is to make sure the total income fits your life. We can move numbers around to find a balance.
-      </div>
-    </div>
-
-    <div class="faq-item fade-up">
-      <div class="faq-q">Why not list all eight houses on the market?</div>
-      <div class="faq-a">
-        You could do that. It might work for you. Traditional sales mean eight sets of agent commissions and fees. You would pay all your capital gains taxes at once. I offer a single buyer and fixed prices. You skip the agents and spread out the tax bill. This path offers a level of certainty the open market lacks.
-      </div>
-    </div>
-
-    <div class="faq-item fade-up">
-      <div class="faq-q">What happens to your current mortgages?</div>
-      <div class="faq-a">
-        The bank loan for the first house in each pair pays off your existing debt. You get the remaining cash. You use that cash to pay off the mortgage on the second house. This leaves the second house free and clear. You then hold the note as the lender. Both of your original loans are gone after we close each pair.
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════
-     CLOSING
-══════════════════════════════════ -->
-<div class="closing" id="s-closing">
+<!-- ── Closing ── -->
+<div class="closing">
   <h2 class="closing-title fade-up">
     You've built something real.<br>This is how you get paid for it.
   </h2>
-  <p class="closing-body fade-up">
-    This proposal is a starting point — not a take-it-or-leave-it offer.
-    Every number here is negotiable. What matters is finding terms
-    that let you move forward with confidence, knowing your properties
-    are in good hands and your financial future is secure.
-  </p>
   <div class="closing-sig fade-up">Thank you for considering this, Angela.</div>
 </div>
 
-
-<!-- ══════════════════════════════════
-     COST COMPARISON (hidden — for our meeting)
-══════════════════════════════════ -->
-<div class="cost-reveal" id="costRevealWrap">
-  <p style="font-size:13px;color:var(--ink3);margin-bottom:14px;">Want to compare against a traditional sale?</p>
-  <button class="cost-reveal-btn" onclick="document.getElementById('s-costs').style.display='block';document.getElementById('costRevealWrap').style.display='none';">
-    ⊕ Show cost comparison tool
-  </button>
-</div>
-
-<section id="s-costs" style="display:none;">
-  <div class="container">
-    <div class="section-label fade-up">The cost of doing it the other way</div>
-    <h2 class="section-title fade-up">What a traditional sale<br><em>really took from you.</em></h2>
-    <p class="lead fade-up">
-      You've already been through this — you know exactly what agents, make-ready,
-      and holding costs feel like. Type in your actual numbers from past sales
-      and see what you've already given up, and what you'd save on every remaining property
-      by selling as-is directly.
-    </p>
-
-    <!-- ── Per-property input cards ── -->
-    <div id="costInputCards" style="margin-top:36px;"></div>
-
-    <div style="text-align:center;margin-top:8px;">
-      <button class="reset-btn" onclick="resetCostInputs()">↺ Reset to estimates</button>
-    </div>
-
-    <!-- Cost breakdown bars -->
-    <div style="margin:40px 0;" id="costBars"></div>
-
-    <!-- Per-property results table -->
-    <div style="overflow-x:auto;" class="fade-up">
-      <table class="income-table" id="costTable"></table>
-    </div>
-
-    <!-- The punchline -->
-    <div id="costPunchline" style="margin-top:36px;"></div>
-
-    <!-- Time cost -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px;" class="fade-up">
-      <div style="background:#fff;border:1px solid var(--cream3);border-radius:14px;padding:24px 28px;text-align:center;box-shadow:0 2px 16px var(--warm-shadow);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:var(--red);line-height:1;">8</div>
-        <div style="font-size:13px;color:var(--ink3);margin-top:6px;line-height:1.6;">Years to fully exit<br>the traditional way<br><span style="font-size:11px;color:var(--ink3);opacity:.7;">(one sale per year, your current pace)</span></div>
-      </div>
-      <div style="background:#fff;border:1px solid var(--cream3);border-radius:14px;padding:24px 28px;text-align:center;box-shadow:0 2px 16px var(--warm-shadow);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:var(--green);line-height:1;">4</div>
-        <div style="font-size:13px;color:var(--ink3);margin-top:6px;line-height:1.6;">Years to fully exit<br>with this deal<br><span style="font-size:11px;color:var(--ink3);opacity:.7;">(all 8 transferred, then just collecting)</span></div>
-      </div>
-    </div>
-    <p style="margin-top:14px;font-size:13px;text-align:center;color:var(--ink3);">
-      That's 4 fewer years of phone calls, repairs, tenant issues, and property management decisions.
-    </p>
-
-  </div>
-</section>
-
-
 <script>
-// ── Data ──
-// bank.price  = bank purchase price (what the bank sees + wires Angela at close).
-// seller.sfAsk = Angela's effective seller-finance ask (+$50k shift so pair totals match).
-// angelaAsk   = her stated per-property number (for market comparison / reference).
-// The deed price is derived from sfAsk so that monthly pmts + 7yr balloon at 6% = sfAsk.
 const PAIRS = [
-  {
-    year: 1, balloonYear: 8, askTotal: 820000,
-    bank:   { addr: '116/118 Shadybrook', price: 360000, bal: 73937.15,   rent: 2600, angelaAsk: 410000 },
-    seller: { addr: '141/143 Shadybrook', sfAsk: 460000, bal: 69246.44,   rent: 2600, angelaAsk: 410000 },
-  },
-  {
-    year: 2, balloonYear: 9, askTotal: 832000,
-    bank:   { addr: '144/146 Shadybrook', price: 360000, bal: 76637.59,   rent: 2600, angelaAsk: 410000 },
-    seller: { addr: '125/127 Larchbrook', sfAsk: 472000, bal: 72245.79,   rent: 2600, angelaAsk: 422000 },
-  },
-  {
-    year: 3, balloonYear: 10, askTotal: 844000,
-    bank:   { addr: '120/122 Idlecreek',  price: 372000, bal: 81947.65,   rent: 2600, angelaAsk: 422000 },
-    seller: { addr: '800/802 Summit',     sfAsk: 472000, bal: 130972.34,  rent: 2600, angelaAsk: 422000 },
-  },
-  {
-    year: 4, balloonYear: 11, askTotal: 752000,
-    bank:   { addr: '804/806 Summit',     price: 372000, bal: 99764.90,   rent: 2800, angelaAsk: 422000 },
-    seller: { addr: '1419/1421 Deborah',  sfAsk: 380000, bal: 51746.39,   rent: 1800, angelaAsk: 330000 },
-  },
+  { year: 1, balloonYear: 8,  askTotal: 820000,
+    bank:   { addr: '116/118 Shadybrook', price: 360000, bal: 73937.15 },
+    seller: { addr: '141/143 Shadybrook', sfAsk: 460000, bal: 69246.44 } },
+  { year: 2, balloonYear: 9,  askTotal: 832000,
+    bank:   { addr: '144/146 Shadybrook', price: 360000, bal: 76637.59 },
+    seller: { addr: '125/127 Larchbrook', sfAsk: 472000, bal: 72245.79 } },
+  { year: 3, balloonYear: 10, askTotal: 844000,
+    bank:   { addr: '120/122 Idlecreek',  price: 372000, bal: 81947.65 },
+    seller: { addr: '800/802 Summit',     sfAsk: 472000, bal: 130972.34 } },
+  { year: 4, balloonYear: 11, askTotal: 752000,
+    bank:   { addr: '804/806 Summit',     price: 372000, bal: 99764.90 },
+    seller: { addr: '1419/1421 Deborah',  sfAsk: 380000, bal: 51746.39 } },
 ];
 
-const AMORT_YRS    = 20;
-const AMORT_MOS    = AMORT_YRS * 12;
-const SF_RATE      = 0.06;
-const BALLOON_YRS  = 7;
-const BALLOON_MOS  = BALLOON_YRS * 12;
+const AMORT_MOS   = 240;
+const SF_RATE     = 0.06;
+const BALLOON_MOS = 84;
 
 function fmt(n) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
 }
 
-// Given Angela's SF ask, return the deed price + monthly note payment + 7-yr balloon
-// such that (84 × pmt) + balloon = sfAsk exactly, with the note amortized at 6% over 20yrs.
 function sfTerms(sfAsk) {
   const r = SF_RATE / 12;
   const F = Math.pow(1 + r, BALLOON_MOS);
@@ -1379,267 +500,58 @@ function sfTerms(sfAsk) {
   return { deed, pmt, balloon };
 }
 
-// Remaining balance on the seller-financed note after N months of amortized payments at 6%.
-function noteBal(sfAsk, monthsPaid) {
-  const { deed, pmt } = sfTerms(sfAsk);
-  const r = SF_RATE / 12;
-  const F = Math.pow(1 + r, monthsPaid);
-  return Math.max(0, deed * F - pmt * (F - 1) / r);
+function buildPairCards() {
+  const el = document.getElementById('pairGrid');
+  el.innerHTML = PAIRS.map(pair => {
+    const bankLoan   = pair.bank.price * 0.80;
+    const bankDown   = pair.bank.price * 0.20;
+    const cashAtClose = (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
+    const { pmt, balloon } = sfTerms(pair.seller.sfAsk);
+    return `
+      <div class="pair-card fade-up">
+        <div class="pair-card-year">Year ${pair.year} · Pair ${pair.year}</div>
+        <div class="pair-card-addr">${pair.bank.addr}<br>${pair.seller.addr}</div>
+        <div class="pair-card-row"><span>Cash at closing</span><strong>${fmt(cashAtClose)}</strong></div>
+        <div class="pair-card-row"><span>Monthly check</span><strong>${fmt(pmt)}/mo</strong></div>
+        <div class="pair-card-row"><span>Final payoff (Yr ${pair.balloonYear})</span><strong>${fmt(balloon)}</strong></div>
+        <div class="pair-card-total"><span>Pair total</span><strong>${fmt(pair.askTotal)}</strong></div>
+      </div>`;
+  }).join('');
 }
 
-// ── Build timeline ──
-function buildTimeline() {
-  const el = document.getElementById('timeline');
-  let html = '';
-
-  // Acquisition years 1–4
-  PAIRS.forEach(pair => {
-    const bankLoan    = pair.bank.price * 0.80;
-    const bankDown    = pair.bank.price * 0.20;
-    const h1Equity    = bankLoan - pair.bank.bal;
-    const h1Cash      = h1Equity + bankDown;
-    const terms       = sfTerms(pair.seller.sfAsk);
-    const h2NotePmt   = terms.pmt;
-    const h2Balloon   = terms.balloon;
-    const angelaCash  = h1Cash - pair.seller.bal;
-
-    html += `
-    <div class="timeline-item fade-up">
-      <div class="timeline-year">
-        <div class="year-bubble">${pair.year}</div>
-        <div class="year-label">Year ${pair.year}</div>
-      </div>
-      <div class="timeline-content">
-        <span class="timeline-tag tag-bank">Bank Purchase</span>
-        <span class="timeline-tag tag-seller">Seller Finance</span>
-        <h3 class="timeline-title">Two houses close. You get paid twice.</h3>
-        <p class="timeline-body">
-          <strong>${pair.bank.addr}</strong> sells the normal way — a bank gives the buyer a loan
-          at the recorded price of <strong>${fmt(pair.bank.price)}</strong>.
-          That loan pays off your existing mortgage (${fmt(pair.bank.bal)}),
-          and you pocket the equity difference in cash right at the table.
-          <br><br>
-          <strong>${pair.seller.addr}</strong> is different. You pay off its mortgage
-          (${fmt(pair.seller.bal)}) using the cash from the first closing, then you
-          become the bank — carrying a note at 6% interest, amortized over 20 years.
-          The monthly checks roll in for seven years.
-          Seven years after this closing (<strong>Year ${pair.balloonYear}</strong>),
-          they refinance through a bank and send you the remaining balance in one
-          final lump-sum check — the loan is done.
-          Across the two houses you realize your full pair ask of <strong>${fmt(pair.askTotal)}</strong>.
-        </p>
-        <div class="money-row">
-          <div class="money-pill">
-            <div class="money-pill-amount">${fmt(angelaCash)}</div>
-            <div class="money-pill-label">Cash at closing</div>
-          </div>
-          <div class="money-pill">
-            <div class="money-pill-amount">${fmt(h2NotePmt)}/mo</div>
-            <div class="money-pill-label">Monthly payment to you</div>
-          </div>
-          <div class="money-pill">
-            <div class="money-pill-amount">${fmt(h2NotePmt * 12)}</div>
-            <div class="money-pill-label">Monthly income / yr</div>
-          </div>
-          <div class="money-pill">
-            <div class="money-pill-amount">${fmt(h2Balloon)}</div>
-            <div class="money-pill-label">Final payoff · Year ${pair.balloonYear}</div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  });
-
-  // Years 5–11: note income continues, payoffs arrive one per year starting year 8
-  const allNotesMo = PAIRS.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
-
-  // Years 5–7 — all notes active, no payoff yet
-  [5, 6, 7].forEach(y => {
-    html += `
-    <div class="timeline-item fade-up">
-      <div class="timeline-year">
-        <div class="year-bubble" style="background:var(--ink2);">${y}</div>
-        <div class="year-label">Year ${y}</div>
-      </div>
-      <div class="timeline-content">
-        <span class="timeline-tag tag-income">Monthly Income</span>
-        <h3 class="timeline-title">All 4 loans active. Steady income, nothing to do.</h3>
-        <p class="timeline-body">
-          No new closings this year. All 4 properties you financed are generating monthly payments at 6% interest.
-          ${y === 7 ? 'Next year, the first big payoff check arrives — the Year 1 buyers refinance through a bank and send you the remaining balance in full.' : 'You collect and wait.'}
-        </p>
-        <div class="money-row">
-          <div class="money-pill">
-            <div class="money-pill-amount">${fmt(allNotesMo)}/mo</div>
-            <div class="money-pill-label">Total monthly income (all 4 loans)</div>
-          </div>
-          <div class="money-pill">
-            <div class="money-pill-amount">${fmt(allNotesMo * 12)}</div>
-            <div class="money-pill-label">Monthly income this year</div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  });
-
-  // Years 8–11: one payoff per year
-  PAIRS.forEach(pair => {
-    const yr = pair.balloonYear;
-    const payoff = sfTerms(pair.seller.sfAsk).balloon;
-    // Active notes this year = pairs whose payoff year > this year (still paying)
-    const stillActive = PAIRS.filter(p => p.balloonYear > yr);
-    const stillActiveMo = stillActive.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
-
-    html += `
-    <div class="timeline-item fade-up">
-      <div class="timeline-year">
-        <div class="year-bubble" style="background:var(--green);box-shadow:0 4px 20px rgba(58,125,92,0.25);">${yr}</div>
-        <div class="year-label" style="color:var(--green);">Year ${yr}</div>
-      </div>
-      <div class="timeline-content" style="border-color:rgba(58,125,92,0.25);background:rgba(58,125,92,0.02);">
-        <span class="timeline-tag tag-refi">Final Payoff</span>
-        <h3 class="timeline-title" style="color:var(--green);">${pair.seller.addr} — big check arrives.</h3>
-        <p class="timeline-body">
-          It has been exactly 7 years since you sold <strong>${pair.seller.addr}</strong> in Year ${pair.year}.
-          The buyer goes to a bank, refinances, and wires you the remaining loan balance in full.
-          This loan is fully paid off — you have no further involvement with this property.
-          ${stillActive.length > 0
-            ? `The other ${stillActive.length} loan${stillActive.length > 1 ? 's' : ''} (${stillActive.map(p=>p.seller.addr.split('/')[0]).join(', ')}) continue paying monthly.`
-            : 'This is your last payoff. All loans are now completely retired.'}
-        </p>
-        <div class="money-row">
-          <div class="money-pill" style="background:rgba(58,125,92,0.06);border-color:rgba(58,125,92,0.2);">
-            <div class="money-pill-amount" style="color:var(--green);">${fmt(payoff)}</div>
-            <div class="money-pill-label">Final payoff — ${pair.seller.addr}</div>
-          </div>
-          ${stillActiveMo > 0 ? `
-          <div class="money-pill">
-            <div class="money-pill-amount">${fmt(stillActiveMo)}/mo</div>
-            <div class="money-pill-label">Monthly income still coming in</div>
-          </div>` : ''}
-        </div>
-      </div>
-    </div>`;
-  });
-
-  el.innerHTML = html;
-}
-
-// ── Build income chart ──
-function buildIncomeChart() {
-  const yearData = [];
-  let maxTotal = 0;
-
-  for (let yr = 1; yr <= 11; yr++) {
-    const pair = PAIRS.find(p => p.year === yr);
-    let closingCash = 0;
-    if (pair) {
-      const bankLoan = pair.bank.price * 0.80;
-      const bankDown = pair.bank.price * 0.20;
-      closingCash = (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
-    }
-    const activeNotes = PAIRS.filter(p => p.year <= yr && p.balloonYear >= yr);
-    const noteYr = activeNotes.reduce((s, p) => s + sfTerms(p.seller.sfAsk).pmt, 0) * 12;
-    const payoffPair = PAIRS.find(p => p.balloonYear === yr);
-    const payoffAmt = payoffPair ? sfTerms(payoffPair.seller.sfAsk).balloon : 0;
-    const total = closingCash + noteYr + payoffAmt;
-    maxTotal = Math.max(maxTotal, total);
-    yearData.push({ yr, closingCash, noteYr, payoffAmt, total });
-  }
-
-  let html = '<div class="income-chart">';
-
-  yearData.forEach(d => {
-    const closePct  = maxTotal > 0 ? (d.closingCash / maxTotal * 100) : 0;
-    const notePct   = maxTotal > 0 ? (d.noteYr / maxTotal * 100) : 0;
-    const payoffPct = maxTotal > 0 ? (d.payoffAmt / maxTotal * 100) : 0;
-    const isPayoff  = d.payoffAmt > 0;
-    const isClose   = d.closingCash > 0;
-    const labelColor = isPayoff ? 'var(--green)' : isClose ? 'var(--blue)' : 'var(--ink3)';
-
-    html += `
-    <div class="income-chart-row">
-      <div class="income-chart-label" style="color:${labelColor};">Yr ${d.yr}</div>
-      <div class="income-chart-bar-wrap">
-        ${d.closingCash > 0 ? `<div style="width:${closePct}%;background:var(--blue);opacity:0.65;transition:width .5s;"></div>` : ''}
-        ${d.noteYr > 0      ? `<div style="width:${notePct}%;background:var(--gold2);opacity:0.8;transition:width .5s;"></div>` : ''}
-        ${d.payoffAmt > 0   ? `<div style="width:${payoffPct}%;background:var(--green);opacity:0.85;transition:width .5s;"></div>` : ''}
-      </div>
-      <div class="income-chart-amount" style="color:${isPayoff?'var(--green)':'var(--gold)'};">${fmt(d.total)}</div>
-    </div>`;
-  });
-
-  html += `
-  <div class="income-chart-legend">
-    <div class="income-chart-legend-item">
-      <div class="income-chart-legend-dot" style="background:var(--blue);opacity:.65;"></div>
-      <span>Closing cash</span>
-    </div>
-    <div class="income-chart-legend-item">
-      <div class="income-chart-legend-dot" style="background:var(--gold2);opacity:.8;"></div>
-      <span>Monthly payments</span>
-    </div>
-    <div class="income-chart-legend-item">
-      <div class="income-chart-legend-dot" style="background:var(--green);opacity:.85;"></div>
-      <span>Final payoff</span>
-    </div>
-  </div>
-  </div>`;
-
-  const el = document.getElementById('incomeChart');
-  if (el) el.innerHTML = html;
-}
-
-// ── Build income table ──
 function buildIncomeTable() {
-  buildIncomeChart();
-
   const el = document.getElementById('incomeTable');
+  let rows = `<thead><tr>
+    <th>Year</th>
+    <th>Cash at Closing</th>
+    <th>Monthly Income</th>
+    <th>Final Payoff</th>
+    <th>Year Total</th>
+  </tr></thead><tbody>`;
 
-  let rows = `
-  <thead>
-    <tr>
-      <th>Year</th>
-      <th>Cash at Closing</th>
-      <th>Monthly Income</th>
-      <th>Final Payoff</th>
-      <th>Year Total</th>
-    </tr>
-  </thead>
-  <tbody>`;
+  let grandTotal = 0, totalClose = 0, totalNote = 0, totalBalloons = 0;
 
-  let grandTotal = 0;
-  let totalClosingCash = 0;
-  let totalNoteIncome = 0;
-  let totalBalloons = 0;
-
-  // Years 1–11
   for (let yr = 1; yr <= 11; yr++) {
-    // Closing cash — only in years 1–4
     const pair = PAIRS.find(p => p.year === yr);
-    let closingCash = 0;
-    let closingLabel = '—';
+    let closingCash = 0, closingLabel = '—';
     if (pair) {
       const bankLoan = pair.bank.price * 0.80;
       const bankDown = pair.bank.price * 0.20;
       closingCash = (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
-      closingLabel = `${fmt(closingCash)}<div class="income-sub">${pair.bank.addr} + ${pair.seller.addr}</div>`;
-      totalClosingCash += closingCash;
+      closingLabel = fmt(closingCash);
+      totalClose += closingCash;
     }
 
-    // Active notes this year
     const activeNotes = PAIRS.filter(p => p.year <= yr && p.balloonYear >= yr);
     const noteMo = activeNotes.reduce((s, p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
     const noteYr = noteMo * 12;
-    totalNoteIncome += noteYr;
+    totalNote += noteYr;
 
-    // Payoff this year
     const payoffPair = PAIRS.find(p => p.balloonYear === yr);
-    let payoffAmt = 0;
-    let payoffLabel = '—';
+    let payoffAmt = 0, payoffLabel = '—';
     if (payoffPair) {
       payoffAmt = sfTerms(payoffPair.seller.sfAsk).balloon;
-      payoffLabel = `${fmt(payoffAmt)}<div class="income-sub" style="color:var(--green);">${payoffPair.seller.addr} — paid in full</div>`;
+      payoffLabel = fmt(payoffAmt);
       totalBalloons += payoffAmt;
     }
 
@@ -1647,65 +559,46 @@ function buildIncomeTable() {
     grandTotal += yearTotal;
 
     const isPayoffYear = !!payoffPair;
-    const isCloseYear  = !!pair;
     const rowStyle = isPayoffYear ? 'background:rgba(58,125,92,0.03);' : '';
 
     rows += `<tr style="${rowStyle}">
-      <td>
-        <strong>Year ${yr}</strong>
-        ${isCloseYear   ? `<div class="income-sub" style="color:var(--blue);">↓ Close: ${pair.bank.addr.split('/')[0]}+ ${pair.seller.addr.split('/')[0]}</div>` : ''}
-        ${isPayoffYear  ? `<div class="income-sub" style="color:var(--green);">💰 Payoff: ${payoffPair.seller.addr.split('/')[0]}</div>` : ''}
-      </td>
-      <td>${isCloseYear ? closingLabel : '<span style="color:var(--ink3)">—</span>'}</td>
-      <td>${fmt(noteMo)}/mo<div class="income-sub">${activeNotes.length} active loan${activeNotes.length!==1?'s':''} · ${fmt(noteYr)}/yr</div></td>
-      <td>${isPayoffYear ? payoffLabel : '<span style="color:var(--ink3)">—</span>'}</td>
-      <td style="${isPayoffYear?'color:var(--green)!important;font-size:20px;':''}">${fmt(yearTotal)}</td>
+      <td><strong>Year ${yr}</strong></td>
+      <td>${closingLabel}</td>
+      <td>${fmt(noteMo)}/mo<div class="income-sub">${activeNotes.length} active loan${activeNotes.length!==1?'s':''}</div></td>
+      <td style="${isPayoffYear?'color:var(--green);':''}">${payoffLabel}</td>
+      <td style="${isPayoffYear?'color:var(--green)!important;':''}">${fmt(yearTotal)}</td>
     </tr>`;
   }
 
   rows += `<tr>
-    <td><strong>Grand Total</strong><div class="income-sub">All years combined</div></td>
-    <td>${fmt(totalClosingCash)}<div class="income-sub">Closing cash, all 4 pairs</div></td>
-    <td>${fmt(totalNoteIncome)}<div class="income-sub">Monthly income, all years</div></td>
-    <td>${fmt(totalBalloons)}<div class="income-sub">All 4 final payoffs</div></td>
+    <td><strong>Total</strong></td>
+    <td>${fmt(totalClose)}</td>
+    <td>${fmt(totalNote)}</td>
+    <td>${fmt(totalBalloons)}</td>
     <td>${fmt(grandTotal)}</td>
-  </tr>`;
+  </tr></tbody>`;
 
-  el.innerHTML = rows + '</tbody>';
+  el.innerHTML = rows;
 
-  // Update total strip
   document.getElementById('grandTotal').textContent = fmt(grandTotal);
 
-  // Update overview monthly stat
-  const overviewMonthly = document.getElementById('overview-monthly');
-  if (overviewMonthly) {
-    const peakMo = PAIRS.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
-    overviewMonthly.textContent = fmt(peakMo) + '/mo';
-  }
-
-  // Total grid
   const peakNotesMo = PAIRS.reduce((s,p) => s + sfTerms(p.seller.sfAsk).pmt, 0);
   document.getElementById('totalGrid').innerHTML = `
     <div class="total-cell">
-      <div class="total-cell-amount">${fmt(totalClosingCash)}</div>
+      <div class="total-cell-amount">${fmt(totalClose)}</div>
       <div class="total-cell-label">Cash at closings<br>(Years 1–4)</div>
-    </div>
-    <div class="total-cell">
-      <div class="total-cell-amount">${fmt(totalNoteIncome)}</div>
-      <div class="total-cell-label">Monthly income<br>(all years)</div>
-    </div>
-    <div class="total-cell">
-      <div class="total-cell-amount">${fmt(totalBalloons)}</div>
-      <div class="total-cell-label">Final payoffs<br>(Years 8–11)</div>
     </div>
     <div class="total-cell">
       <div class="total-cell-amount">${fmt(peakNotesMo)}/mo</div>
       <div class="total-cell-label">Peak monthly income<br>(Years 4–7)</div>
     </div>
+    <div class="total-cell">
+      <div class="total-cell-amount">${fmt(totalBalloons)}</div>
+      <div class="total-cell-label">Final payoffs<br>(Years 8–11)</div>
+    </div>
   `;
 }
 
-// ── Scroll animation observer ──
 function initObserver() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -1722,403 +615,10 @@ function initObserver() {
   });
 }
 
-// ── Nav dot updater ──
-function initNavDots() {
-  const sections = ['s-hero','s-overview','s-how','s-income','s-total','s-prices','s-savings','s-protection','s-faq'];
-  const dots = document.querySelectorAll('.nav-dot');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const idx = sections.indexOf(e.target.id);
-        if (idx >= 0) {
-          dots.forEach(d => d.classList.remove('active'));
-          dots[idx] && dots[idx].classList.add('active');
-        }
-      }
-    });
-  }, { threshold: 0.4 });
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
-}
-
-// ── Default prices ──
-// For 'bank-N' this is the bank purchase price (what the bank sees / wires at close).
-// For 'seller-N' this is Angela's SF effective ask — what she collects over 7 years on the note.
-const DEFAULT_PRICES = {
-  'bank-0':   360000, 'seller-0': 460000,
-  'bank-1':   360000, 'seller-1': 472000,
-  'bank-2':   372000, 'seller-2': 472000,
-  'bank-3':   372000, 'seller-3': 380000,
-};
-const currentPrices = { ...DEFAULT_PRICES };
-
-function resetPrices() {
-  Object.keys(DEFAULT_PRICES).forEach(k => {
-    currentPrices[k] = DEFAULT_PRICES[k];
-    const inp = document.getElementById('inp-' + k);
-    if (inp) inp.value = DEFAULT_PRICES[k].toLocaleString();
-  });
-  syncPricesToPairs();
-  buildTimeline();
-  buildIncomeTable();
-  updatePriceSummary();
-  PAIRS.forEach((p, i) => updateYearSummary(i));
-}
-
-function syncPricesToPairs() {
-  PAIRS.forEach((pair, i) => {
-    pair.bank.price    = currentPrices['bank-' + i]   || pair.bank.price;
-    pair.seller.sfAsk  = currentPrices['seller-' + i] || pair.seller.sfAsk;
-    pair.askTotal      = pair.bank.price + pair.seller.sfAsk;
-  });
-}
-
-function onPriceChange(key, raw) {
-  const val = parseInt(raw.replace(/[^0-9]/g, ''), 10);
-  if (!isNaN(val) && val >= 50000) {
-    currentPrices[key] = val;
-    syncPricesToPairs();
-    buildTimeline();
-    buildIncomeTable();
-    updatePriceSummary();
-    updateCardResult(key);
-    const pairIdx = parseInt(key.split('-')[1]);
-    updateYearSummary(pairIdx);
-  }
-}
-
-function fmtInput(val) {
-  return Math.round(val).toLocaleString('en-US');
-}
-
-function cardResult(role, pairIdx) {
-  const pair = PAIRS[pairIdx];
-  if (role === 'bank') {
-    const bankLoan = pair.bank.price * 0.80;
-    const bankDown = pair.bank.price * 0.20;
-    const equity = bankLoan - pair.bank.bal;
-    return `Bank loan covers ${fmt(bankLoan)} &middot; Your equity cash out: <strong>${fmt(equity + bankDown)}</strong>`;
-  } else {
-    const { pmt: notePmt, balloon } = sfTerms(pair.seller.sfAsk);
-    return `Monthly payment to you (6%): <strong>${fmt(notePmt)}/mo</strong> &middot; Final payoff in Year ${pair.balloonYear}: <strong>${fmt(balloon)}</strong>`;
-  }
-}
-
-function updateCardResult(key) {
-  const el = document.getElementById('result-' + key);
-  if (!el) return;
-  const parts = key.split('-');
-  el.innerHTML = cardResult(parts[0], parseInt(parts[1]));
-}
-
-function yearSummaryInner(pairIdx) {
-  const pair = PAIRS[pairIdx];
-  const bankLoan    = pair.bank.price * 0.80;
-  const bankDown    = pair.bank.price * 0.20;
-  const cashAtClose = (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
-  const { pmt: notePmt, balloon: payoff } = sfTerms(pair.seller.sfAsk);
-  return `
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:16px;">Year ${pair.year} — what you walk away with</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;text-align:center;">
-      <div style="padding:0 16px;border-right:1px solid rgba(255,255,255,0.08);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,38px);font-weight:400;color:#89aecf;line-height:1;">${fmt(cashAtClose)}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;line-height:1.5;">Cash in hand<br>at the closing table</div>
-      </div>
-      <div style="padding:0 16px;border-right:1px solid rgba(255,255,255,0.08);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,38px);font-weight:400;color:var(--gold3);line-height:1;">${fmt(notePmt)}<span style="font-size:18px;font-weight:300;">/mo</span></div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;line-height:1.5;">Monthly check<br>every month after closing</div>
-      </div>
-      <div style="padding:0 16px;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,38px);font-weight:400;color:#6fbf99;line-height:1;">${fmt(payoff)}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;line-height:1.5;">Final payoff<br>one big check in Year ${pair.balloonYear}</div>
-      </div>
-    </div>`;
-}
-
-function updateYearSummary(pairIdx) {
-  const el = document.getElementById('year-summary-' + pairIdx);
-  if (el) el.innerHTML = yearSummaryInner(pairIdx);
-}
-
-function buildPriceEditor() {
-  const grid = document.getElementById('priceGrid');
-  const roleLabel = { bank: 'Bank price (recorded)', seller: 'Your SF ask (paid over 7 yrs)' };
-  let html = '';
-  PAIRS.forEach((pair, i) => {
-    // Year header spanning full grid width
-    html += `
-    <div class="price-grid-year-header">
-      <div class="year-bubble" style="width:36px;height:36px;font-size:17px;flex-shrink:0;">${pair.year}</div>
-      <div>
-        <div style="font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;">Year ${pair.year}</div>
-        <div style="font-size:12px;color:var(--ink3);margin-top:1px;">2 properties close</div>
-      </div>
-    </div>`;
-
-    ['bank','seller'].forEach(role => {
-      const prop  = pair[role];
-      const key   = role + '-' + i;
-      const defVal = DEFAULT_PRICES[key];
-      html += `
-      <div class="price-card">
-        <div class="price-card-addr">${prop.addr}</div>
-        <span class="price-card-role ${role === 'bank' ? 'role-bank' : 'role-seller'}">${roleLabel[role]}</span>
-        <div class="price-input-wrap">
-          <span class="price-input-prefix">$</span>
-          <input
-            class="price-input"
-            id="inp-${key}"
-            type="text"
-            inputmode="numeric"
-            value="${fmtInput(defVal)}"
-            oninput="onPriceChange('${key}', this.value)"
-            onblur="this.value = fmtInput(currentPrices['${key}'] || ${defVal})"
-          >
-        </div>
-        <div class="price-card-result" id="result-${key}">${cardResult(role, i)}</div>
-      </div>`;
-    });
-
-    // Year summary banner — spans full width after both cards
-    html += `
-    <div id="year-summary-${i}" style="grid-column:1/-1;background:var(--ink);border-radius:14px;padding:24px 28px;box-shadow:0 2px 20px var(--warm-shadow);">
-      ${yearSummaryInner(i)}
-    </div>`;
-  });
-  grid.innerHTML = html;
-  updatePriceSummary();
-}
-
-function updatePriceSummary() {
-  let totalClose = 0, totalPayoff = 0, totalNote = 0;
-  PAIRS.forEach(pair => {
-    const bankLoan = pair.bank.price * 0.80;
-    const bankDown = pair.bank.price * 0.20;
-    totalClose  += (bankLoan - pair.bank.bal) + bankDown - pair.seller.bal;
-    const { pmt: notePmt, balloon } = sfTerms(pair.seller.sfAsk);
-    totalPayoff += balloon;
-    totalNote    += notePmt * BALLOON_MOS; // 7 years of monthly payments
-  });
-  const grand = totalClose + totalPayoff + totalNote;
-  document.getElementById('priceSummary').innerHTML = `
-    <div>
-      <div class="ps-cell-amount">${fmt(totalClose)}</div>
-      <div class="ps-cell-label">Est. closing cash<br>across all 4 pairs</div>
-    </div>
-    <div>
-      <div class="ps-cell-amount">${fmt(totalNote)}</div>
-      <div class="ps-cell-label">Est. monthly income<br>(7 yrs per note)</div>
-    </div>
-    <div>
-      <div class="ps-cell-amount">${fmt(totalPayoff)}</div>
-      <div class="ps-cell-label">Final payoffs<br>Years 8–11</div>
-    </div>
-    <div>
-      <div class="ps-cell-amount">${fmt(grand)}</div>
-      <div class="ps-cell-label">Estimated<br>grand total</div>
-    </div>
-  `;
-}
-
-
-// ── Build cost section ──
-const ALL_PROPS = [];
-PAIRS.forEach(pair => { ALL_PROPS.push(pair.bank); ALL_PROPS.push(pair.seller); });
-
-// For the traditional-sale cost comparison, use Angela's stated per-house ask
-// (the same number she'd list at if she sold on the open market).
-function marketPrice(prop) {
-  return prop.angelaAsk || prop.price || 0;
-}
-
-function costDefaults(prop) {
-  const mp = marketPrice(prop);
-  return {
-    agent:     Math.round(mp * 0.06),
-    makeReady: Math.round(mp * 0.03),
-    closing:   Math.round(mp * 0.02),
-    holding:   1303 * 3,
-  };
-}
-
-const costInputs = {}; // keyed by prop.addr
-function initCostInputs() {
-  ALL_PROPS.forEach(prop => {
-    if (!costInputs[prop.addr]) costInputs[prop.addr] = costDefaults(prop);
-  });
-}
-
-function resetCostInputs() {
-  ALL_PROPS.forEach(prop => { costInputs[prop.addr] = costDefaults(prop); });
-  buildCostInputCards();
-  buildCostSection();
-}
-
-function onCostInput(addr, field, val) {
-  const n = parseInt(val.replace(/[^0-9]/g, ''), 10);
-  if (!isNaN(n) && n >= 0) {
-    costInputs[addr][field] = n;
-    buildCostSection();
-  }
-}
-
-function buildCostInputCards() {
-  const el = document.getElementById('costInputCards');
-  if (!el) return;
-  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;">';
-  ALL_PROPS.forEach((prop, i) => {
-    const vals = costInputs[prop.addr] || costDefaults(prop);
-    const pair = PAIRS.find(p => p.bank.addr === prop.addr || p.seller.addr === prop.addr);
-    const role = pair && pair.bank.addr === prop.addr ? 'bank' : 'seller';
-    const total = vals.agent + vals.makeReady + vals.closing + vals.holding;
-    html += `
-    <div style="background:#fff;border:1px solid var(--cream3);border-radius:14px;padding:20px 22px;box-shadow:0 2px 14px var(--warm-shadow);">
-      <div style="font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:4px;">Year ${pair ? pair.year : ''} · ${role === 'bank' ? 'Bank purchase' : 'Seller financed'}</div>
-      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:14px;">${prop.addr}</div>
-      <div style="display:flex;flex-direction:column;gap:9px;">
-        ${['agent','makeReady','closing','holding'].map(field => {
-          const labels = { agent:'Agent Commission', makeReady:'Make-Ready / Repairs', closing:'Closing Costs', holding:'Holding Costs' };
-          const colors = { agent:'var(--red)', makeReady:'var(--amber)', closing:'var(--ink3)', holding:'var(--ink3)' };
-          const safeAddr = prop.addr.replace(/[^a-zA-Z0-9]/g,'_');
-          return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <span style="font-size:11px;color:${colors[field]};font-weight:500;flex-shrink:0;">${labels[field]}</span>
-            <div style="display:flex;align-items:center;border:1px solid var(--cream3);border-radius:6px;overflow:hidden;background:var(--cream);">
-              <span style="padding:5px 8px;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold);border-right:1px solid var(--cream3);">$</span>
-              <input type="text" inputmode="numeric"
-                id="ci_${safeAddr}_${field}"
-                value="${vals[field].toLocaleString()}"
-                style="border:none;background:transparent;font-family:'Cormorant Garamond',serif;font-size:16px;width:90px;padding:5px 8px;color:var(--ink);outline:none;"
-                oninput="onCostInput('${prop.addr}','${field}',this.value)"
-                onblur="this.value=(costInputs['${prop.addr}']||costDefaults({angelaAsk:${prop.angelaAsk}}))['${field}'].toLocaleString()">
-            </div>
-          </div>`;
-        }).join('')}
-      </div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--cream3);display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:11px;color:var(--ink3);">Total cost if sold traditionally</span>
-        <span id="ci_total_${prop.addr.replace(/[^a-zA-Z0-9]/g,'_')}" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--red);font-weight:500;">${fmt(total)}</span>
-      </div>
-    </div>`;
-  });
-  html += '</div>';
-  el.innerHTML = html;
-}
-
-function buildCostSection() {
-  let totAgent=0, totMakeReady=0, totClosing=0, totHolding=0, totTotal=0, totPrice=0;
-
-  // Update per-card totals live
-  ALL_PROPS.forEach(prop => {
-    const vals = costInputs[prop.addr] || costDefaults(prop);
-    const t = vals.agent + vals.makeReady + vals.closing + vals.holding;
-    const el = document.getElementById('ci_total_' + prop.addr.replace(/[^a-zA-Z0-9]/g,'_'));
-    if (el) el.textContent = fmt(t);
-  });
-
-  // Build results table
-  let tableHtml = `<thead><tr>
-    <th>Property</th>
-    <th style="color:var(--red)">Agent</th>
-    <th style="color:var(--amber)">Make-Ready</th>
-    <th>Closing</th>
-    <th>Holding</th>
-    <th style="color:var(--red)">Total Cost</th>
-    <th style="color:var(--green)">You Save As-Is</th>
-  </tr></thead><tbody>`;
-
-  ALL_PROPS.forEach(prop => {
-    const vals = costInputs[prop.addr] || costDefaults(prop);
-    const total = vals.agent + vals.makeReady + vals.closing + vals.holding;
-    totAgent += vals.agent; totMakeReady += vals.makeReady;
-    totClosing += vals.closing; totHolding += vals.holding;
-    totTotal += total; totPrice += marketPrice(prop);
-
-    tableHtml += `<tr>
-      <td><strong>${prop.addr}</strong></td>
-      <td style="color:var(--red)">${fmt(vals.agent)}</td>
-      <td style="color:var(--amber)">${fmt(vals.makeReady)}</td>
-      <td style="color:var(--ink3)">${fmt(vals.closing)}</td>
-      <td style="color:var(--ink3)">${fmt(vals.holding)}</td>
-      <td style="color:var(--red);font-weight:700;">${fmt(total)}</td>
-      <td style="color:var(--green);font-weight:700;">${fmt(total)}</td>
-    </tr>`;
-  });
-
-  tableHtml += `<tr style="background:rgba(160,120,64,0.05);border-top:1px solid var(--cream3);">
-    <td><strong>Total</strong></td>
-    <td style="color:var(--red);font-weight:600;">${fmt(totAgent)}</td>
-    <td style="color:var(--amber);font-weight:600;">${fmt(totMakeReady)}</td>
-    <td style="color:var(--ink3);">${fmt(totClosing)}</td>
-    <td style="color:var(--ink3);">${fmt(totHolding)}</td>
-    <td style="color:var(--red);font-weight:800;font-size:15px;">${fmt(totTotal)}</td>
-    <td style="color:var(--green);font-weight:800;font-size:15px;">${fmt(totTotal)}</td>
-  </tr></tbody>`;
-
-  const costTable = document.getElementById('costTable');
-  if (costTable) costTable.innerHTML = tableHtml;
-
-  // Cost bars
-  const bars = document.getElementById('costBars');
-  if (bars && totPrice > 0) {
-    const items = [
-      { label: 'Agent Commissions',    amount: totAgent,     color: 'var(--red)'   },
-      { label: 'Make-Ready & Repairs', amount: totMakeReady, color: 'var(--amber)' },
-      { label: 'Closing Costs',        amount: totClosing,   color: 'var(--ink3)'  },
-      { label: 'Holding Costs',        amount: totHolding,   color: 'var(--ink3)'  },
-    ];
-    bars.innerHTML = '<div style="display:flex;flex-direction:column;gap:16px;">' +
-      items.map(item => {
-        const barPct = totTotal > 0 ? Math.round((item.amount / totTotal) * 100) : 0;
-        const labelPct = totPrice > 0 ? ((item.amount / totPrice) * 100).toFixed(1) : '0.0';
-        return `
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
-            <span style="font-size:13px;color:var(--ink2);font-weight:500;">${item.label}</span>
-            <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${item.color};font-weight:500;">${fmt(item.amount)}</span>
-          </div>
-          <div style="height:6px;background:var(--cream3);border-radius:3px;overflow:hidden;">
-            <div style="height:100%;width:${barPct}%;background:${item.color};border-radius:3px;transition:width .6s ease;"></div>
-          </div>
-          <div style="font-size:11px;color:var(--ink3);margin-top:3px;">${barPct}% of total costs · ${labelPct}% of sale price</div>
-        </div>`;
-      }).join('') + '</div>';
-  }
-
-  // Punchline
-  const punchline = document.getElementById('costPunchline');
-  if (punchline) {
-    punchline.innerHTML = `
-    <div style="background:linear-gradient(135deg,rgba(160,120,64,0.06),rgba(58,125,92,0.04));border:1px solid rgba(160,120,64,0.2);border-radius:16px;padding:32px;text-align:center;">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">The bottom line</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,72px);font-weight:300;color:var(--green);line-height:1;">${fmt(totTotal)}</div>
-      <div style="font-size:14px;color:var(--ink3);margin-top:12px;line-height:1.8;max-width:500px;margin-left:auto;margin-right:auto;">
-        Stays in <em>your</em> pocket by selling as-is directly —
-        no agents, no renovations, no holding costs, no waiting.
-        That's <strong style="color:var(--ink2);">${totPrice>0?((totTotal/totPrice)*100).toFixed(1):0}% of your total sale price</strong> you'd otherwise hand over before you see a dollar.
-      </div>
-    </div>`;
-  }
-
-  // Update savings section numbers
-  const savTotalEl = document.getElementById('sav-total');
-  if (savTotalEl) savTotalEl.textContent = fmt(totTotal);
-
-  const savPerPropEl = document.getElementById('sav-per-prop');
-  if (savPerPropEl && ALL_PROPS.length > 0) savPerPropEl.textContent = fmt(totTotal / ALL_PROPS.length);
-}
-
-// ── Init ──
-buildTimeline();
+buildPairCards();
 buildIncomeTable();
 window.addEventListener('DOMContentLoaded', () => {
-  buildPriceEditor();
-  initCostInputs();
-  buildCostInputCards();
-  buildCostSection();
   setTimeout(initObserver, 100);
-  initNavDots();
 });
 </script>
 </body>
