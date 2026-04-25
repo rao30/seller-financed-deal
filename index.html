@@ -415,6 +415,134 @@
     font-style: italic;
   }
 
+  /* ── Asks vs. open market ── */
+  .ask-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    margin-top: 32px;
+  }
+  .ask-card {
+    background: #fff;
+    border: 1px solid var(--cream3);
+    border-radius: 14px;
+    padding: 26px 28px;
+    box-shadow: 0 2px 16px var(--warm-shadow);
+    display: flex;
+    flex-direction: column;
+  }
+  .ask-card-alt {
+    background: rgba(155, 58, 58, 0.025);
+    border-color: rgba(155, 58, 58, 0.18);
+  }
+  .ask-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 14px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--cream3);
+    gap: 16px;
+  }
+  .ask-card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .ask-card-tag-alt { color: #9B3A3A; }
+  .ask-card-total {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .ask-card-total-alt { color: #9B3A3A; }
+  .ask-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cream3);
+  }
+  .ask-line:last-child { border-bottom: none; }
+  .ask-line-label {
+    font-size: 14px;
+    color: var(--ink2);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .ask-line-label strong { color: var(--ink); font-weight: 600; }
+  .ask-line-sub {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-top: 3px;
+    font-weight: 300;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .ask-line-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--gold);
+    white-space: nowrap;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .ask-line-amount-alt { color: #9B3A3A; }
+  .ask-savings {
+    margin-top: 24px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 14px;
+    padding: 36px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .ask-savings::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(58,125,92,0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .ask-savings-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .ask-savings-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 8vw, 80px);
+    font-weight: 300;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 30%, #6fbf99 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  .ask-savings-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 12px;
+    position: relative;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
   /* ── Closing ── */
   .closing {
     padding: 100px 32px;
@@ -556,8 +684,72 @@
   </div>
 </section>
 
-<!-- ── Protections ── -->
+<!-- ── My asks vs. open market ── -->
 <section>
+  <div class="container">
+    <div class="section-label fade-up">What I'm asking in return</div>
+    <h2 class="section-title fade-up">Two small asks.<br><em>Still cheaper than the open market.</em></h2>
+    <p class="lead fade-up">
+      In exchange for full price, fixed timing, and as-is condition, I'm asking
+      for two concessions. Add them together and you still keep
+      <strong>tens of thousands more</strong> than realtor commissions and
+      make-ready repairs would cost you on the open market.
+    </p>
+
+    <div class="ask-grid">
+      <div class="ask-card fade-up">
+        <div class="ask-card-header">
+          <div class="ask-card-tag">My asks · total</div>
+          <div class="ask-card-total" id="askTotal">—</div>
+        </div>
+        <div class="ask-line">
+          <div class="ask-line-label">
+            <strong>2% closing-cost credit</strong> on each bank-financed home
+            <div class="ask-line-sub" id="askBankBreakdown">—</div>
+          </div>
+          <div class="ask-line-amount" id="askBank">—</div>
+        </div>
+        <div class="ask-line">
+          <div class="ask-line-label">
+            <strong>$25,000 repair credit</strong> on each seller-financed home
+            <div class="ask-line-sub">$25,000 × 4 homes &mdash; funds unit turns, protects collateral</div>
+          </div>
+          <div class="ask-line-amount" id="askSeller">—</div>
+        </div>
+      </div>
+
+      <div class="ask-card ask-card-alt fade-up">
+        <div class="ask-card-header">
+          <div class="ask-card-tag ask-card-tag-alt">Open market · total</div>
+          <div class="ask-card-total ask-card-total-alt" id="marketTotal">—</div>
+        </div>
+        <div class="ask-line">
+          <div class="ask-line-label">
+            <strong>6% realtor commission</strong> on every home sold
+            <div class="ask-line-sub" id="marketCommissionBreakdown">—</div>
+          </div>
+          <div class="ask-line-amount ask-line-amount-alt" id="marketCommission">—</div>
+        </div>
+        <div class="ask-line">
+          <div class="ask-line-label">
+            <strong>~3% make-ready &amp; repairs</strong> before listing
+            <div class="ask-line-sub" id="marketMakereadyBreakdown">—</div>
+          </div>
+          <div class="ask-line-amount ask-line-amount-alt" id="marketMakeready">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ask-savings fade-up">
+      <div class="ask-savings-label">You keep this much more by selling to me</div>
+      <div class="ask-savings-amount" id="askSavings">—</div>
+      <div class="ask-savings-sub" id="askSavingsSub">—</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Protections ── -->
+<section style="background:var(--cream2);">
   <div class="container">
     <div class="section-label fade-up">Your protections</div>
     <h2 class="section-title fade-up">You are protected<br><em>at every step.</em></h2>
@@ -754,6 +946,45 @@ function populateMechanics() {
   document.getElementById('mech-total').textContent     = fmt(PAIRS[0].seller.sfAsk);
 }
 
+function populateAsks() {
+  const BANK_CREDIT_RATE = 0.02;
+  const SELLER_CREDIT    = 25000;
+  const COMMISSION_RATE  = 0.06;
+  const MAKEREADY_RATE   = 0.03;
+
+  // My asks
+  const bankBase = PAIRS.reduce((s,p) => s + p.bank.price, 0);
+  const askBank  = bankBase * BANK_CREDIT_RATE;
+  const askSeller = PAIRS.length * SELLER_CREDIT;
+  const askTotal = askBank + askSeller;
+
+  // Open-market alternative — applied to her full pair asks
+  const grandSale = PAIRS.reduce((s,p) => s + p.askTotal, 0);
+  const commission = grandSale * COMMISSION_RATE;
+  const makeReady  = grandSale * MAKEREADY_RATE;
+  const marketTotal = commission + makeReady;
+
+  const savings = marketTotal - askTotal;
+
+  document.getElementById('askBank').textContent   = fmt(askBank);
+  document.getElementById('askSeller').textContent = fmt(askSeller);
+  document.getElementById('askTotal').textContent  = fmt(askTotal);
+  document.getElementById('askBankBreakdown').textContent =
+    `2% × ${fmt(bankBase)} (4 bank homes) = ${fmt(askBank)}`;
+
+  document.getElementById('marketCommission').textContent = fmt(commission);
+  document.getElementById('marketMakeready').textContent  = fmt(makeReady);
+  document.getElementById('marketTotal').textContent      = fmt(marketTotal);
+  document.getElementById('marketCommissionBreakdown').textContent =
+    `6% × ${fmt(grandSale)} (all 8 homes) = ${fmt(commission)}`;
+  document.getElementById('marketMakereadyBreakdown').textContent =
+    `~3% × ${fmt(grandSale)} (paint, staging, contractor punch lists) = ${fmt(makeReady)}`;
+
+  document.getElementById('askSavings').textContent = fmt(savings);
+  document.getElementById('askSavingsSub').textContent =
+    `${fmt(marketTotal)} (realtor + make-ready) − ${fmt(askTotal)} (my asks) on ${fmt(grandSale)} in pair totals.`;
+}
+
 function initObserver() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -773,6 +1004,7 @@ function initObserver() {
 buildPairCards();
 buildIncomeTable();
 populateMechanics();
+populateAsks();
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(initObserver, 100);
 });
