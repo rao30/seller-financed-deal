@@ -251,10 +251,10 @@
 
 <div class="container">
   <header>
-    <h1>Investor <em>Deal Analyzer</em></h1>
-    <p style="max-width:600px;margin:0 auto;">Comprehensive cashflow, return metrics, and timeline modeling for the 8-property portfolio acquisition.</p>
-    <p style="max-width:640px;margin:16px auto 0;font-size:13px;color:var(--ink3);background:rgba(160,120,64,0.08);border:1px solid rgba(160,120,64,0.2);border-radius:8px;padding:10px 16px;">
-      <strong style="color:var(--gold);">Concession scenario baked in:</strong> prices reflect Angela granting <strong>2%</strong> off each bank-financed property and <strong>6%</strong> off each seller-financed property. Total concession: <strong>$136,320</strong> (pair totals drop from $3,248,000 → $3,111,680). Edit any Sale Price in the table below to override.
+    <h1>The DeSoto 8 — <em>Deal Analyzer</em></h1>
+    <p style="max-width:620px;margin:0 auto;">Cashflow, returns, and tax-shield modeling for the 8-duplex DeSoto, TX portfolio. Buy-and-hold with REPS, stabilized rents to $1,850/unit, and the price-shift seller-finance structure.</p>
+    <p style="max-width:680px;margin:16px auto 0;font-size:13px;color:var(--ink3);background:rgba(160,120,64,0.08);border:1px solid rgba(160,120,64,0.2);border-radius:8px;padding:12px 18px;">
+      <strong style="color:var(--gold);">Price shift baked in:</strong> Angela's pair total is honored exactly ($3,248k across all four pairs). $50k of equity per pair is shifted from the bank side to the SF side, the SF stated rate is set to <strong>6.0%</strong> (IRS AFR), and the recorded SF deed is auto-derived so payments + 7-yr balloon equal her ask — yielding an <strong>effective 0% rate to the buyer</strong> while creating a <strong>real REPS-side interest deduction</strong>. Bank side carries a <strong>2% seller credit</strong>; SF side carries a <strong>$25k repair escrow</strong> at close (LLC-invoice method, deposited to HYSA). Edit any Sale Price below to override.
     </p>
   </header>
 
@@ -289,6 +289,51 @@
           <div class="metric-card" style="background:var(--cream2)">
             <div class="metric-label" style="color:var(--ink2)">Post-Refi CoC</div>
             <div class="metric-value accent" id="tot-refi-coc">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liquidity Waterfall + Tax Shield -->
+      <div class="card mb-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2>Credits, Liquidity &amp; Tax Shield</h2>
+          <span class="badge">Price-Shift Mechanics</span>
+        </div>
+        <p style="font-size:13px; margin-bottom: 16px;">
+          The SF repair escrows ($25k × 4) flow to the LLC at close and sit in a 5% HYSA until each property turns. The bank seller credits absorb closing/prepaid costs on the four bank closings. The interest you'd "pay" on each SF note never leaves your pocket (it's already netted into the deed price) but it generates a deductible loss the wife's REPS status can convert into W-2 tax savings.
+        </p>
+        <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+          <div class="metric-card">
+            <div class="metric-label" title="Sum of $25k SF repair escrows — your starting HYSA balance.">SF Credit Pool (HYSA)</div>
+            <div class="metric-value accent" id="tot-sf-credit-pool">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" title="Total rehab budget ($30k × 8 properties).">Total Rehab Budget</div>
+            <div class="metric-value" id="tot-rehab-budget">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" title="Net rehab dollars you must cover after the SF credit pool runs dry.">Net Out-of-Pocket Rehab</div>
+            <div class="metric-value warning" id="tot-rehab-gap">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" title="Bank-side seller credits applied to closing costs / prepaids across the 4 bank closings.">Bank Seller Credits</div>
+            <div class="metric-value accent" id="tot-bank-credit">—</div>
+          </div>
+          <div class="metric-card" style="background:var(--cream2)">
+            <div class="metric-label" style="color:var(--ink2)" title="Year-1 SF interest deduction (deed × stated rate, summed across all 4 SF notes).">Yr-1 SF Interest Shield</div>
+            <div class="metric-value success" id="tot-sf-interest-yr1">—</div>
+          </div>
+          <div class="metric-card" style="background:var(--cream2)">
+            <div class="metric-label" style="color:var(--ink2)" title="Year-1 W-2 tax savings = Yr-1 SF interest × marginal rate (assumes REPS unlocks the loss against active income).">Yr-1 Tax Savings (REPS)</div>
+            <div class="metric-value success" id="tot-tax-savings-yr1">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" title="Lifetime SF interest paid to Angela = sum of (sale − deed) across all 4 SF notes. This is the total deductible interest over the 7-yr balloon window.">Lifetime SF Interest</div>
+            <div class="metric-value" id="tot-sf-interest-life">—</div>
+          </div>
+          <div class="metric-card" style="background:var(--cream2)">
+            <div class="metric-label" style="color:var(--ink2)" title="Lifetime tax savings = lifetime SF interest × marginal rate.">Lifetime Tax Savings</div>
+            <div class="metric-value success" id="tot-tax-savings-life">—</div>
           </div>
         </div>
       </div>
@@ -411,75 +456,87 @@
         <h2>Global Assumptions</h2>
         
         <div class="input-group">
-          <label title="Interest rate for the commercial/bank loans used to buy the 'bank' half of the deal and the refi at balloon">Bank / Refi Rate (%)</label>
-          <input type="number" id="inp-bank-rate" value="7.75" step="0.05" oninput="calculateModel()">
+          <label title="Interest rate for the conventional rental loans used to buy the bank half of each pair (and the refi at SF balloon).">Bank / Refi Rate (%)</label>
+          <input type="number" id="inp-bank-rate" value="6.5" step="0.05" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Down payment required for the commercial/bank loans (Seller loans are 0% down)">Bank Down Payment (%)</label>
+          <label title="Down payment required for the conventional bank loans (SF loans are 0% down).">Bank Down Payment (%)</label>
           <input type="number" id="inp-bank-down" value="20" step="1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Note interest rate. Angela's sale price (what she collects) is held fixed; raising this auto-lowers the recorded deed price so payments + balloon still sum to her sale price. Useful for modeling lower property-tax basis via higher stated rate.">Seller Finance Rate (%)</label>
-          <input type="number" id="inp-sf-rate" value="0" step="0.1" oninput="calculateModel()">
+          <label title="Bank-side seller credit. Angela contributes this percentage of the bank deed toward closing costs / prepaids, reducing your cash out at close.">Bank Seller Credit (%)</label>
+          <input type="number" id="inp-bank-credit" value="2" step="0.1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="The length of the amortization period for the seller-financed loans">Seller Finance Amortization (Yrs)</label>
+          <label title="Stated note rate per the IRS AFR. Angela's sale price (what she collects) is held fixed; raising this auto-lowers the recorded deed so payments + balloon still sum to her sale price. The effective interest cost to you is 0% — the rate exists to create a deductible interest shield against W-2 income (REPS).">Seller Finance Rate (%)</label>
+          <input type="number" id="inp-sf-rate" value="6" step="0.1" oninput="calculateModel()">
+        </div>
+
+        <div class="input-group">
+          <label title="The length of the amortization period for the seller-financed loans.">Seller Finance Amortization (Yrs)</label>
           <input type="number" id="inp-sf-amort" value="20" step="1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="When the balloon refi is due on the seller financed properties">Seller Finance Balloon (Yrs)</label>
+          <label title="When the balloon refi is due on the seller-financed properties.">Seller Finance Balloon (Yrs)</label>
           <input type="number" id="inp-sf-balloon" value="7" step="1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Months at the start of each SF note with $0 payments. Payments resume after the holiday and amortize on the 20yr schedule; balloon still hits at the balloon year. At 0% interest, the holiday shifts dollars from monthlies into the balloon.">SF Payment Holiday (mos)</label>
-          <input type="number" id="inp-sf-holiday" value="6" step="1" min="0" max="12" oninput="calculateModel()">
+          <label title="Months at the start of each SF note with $0 payments. Payments resume after the holiday and amortize on the 20-yr schedule; balloon still hits at the balloon year. With a non-zero stated rate, the holiday accrues interest into the balloon.">SF Payment Holiday (mos)</label>
+          <input type="number" id="inp-sf-holiday" value="0" step="1" min="0" max="12" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Estimated rehab costs per property to achieve the new rents">Rehab Per Property ($)</label>
+          <label title="Flat repair escrow Angela disburses to the buyer LLC at each SF closing (LLC invoice method). Funds the rehab pool / HYSA — directly reduces cash needed at SF acquisition.">SF Repair Escrow ($)</label>
+          <input type="number" id="inp-sf-escrow" value="25000" step="1000" oninput="calculateModel()">
+        </div>
+
+        <div class="input-group">
+          <label title="Estimated rehab cost per property to achieve the new rents ($15k/unit × 2 units).">Rehab Per Property ($)</label>
           <input type="number" id="inp-rehab-cost" value="30000" step="1000" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Closing costs as a percentage of purchase price (you cover hers too)">Total Closing Costs (%)</label>
+          <label title="Closing costs as a percentage of recorded deed price.">Total Closing Costs (%)</label>
           <input type="number" id="inp-closing-costs" value="2.5" step="0.1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Annual property tax rate (e.g. 2.2% in Texas)">Annual Tax Rate (%)</label>
+          <label title="Annual property tax rate (DeSoto / Dallas County is ~2.2%).">Annual Tax Rate (%)</label>
           <input type="number" id="inp-tax-rate" value="2.2" step="0.1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Average annual property insurance per property">Annual Insurance ($)</label>
-          <input type="number" id="inp-ins-yr" value="1500" step="100" oninput="calculateModel()">
+          <label title="Average annual property insurance per duplex.">Annual Insurance ($)</label>
+          <input type="number" id="inp-ins-yr" value="2500" step="100" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Percentage of gross rents set aside for vacancy, maintenance, and CapEx reserves">Vacancy & CapEx / Maint (%)</label>
+          <label title="Percentage of gross rents set aside for vacancy + maintenance + CapEx (5% vacancy + 5% CapEx).">Vacancy & CapEx / Maint (%)</label>
           <input type="number" id="inp-vacancy-maint" value="10" step="1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Your marginal federal + state tax rate. Used to compute the 'Effective' price: sale price minus interest tax shield over the note's life.">Marginal Tax Rate (%)</label>
+          <label title="Your marginal federal + state rate. Under REPS the SF interest deduction offsets W-2 income at this rate. Used for the Effective price column and the tax-shield panel.">Marginal Tax Rate (%)</label>
           <input type="number" id="inp-marginal-tax" value="37" step="1" oninput="calculateModel()">
         </div>
       </div>
 
       <div class="card">
         <h2>Phase Summary (Cash Required)</h2>
+        <p style="font-size:12px;color:var(--ink3);margin-bottom:10px;">Each year acquires one pair. "Credits" nets out the bank seller credit (2% of bank deed) and the SF repair escrow ($25k released to LLC). Net Cash is what actually leaves your accounts that year.</p>
         <table id="phase-table">
           <thead>
             <tr>
               <th>Year</th>
-              <th class="text-right">Down Pmt + Closing</th>
+              <th class="text-right">DP + Closing</th>
               <th class="text-right">Rehab</th>
-              <th class="text-right">Total Cash</th>
+              <th class="text-right">Credits</th>
+              <th class="text-right">Net Cash</th>
             </tr>
           </thead>
           <tbody>
@@ -506,38 +563,37 @@ function fmtPct(n) {
   return (n * 100).toFixed(1) + '%';
 }
 
-// Raw data
-// Prices below reflect Angela's concessions: 2% off each bank-financed property
-// and 6% off each seller-financed property (applied to her original negotiated ask).
-// For bank properties, `price` is what the bank sees (our purchase price + deed).
-// For seller-financed properties, `price` is the sale price Angela collects over
-// the 7-yr note (pmts + balloon = sale price); deed is derived at calc time.
-// `angelaAsk` = her pre-concession per-property ask; `sfAsk` = her original SF ask
-// (+$50k shift from the bank side pre-concession) so the Angela panel can show the
-// signed gap created by the concessions.
-// Concession amounts per property (for reference):
-//   Pair 1 bank: $360,000 × 0.98 = $352,800  (-$7,200)
-//   Pair 1 SF:   $460,000 × 0.94 = $432,400  (-$27,600)
-//   Pair 2 bank: $360,000 × 0.98 = $352,800  (-$7,200)
-//   Pair 2 SF:   $472,000 × 0.94 = $443,680  (-$28,320)
-//   Pair 3 bank: $372,000 × 0.98 = $364,560  (-$7,440)
-//   Pair 3 SF:   $472,000 × 0.94 = $443,680  (-$28,320)
-//   Pair 4 bank: $372,000 × 0.98 = $364,560  (-$7,440)
-//   Pair 4 SF:   $380,000 × 0.94 = $357,200  (-$22,800)
-//   Total concession to you: $136,320
+// Raw data — DeSoto 8 Portfolio.
+// Each pair has one bank-financed property (full deed price) and one seller-financed
+// property structured via the "price shift": $50k of equity is moved from the bank
+// side onto the seller side, and the SF stated rate is set to 6% so that interest +
+// principal across the 84-month run + the balloon equals exactly Angela's ask. Net
+// effective interest cost to the buyer is 0% — the deed price is reduced enough to
+// absorb the 6% interest, while the deduction creates a real REPS-side tax shield.
+//
+// `price` = what Angela actually collects over the life of the note (pmts + balloon
+// at the chosen SF rate). For bank rows, `price` is also the recorded deed. For SF
+// rows, the recorded deed is auto-derived so total payments + balloon == `price` at
+// the prevailing SF rate. Property tax is charged on the recorded deed.
+// `angelaAsk` is her per-property reference ask; `sfAsk` is the +$50k-shifted SF ask
+// used for the Angela payouts comparison panel.
+//
+// Rents reflect the operational assumption: $1,750/unit current and $1,850/unit
+// post-renovation (i.e. $3,500 / $3,700 per duplex). Rehab is "as-they-turn" so
+// nothing forces vacancy.
 const rawData = [
-  // pair 1  (Angela's original ask $820,000; post-concession $785,200)
-  { pair: 1, type: "bank",   addr: "116/118 Shadybrook", bal: 73937.15,  pmt: 1739.22, curRent: 2600.00, newRent: 3600, price: 352800, angelaAsk: 410000 },
-  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 2600.00, newRent: 3600, price: 432400, angelaAsk: 410000, sfAsk: 460000 },
-  // pair 2  (Angela's original ask $832,000; post-concession $796,480)
-  { pair: 2, type: "bank",   addr: "144/146 Shadybrook", bal: 76637.59,  pmt: 1749.27, curRent: 2600.00, newRent: 3600, price: 352800, angelaAsk: 410000 },
-  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 2600.00, newRent: 3600, price: 443680, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 3  (Angela's original ask $844,000; post-concession $808,240)
-  { pair: 3, type: "bank",   addr: "120/122 Idlecreek",  bal: 81947.65,  pmt: 2202.48, curRent: 2600.00, newRent: 3600, price: 364560, angelaAsk: 422000 },
-  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 2600.00, newRent: 3600, price: 443680, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 4  (Angela's original ask $752,000; post-concession $721,760)
-  { pair: 4, type: "bank",   addr: "804/806 Summit",     bal: 99764.90,  pmt: 1936.05, curRent: 2800.00, newRent: 3600, price: 364560, angelaAsk: 422000 },
-  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 1800.00, newRent: 3000, price: 357200, angelaAsk: 330000, sfAsk: 380000 }
+  // pair 1  (Angela's pair ask $820,000)
+  { pair: 1, type: "bank",   addr: "116/118 Shadybrook", bal: 73937.15,  pmt: 1739.22, curRent: 3500, newRent: 3700, price: 360000, angelaAsk: 410000 },
+  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 3500, newRent: 3700, price: 460000, angelaAsk: 410000, sfAsk: 460000 },
+  // pair 2  (Angela's pair ask $832,000)
+  { pair: 2, type: "bank",   addr: "144/146 Shadybrook", bal: 76637.59,  pmt: 1749.27, curRent: 3500, newRent: 3700, price: 360000, angelaAsk: 410000 },
+  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 3500, newRent: 3700, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 3  (Angela's pair ask $844,000)
+  { pair: 3, type: "bank",   addr: "120/122 Idlecreek",  bal: 81947.65,  pmt: 2202.48, curRent: 3500, newRent: 3700, price: 372000, angelaAsk: 422000 },
+  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 3500, newRent: 3700, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
+  // pair 4  (Angela's pair ask $752,000)
+  { pair: 4, type: "bank",   addr: "804/806 Summit",     bal: 99764.90,  pmt: 1936.05, curRent: 3500, newRent: 3700, price: 372000, angelaAsk: 422000 },
+  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 3500, newRent: 3700, price: 380000, angelaAsk: 330000, sfAsk: 380000 }
 ];
 
 let chartInstance = null;
@@ -556,6 +612,8 @@ function calculateModel() {
   // Get inputs
   const bankRate = parseFloat(document.getElementById('inp-bank-rate').value) / 100;
   const bankDownPct = parseFloat(document.getElementById('inp-bank-down').value) / 100;
+  const bankCreditPct = parseFloat(document.getElementById('inp-bank-credit').value) / 100;
+  const sfEscrow = parseFloat(document.getElementById('inp-sf-escrow').value) || 0;
   const rehabPerProp = parseFloat(document.getElementById('inp-rehab-cost').value);
   const closingCostsPct = parseFloat(document.getElementById('inp-closing-costs').value) / 100;
   const taxRate = parseFloat(document.getElementById('inp-tax-rate').value) / 100;
@@ -598,8 +656,13 @@ function calculateModel() {
   let totalMonthlyGross = 0;
   let totalInitMonthlyNetCashflow = 0;
   let totalRefiMonthlyNetCashflow = 0;
-  
-  const phaseData = { 1: {dp:0, rehab:0}, 2: {dp:0, rehab:0}, 3: {dp:0, rehab:0}, 4: {dp:0, rehab:0} };
+  let totalSfCreditPool = 0;        // sum of SF repair escrows (cash to HYSA)
+  let totalBankCreditApplied = 0;   // sum of bank seller credits (offset to closing)
+  let totalRehabBudget = 0;         // sum of rehab per property
+  let totalAnnualSfInterest = 0;    // first-year SF interest across all SF notes
+  let totalSfInterestOverLife = 0;  // sum of (sale − deed) on every SF note
+
+  const phaseData = { 1: {dp:0, rehab:0, credit:0}, 2: {dp:0, rehab:0, credit:0}, 3: {dp:0, rehab:0, credit:0}, 4: {dp:0, rehab:0, credit:0} };
   const N_YEARS = 12;
   const yearCashflows = new Array(N_YEARS + 1).fill(0); // Year 0 to N_YEARS
 
@@ -623,25 +686,36 @@ function calculateModel() {
     let refiMonthlyDebt = 0;
     let downPayment = 0;
     let bankLoanAmt = 0;
+    let bankCreditApplied = 0;   // 2% seller credit on bank side, capped at closing cost
+    let sfCreditApplied = 0;     // $25k repair escrow released to LLC at SF closing
 
     if (p.type === 'bank') {
       downPayment = deedPrice * bankDownPct;
       bankLoanAmt = deedPrice - downPayment;
       initialMonthlyDebt = Math.abs(pmt(bankRate / 12, 360, bankLoanAmt));
       refiMonthlyDebt = initialMonthlyDebt; // Stays the same forever
+      // Bank seller credit is restricted to closing costs / prepaids — anything above
+      // the closing cost line gets absorbed by lender fee caps and doesn't refund.
+      bankCreditApplied = Math.min(deedPrice * bankCreditPct, propertyClosingCost);
     } else {
       // Seller financed: 0% down, amortized at sfRate over sfAmortYears, balloon at sfBalloonYears.
       initialMonthlyDebt = Math.abs(pmt(sfMoRate, sfAmortMonths, deedPrice));
 
       const remainingBal = remainingBalance(deedPrice, sfMoRate, sfAmortMonths, sfBalloonMonths);
       refiMonthlyDebt = Math.abs(pmt(bankRate / 12, 360, remainingBal));
+      // SF repair escrow flows directly to the LLC at close → HYSA, used to fund rehab.
+      sfCreditApplied = sfEscrow;
     }
 
-    const propCashNeeded = downPayment + propertyClosingCost + rehabPerProp;
+    const propCashNeeded = downPayment + propertyClosingCost + rehabPerProp - bankCreditApplied - sfCreditApplied;
     totalCashNeeded += propCashNeeded;
+    totalSfCreditPool += sfCreditApplied;
+    totalBankCreditApplied += bankCreditApplied;
+    totalRehabBudget += rehabPerProp;
 
     phaseData[p.pair].dp += (downPayment + propertyClosingCost);
     phaseData[p.pair].rehab += rehabPerProp;
+    phaseData[p.pair].credit += (bankCreditApplied + sfCreditApplied);
 
     // Property tax scales with recorded deed price (ad valorem).
     const monthlyPropTax = (deedPrice * taxRate) / 12;
@@ -657,6 +731,14 @@ function calculateModel() {
     totalMonthlyGross += p.newRent;
     totalInitMonthlyNetCashflow += initialMonthlyNetCashflow;
     totalRefiMonthlyNetCashflow += refiMonthlyNetCashflow;
+
+    if (p.type === 'seller') {
+      // First-12mo interest = sum of monthly interest at sfMoRate over the amort
+      // schedule. Approximation: use deed × sfRate for year 1 (close enough for a
+      // 6% / 20yr / $300k-ish note; deviation < 1%). Lifetime interest = sale − deed.
+      totalAnnualSfInterest += deedPrice * sfRate;
+      totalSfInterestOverLife += (p.price - deedPrice);
+    }
 
     cashflowRows.push({
       addr: p.addr, type: p.type, pair: p.pair,
@@ -886,16 +968,35 @@ function calculateModel() {
   document.getElementById('tot-refi-cashflow').textContent = fmt(totalRefiMonthlyNetCashflow);
   document.getElementById('tot-refi-coc').textContent = fmtPct(refiOverallCoC);
 
+  // Liquidity / shield card
+  const rehabGap = Math.max(0, totalRehabBudget - totalSfCreditPool);
+  const yr1Shield = totalAnnualSfInterest;
+  const yr1Savings = yr1Shield * marginalTaxRate;
+  const lifeShield = totalSfInterestOverLife;
+  const lifeSavings = lifeShield * marginalTaxRate;
+  document.getElementById('tot-sf-credit-pool').textContent = fmt(totalSfCreditPool);
+  document.getElementById('tot-rehab-budget').textContent = fmt(totalRehabBudget);
+  document.getElementById('tot-rehab-gap').textContent = fmt(rehabGap);
+  document.getElementById('tot-bank-credit').textContent = fmt(totalBankCreditApplied);
+  document.getElementById('tot-sf-interest-yr1').textContent = fmt(yr1Shield);
+  document.getElementById('tot-tax-savings-yr1').textContent = fmt(yr1Savings);
+  document.getElementById('tot-sf-interest-life').textContent = fmt(lifeShield);
+  document.getElementById('tot-tax-savings-life').textContent = fmt(lifeSavings);
+
   document.querySelector('#properties-table tbody').innerHTML = tbodyHtml;
 
-  document.querySelector('#phase-table tbody').innerHTML = Object.keys(phaseData).map(k => `
+  document.querySelector('#phase-table tbody').innerHTML = Object.keys(phaseData).map(k => {
+    const d = phaseData[k];
+    const net = d.dp + d.rehab - d.credit;
+    return `
     <tr>
       <td>Year ${k}</td>
-      <td class="text-right">${fmt(phaseData[k].dp)}</td>
-      <td class="text-right">${fmt(phaseData[k].rehab)}</td>
-      <td class="text-right" style="font-weight:600">${fmt(phaseData[k].dp + phaseData[k].rehab)}</td>
-    </tr>
-  `).join('');
+      <td class="text-right">${fmt(d.dp)}</td>
+      <td class="text-right">${fmt(d.rehab)}</td>
+      <td class="text-right" style="color:${CC.green}">-${fmt(d.credit)}</td>
+      <td class="text-right" style="font-weight:600">${fmt(net)}</td>
+    </tr>`;
+  }).join('');
 
   const labels = Array.from({length: N_YEARS}, (_, i) => `Year ${i + 1}`);
   const data = yearCashflows.slice(1);
