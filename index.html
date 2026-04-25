@@ -332,6 +332,89 @@
     margin-top: 2px;
   }
 
+  /* ── Mechanics cards ── */
+  .mech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    margin-top: 32px;
+  }
+  .mech-card {
+    background: #fff;
+    border: 1px solid var(--cream3);
+    border-radius: 14px;
+    padding: 28px 30px;
+    box-shadow: 0 2px 16px var(--warm-shadow);
+    display: flex;
+    flex-direction: column;
+  }
+  .mech-step {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .mech-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .mech-body {
+    font-size: 14.5px;
+    color: var(--ink3);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .mech-body strong { color: var(--green); }
+  .mech-math {
+    background: var(--cream);
+    border: 1px solid var(--cream3);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: auto;
+  }
+  .mech-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--ink3);
+  }
+  .mech-row strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .mech-row-eq {
+    border-top: 1px solid var(--cream3);
+    margin-top: 4px;
+    padding-top: 10px;
+  }
+  .mech-row-eq strong { color: var(--gold); }
+  .mech-arrow {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 10px 0 6px;
+  }
+  .mech-foot {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-top: 12px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
   /* ── Closing ── */
   .closing {
     padding: 100px 32px;
@@ -379,7 +462,7 @@
 <div class="total-strip">
   <div class="total-strip-label">What you walk away with</div>
   <div class="total-strip-number" id="grandTotal">—</div>
-  <div class="total-strip-sub">Across all 8 properties, all 11 years</div>
+  <div class="total-strip-sub">Across all 8 properties, all 9 years</div>
   <div class="total-grid" id="totalGrid"></div>
 </div>
 
@@ -391,14 +474,72 @@
     <p class="lead fade-up">
       Each year, one pair closes. The first home sells the normal way — a bank pays
       you cash at closing. On the second home, you hold the loan at 6% interest.
-      Monthly checks come to you for seven years, then the buyer refinances and
-      sends the remaining balance in one final payment.
+      Monthly checks come to you for five years, then the buyer refinances and
+      sends the remaining balance in one final payment. (If refinance rates are
+      above 7% at month 60, the buyer can extend up to two more years — your
+      monthly checks just keep coming.)
     </p>
   </div>
 </section>
 
-<!-- ── The four pairs ── -->
+<!-- ── The mechanics ── -->
 <section style="background:var(--cream2);">
+  <div class="container">
+    <div class="section-label fade-up">The mechanics</div>
+    <h2 class="section-title fade-up">How the math works.<br><em>You collect your full ask.</em></h2>
+    <p class="lead fade-up">
+      Two small mechanics make this structure work — both designed so the pair
+      total in your pocket equals exactly what you'd ask for either home on the
+      open market.
+    </p>
+
+    <div class="mech-grid">
+      <div class="mech-card fade-up">
+        <div class="mech-step">01 · The $50k shift</div>
+        <h3 class="mech-title">Move $50k from the bank side<br>to the seller-finance side.</h3>
+        <p class="mech-body">
+          The bank-financed home is recorded $50k <em>lower</em> than your ask so
+          it appraises and the bank will lend on it. The seller-financed home is
+          recorded $50k <em>higher</em> to match. The pair total — and what hits
+          your account — is <strong>unchanged</strong>.
+        </p>
+        <div class="mech-math">
+          <div class="mech-row"><span>Bank home (your ask)</span><strong>$410,000</strong></div>
+          <div class="mech-row"><span>Seller home (your ask)</span><strong>$410,000</strong></div>
+          <div class="mech-row mech-row-eq"><span>Pair total</span><strong>$820,000</strong></div>
+          <div class="mech-arrow">↓ shift $50k across</div>
+          <div class="mech-row"><span>Bank (recorded)</span><strong>$360,000</strong></div>
+          <div class="mech-row"><span>Seller (recorded)</span><strong>$460,000</strong></div>
+          <div class="mech-row mech-row-eq"><span>Pair total</span><strong>$820,000</strong></div>
+        </div>
+      </div>
+
+      <div class="mech-card fade-up">
+        <div class="mech-step">02 · The 6% wrapper</div>
+        <h3 class="mech-title">6% on paper.<br><em>0% in your pocket.</em></h3>
+        <p class="mech-body">
+          On the seller-financed home, the recorded principal is set
+          <em>lower</em> than your ask. The 6% interest you collect over 5 years
+          fills the gap exactly. Net effect to you: <strong>0% interest cost</strong> —
+          you receive your full ask, just split on paper between principal and
+          interest (which actually <em>helps</em> your taxes via installment-sale
+          treatment).
+        </p>
+        <div class="mech-math">
+          <div class="mech-row"><span>Recorded principal</span><strong id="mech-principal">—</strong></div>
+          <div class="mech-row"><span>+ Interest over 5 yrs</span><strong id="mech-interest">—</strong></div>
+          <div class="mech-row mech-row-eq"><span>= Your full ask</span><strong id="mech-total">—</strong></div>
+        </div>
+        <div class="mech-foot">
+          Example uses Pair 1 ($460k seller-finance ask). Same logic on each pair.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── The four pairs ── -->
+<section>
   <div class="container">
     <div class="section-label fade-up">The four pairs</div>
     <h2 class="section-title fade-up">One pair, <em>each year.</em></h2>
@@ -407,7 +548,7 @@
 </section>
 
 <!-- ── Year-by-year ── -->
-<section>
+<section style="background:var(--cream2);">
   <div class="container">
     <div class="section-label fade-up">Year by year</div>
     <h2 class="section-title fade-up">Money in, <em>every year.</em></h2>
@@ -416,7 +557,7 @@
 </section>
 
 <!-- ── Protections ── -->
-<section style="background:var(--cream2);">
+<section>
   <div class="container">
     <div class="section-label fade-up">Your protections</div>
     <h2 class="section-title fade-up">You are protected<br><em>at every step.</em></h2>
@@ -449,8 +590,11 @@
         <div class="protection-icon">🔒</div>
         <div>
           <strong>The final payoff is required by contract.</strong><br>
-          Seven years after each closing, the buyer must refinance and pay the
-          remaining balance. If not, they're in default and you reclaim the property.
+          Five years after each closing, the buyer must refinance and pay the
+          remaining balance. If not, they're in default and you reclaim the
+          property. (One extension to seven years is allowed only if refinance
+          rates are above 7% — and you keep collecting monthly checks the whole
+          time.)
         </div>
       </li>
     </ul>
@@ -467,37 +611,41 @@
 
 <script>
 const PAIRS = [
-  { year: 1, balloonYear: 8,  askTotal: 820000,
+  { year: 1, balloonYear: 6, askTotal: 820000,
     bank:   { addr: '116/118 Shadybrook', price: 360000, bal: 73937.15 },
     seller: { addr: '141/143 Shadybrook', sfAsk: 460000, bal: 69246.44 } },
-  { year: 2, balloonYear: 9,  askTotal: 832000,
+  { year: 2, balloonYear: 7, askTotal: 832000,
     bank:   { addr: '144/146 Shadybrook', price: 360000, bal: 76637.59 },
     seller: { addr: '125/127 Larchbrook', sfAsk: 472000, bal: 72245.79 } },
-  { year: 3, balloonYear: 10, askTotal: 844000,
+  { year: 3, balloonYear: 8, askTotal: 844000,
     bank:   { addr: '120/122 Idlecreek',  price: 372000, bal: 81947.65 },
     seller: { addr: '800/802 Summit',     sfAsk: 472000, bal: 130972.34 } },
-  { year: 4, balloonYear: 11, askTotal: 752000,
+  { year: 4, balloonYear: 9, askTotal: 752000,
     bank:   { addr: '804/806 Summit',     price: 372000, bal: 99764.90 },
     seller: { addr: '1419/1421 Deborah',  sfAsk: 380000, bal: 51746.39 } },
 ];
 
 const AMORT_MOS   = 240;
 const SF_RATE     = 0.06;
-const BALLOON_MOS = 84;
+const BALLOON_MOS = 60;       // 5-year balloon (extension to 84 if rates > 7%)
+const LAST_YEAR   = 9;        // year 4 closing + 5-year balloon
 
 function fmt(n) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
 }
 
+// Solve for the deed/principal so that 60 payments at 6% (20-yr amort)
+// plus the final balloon equals the seller's full ask exactly.
 function sfTerms(sfAsk) {
   const r = SF_RATE / 12;
   const F = Math.pow(1 + r, BALLOON_MOS);
-  const annuity84 = (F - 1) / r;
+  const annuityN = (F - 1) / r;
   const k = r / (1 - Math.pow(1 + r, -AMORT_MOS));
-  const deed = sfAsk / (k * (BALLOON_MOS - annuity84) + F);
+  const deed = sfAsk / (k * (BALLOON_MOS - annuityN) + F);
   const pmt = deed * k;
   const balloon = sfAsk - pmt * BALLOON_MOS;
-  return { deed, pmt, balloon };
+  const interest = sfAsk - deed;
+  return { deed, pmt, balloon, interest };
 }
 
 function buildPairCards() {
@@ -531,7 +679,7 @@ function buildIncomeTable() {
 
   let grandTotal = 0, totalClose = 0, totalNote = 0, totalBalloons = 0;
 
-  for (let yr = 1; yr <= 11; yr++) {
+  for (let yr = 1; yr <= LAST_YEAR; yr++) {
     const pair = PAIRS.find(p => p.year === yr);
     let closingCash = 0, closingLabel = '—';
     if (pair) {
@@ -590,13 +738,20 @@ function buildIncomeTable() {
     </div>
     <div class="total-cell">
       <div class="total-cell-amount">${fmt(peakNotesMo)}/mo</div>
-      <div class="total-cell-label">Peak monthly income<br>(Years 4–7)</div>
+      <div class="total-cell-label">Peak monthly income<br>(Years 4–5)</div>
     </div>
     <div class="total-cell">
       <div class="total-cell-amount">${fmt(totalBalloons)}</div>
-      <div class="total-cell-label">Final payoffs<br>(Years 8–11)</div>
+      <div class="total-cell-label">Final payoffs<br>(Years 6–9)</div>
     </div>
   `;
+}
+
+function populateMechanics() {
+  const t = sfTerms(PAIRS[0].seller.sfAsk);
+  document.getElementById('mech-principal').textContent = fmt(t.deed);
+  document.getElementById('mech-interest').textContent  = fmt(t.interest);
+  document.getElementById('mech-total').textContent     = fmt(PAIRS[0].seller.sfAsk);
 }
 
 function initObserver() {
@@ -617,6 +772,7 @@ function initObserver() {
 
 buildPairCards();
 buildIncomeTable();
+populateMechanics();
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(initObserver, 100);
 });
