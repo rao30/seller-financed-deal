@@ -48,13 +48,12 @@
 
   /* ── Hero ── */
   .hero {
-    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 80px 32px;
+    padding: 56px 32px 48px;
     background:
       radial-gradient(ellipse 80% 60% at 50% 30%, rgba(160,120,64,0.08) 0%, transparent 70%),
       var(--cream);
@@ -65,7 +64,7 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 28px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -78,7 +77,7 @@
   }
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(48px, 7vw, 84px);
+    font-size: clamp(40px, 5.5vw, 64px);
     font-weight: 300;
     line-height: 1;
     color: var(--ink);
@@ -94,37 +93,37 @@
   }
 
   /* ── Sections ── */
-  section { padding: 80px 0; }
+  section { padding: 48px 0; }
   .section-label {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(34px, 4.5vw, 48px);
+    font-size: clamp(28px, 3.6vw, 38px);
     font-weight: 400;
     line-height: 1.15;
     color: var(--ink);
-    margin-bottom: 20px;
+    margin-bottom: 14px;
   }
   .section-title em { font-style: italic; color: var(--gold); }
   .lead {
-    font-size: 17px;
+    font-size: 16px;
     color: var(--ink2);
-    line-height: 1.75;
+    line-height: 1.65;
     font-weight: 300;
-    max-width: 600px;
+    max-width: 620px;
   }
 
   /* ── Total strip ── */
   .total-strip {
     background: var(--ink);
     color: #fff;
-    padding: 80px 32px;
+    padding: 48px 32px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -142,11 +141,11 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold3);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .total-strip-number {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(64px, 11vw, 110px);
+    font-size: clamp(52px, 8vw, 84px);
     font-weight: 300;
     line-height: 1;
     background: linear-gradient(135deg, #fff 30%, var(--gold3) 70%);
@@ -155,9 +154,9 @@
     background-clip: text;
   }
   .total-strip-sub {
-    font-size: 15px;
+    font-size: 14px;
     color: rgba(255,255,255,0.5);
-    margin-top: 10px;
+    margin-top: 6px;
     font-weight: 300;
   }
   .total-grid {
@@ -168,17 +167,17 @@
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     overflow: hidden;
-    margin: 48px auto 0;
+    margin: 24px auto 0;
     max-width: 720px;
   }
   .total-cell {
-    padding: 24px 20px;
+    padding: 18px 16px;
     background: rgba(255,255,255,0.02);
     text-align: center;
   }
   .total-cell-amount {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 400;
     color: var(--gold3);
     line-height: 1;
@@ -196,7 +195,7 @@
   .income-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 28px;
+    margin-top: 16px;
   }
   .income-table th {
     font-size: 10px;
@@ -211,7 +210,7 @@
   }
   .income-table th:last-child { text-align: right; }
   .income-table td {
-    padding: 14px;
+    padding: 9px 14px;
     font-size: 14px;
     color: var(--ink2);
     border-bottom: 1px solid var(--cream3);
@@ -245,14 +244,14 @@
   .pair-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
-    margin-top: 32px;
+    gap: 14px;
+    margin-top: 16px;
   }
   .pair-card {
     background: #fff;
     border: 1px solid var(--cream3);
-    border-radius: 14px;
-    padding: 22px 24px;
+    border-radius: 12px;
+    padding: 16px 18px;
     box-shadow: 0 2px 16px var(--warm-shadow);
   }
   .pair-card-year {
@@ -265,17 +264,17 @@
   }
   .pair-card-addr {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
+    font-size: 17px;
     color: var(--ink);
     font-weight: 500;
-    margin: 4px 0 16px;
-    line-height: 1.3;
+    margin: 2px 0 10px;
+    line-height: 1.25;
   }
   .pair-card-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 6px 0;
+    padding: 4px 0;
     font-size: 13px;
     color: var(--ink3);
   }
@@ -286,8 +285,8 @@
     color: var(--ink);
   }
   .pair-card-total {
-    margin-top: 14px;
-    padding-top: 12px;
+    margin-top: 10px;
+    padding-top: 8px;
     border-top: 1px solid var(--cream3);
     display: flex;
     justify-content: space-between;
@@ -301,22 +300,22 @@
   }
   .pair-card-total strong {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 500;
     color: var(--gold);
   }
 
   /* ── Protections ── */
-  .protection-list { list-style: none; margin-top: 24px; }
+  .protection-list { list-style: none; margin-top: 12px; }
   .protection-list li {
     display: flex;
-    gap: 16px;
+    gap: 14px;
     align-items: flex-start;
-    padding: 18px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--cream3);
-    font-size: 15px;
+    font-size: 14.5px;
     color: var(--ink2);
-    line-height: 1.65;
+    line-height: 1.55;
   }
   .protection-list li:last-child { border-bottom: none; }
   .protection-icon {
@@ -336,14 +335,14 @@
   .mech-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 18px;
-    margin-top: 32px;
+    gap: 14px;
+    margin-top: 16px;
   }
   .mech-card {
     background: #fff;
     border: 1px solid var(--cream3);
-    border-radius: 14px;
-    padding: 28px 30px;
+    border-radius: 12px;
+    padding: 18px 20px;
     box-shadow: 0 2px 16px var(--warm-shadow);
     display: flex;
     flex-direction: column;
@@ -354,35 +353,35 @@
     letter-spacing: 0.18em;
     color: var(--gold);
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .mech-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 500;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     line-height: 1.2;
   }
   .mech-body {
-    font-size: 14.5px;
+    font-size: 14px;
     color: var(--ink3);
-    line-height: 1.7;
-    margin-bottom: 18px;
+    line-height: 1.55;
+    margin-bottom: 12px;
   }
   .mech-body strong { color: var(--green); }
   .mech-math {
     background: var(--cream);
     border: 1px solid var(--cream3);
     border-radius: 10px;
-    padding: 14px 18px;
+    padding: 10px 14px;
     margin-top: auto;
   }
   .mech-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 6px 0;
+    padding: 4px 0;
     font-size: 13px;
     color: var(--ink3);
   }
@@ -394,8 +393,8 @@
   }
   .mech-row-eq {
     border-top: 1px solid var(--cream3);
-    margin-top: 4px;
-    padding-top: 10px;
+    margin-top: 3px;
+    padding-top: 7px;
   }
   .mech-row-eq strong { color: var(--gold); }
   .mech-arrow {
@@ -405,13 +404,13 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--gold);
-    padding: 10px 0 6px;
+    padding: 7px 0 4px;
   }
   .mech-foot {
     font-size: 12px;
     color: var(--ink3);
-    margin-top: 12px;
-    line-height: 1.6;
+    margin-top: 8px;
+    line-height: 1.5;
     font-style: italic;
   }
 
@@ -419,14 +418,14 @@
   .ask-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 18px;
-    margin-top: 32px;
+    gap: 14px;
+    margin-top: 16px;
   }
   .ask-card {
     background: #fff;
     border: 1px solid var(--cream3);
-    border-radius: 14px;
-    padding: 26px 28px;
+    border-radius: 12px;
+    padding: 18px 20px;
     box-shadow: 0 2px 16px var(--warm-shadow);
     display: flex;
     flex-direction: column;
@@ -439,8 +438,8 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding-bottom: 14px;
-    margin-bottom: 4px;
+    padding-bottom: 10px;
+    margin-bottom: 2px;
     border-bottom: 1px solid var(--cream3);
     gap: 16px;
   }
@@ -455,7 +454,7 @@
   .ask-card-tag-alt { color: #9B3A3A; }
   .ask-card-total {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 500;
     color: var(--gold);
     line-height: 1;
@@ -466,21 +465,21 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 14px;
-    padding: 14px 0;
+    padding: 10px 0;
     border-bottom: 1px solid var(--cream3);
   }
   .ask-line:last-child { border-bottom: none; }
   .ask-line-label {
     font-size: 14px;
     color: var(--ink2);
-    line-height: 1.55;
+    line-height: 1.45;
     flex: 1;
   }
   .ask-line-label strong { color: var(--ink); font-weight: 600; }
   .ask-line-sub {
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--ink3);
-    margin-top: 3px;
+    margin-top: 2px;
     font-weight: 300;
     font-family: 'DM Mono', monospace;
     letter-spacing: 0.02em;
@@ -496,11 +495,11 @@
   }
   .ask-line-amount-alt { color: #9B3A3A; }
   .ask-savings {
-    margin-top: 24px;
+    margin-top: 16px;
     background: var(--ink);
     color: #fff;
-    border-radius: 14px;
-    padding: 36px 28px;
+    border-radius: 12px;
+    padding: 22px 24px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -518,12 +517,12 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.55);
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     position: relative;
   }
   .ask-savings-amount {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(48px, 8vw, 80px);
+    font-size: clamp(40px, 6vw, 60px);
     font-weight: 300;
     line-height: 1;
     background: linear-gradient(135deg, #fff 30%, #6fbf99 70%);
@@ -533,9 +532,9 @@
     position: relative;
   }
   .ask-savings-sub {
-    font-size: 14px;
+    font-size: 13px;
     color: rgba(255,255,255,0.55);
-    margin-top: 12px;
+    margin-top: 6px;
     position: relative;
     max-width: 480px;
     margin-left: auto;
@@ -543,32 +542,11 @@
     line-height: 1.7;
   }
 
-  /* ── Closing ── */
-  .closing {
-    padding: 100px 32px;
-    text-align: center;
-  }
-  .closing-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(34px, 5vw, 52px);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--ink);
-    max-width: 560px;
-    margin: 0 auto 20px;
-    line-height: 1.2;
-  }
-  .closing-sig {
-    margin-top: 36px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-style: italic;
-    color: var(--gold);
-  }
-
   @media (max-width: 600px) {
     .container { padding: 0 20px; }
-    section { padding: 60px 0; }
+    section { padding: 36px 0; }
+    .total-strip { padding: 36px 20px; }
+    .hero { padding: 40px 20px 32px; }
   }
 </style>
 </head>
