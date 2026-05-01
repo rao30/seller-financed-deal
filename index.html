@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Proposal for Angela</title>
+<title>A Proposal</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -562,7 +562,7 @@
 
 <!-- ── Hero ── -->
 <section class="hero">
-  <div class="hero-eyebrow fade-up fade-up-1">A proposal for Angela</div>
+  <div class="hero-eyebrow fade-up fade-up-1">A proposal</div>
   <h1 class="hero-title serif fade-up fade-up-2">
     Eight homes,<br><em>four years.</em>
   </h1>
@@ -779,17 +779,17 @@
 <script>
 const PAIRS = [
   { year: 1, balloonYear: 6, askTotal: 820000,
-    bank:   { addr: '116/118 Shadybrook', price: 360000, bal: 73937.15 },
-    seller: { addr: '141/143 Shadybrook', sfAsk: 460000, bal: 69246.44 } },
+    bank:   { addr: 'Property 1A', price: 360000, bal: 73937.15 },
+    seller: { addr: 'Property 1B', sfAsk: 460000, bal: 69246.44 } },
   { year: 2, balloonYear: 7, askTotal: 832000,
-    bank:   { addr: '144/146 Shadybrook', price: 360000, bal: 76637.59 },
-    seller: { addr: '125/127 Larchbrook', sfAsk: 472000, bal: 72245.79 } },
+    bank:   { addr: 'Property 2A', price: 360000, bal: 76637.59 },
+    seller: { addr: 'Property 2B', sfAsk: 472000, bal: 72245.79 } },
   { year: 3, balloonYear: 8, askTotal: 844000,
-    bank:   { addr: '120/122 Idlecreek',  price: 372000, bal: 81947.65 },
-    seller: { addr: '800/802 Summit',     sfAsk: 472000, bal: 130972.34 } },
+    bank:   { addr: 'Property 3A', price: 372000, bal: 81947.65 },
+    seller: { addr: 'Property 3B', sfAsk: 472000, bal: 130972.34 } },
   { year: 4, balloonYear: 9, askTotal: 752000,
-    bank:   { addr: '804/806 Summit',     price: 372000, bal: 99764.90 },
-    seller: { addr: '1419/1421 Deborah',  sfAsk: 380000, bal: 51746.39 } },
+    bank:   { addr: 'Property 4A', price: 372000, bal: 99764.90 },
+    seller: { addr: 'Property 4B', sfAsk: 380000, bal: 51746.39 } },
 ];
 
 const AMORT_MOS   = 240;
@@ -933,7 +933,7 @@ function populateAsks() {
   const askSeller = PAIRS.length * SELLER_CREDIT;
   const askTotal = askBank + askSeller;
 
-  // Open-market alternative — applied to her full pair asks
+  // Open-market alternative — applied to the seller's full pair asks
   const grandSale = PAIRS.reduce((s,p) => s + p.askTotal, 0);
   const commission = grandSale * COMMISSION_RATE;
   const makeReady  = grandSale * MAKEREADY_RATE;

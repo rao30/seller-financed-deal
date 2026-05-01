@@ -251,10 +251,10 @@
 
 <div class="container">
   <header>
-    <h1>The DeSoto 8 — <em>Deal Analyzer</em></h1>
-    <p style="max-width:620px;margin:0 auto;">Cashflow, returns, and tax-shield modeling for the 8-duplex DeSoto, TX portfolio. Buy-and-hold with REPS, stabilized rents to $1,850/unit, and the price-shift seller-finance structure.</p>
+    <h1>The 8-Duplex Portfolio — <em>Deal Analyzer</em></h1>
+    <p style="max-width:620px;margin:0 auto;">Cashflow, returns, and tax-shield modeling for the 8-duplex portfolio. Buy-and-hold with REPS, stabilized rents to $1,850/unit, and the price-shift seller-finance structure.</p>
     <p style="max-width:680px;margin:16px auto 0;font-size:13px;color:var(--ink3);background:rgba(160,120,64,0.08);border:1px solid rgba(160,120,64,0.2);border-radius:8px;padding:12px 18px;">
-      <strong style="color:var(--gold);">Price shift baked in:</strong> Angela's pair total is honored exactly ($3,248k across all four pairs). $50k of equity per pair is shifted from the bank side to the SF side, the SF stated rate is set to <strong>6.0%</strong> (IRS AFR), and the recorded SF deed is auto-derived so payments + 7-yr balloon equal her ask — yielding an <strong>effective 0% rate to the buyer</strong> while creating a <strong>real REPS-side interest deduction</strong>. Bank side carries a <strong>2% seller credit</strong>; SF side carries a <strong>$25k repair escrow</strong> at close (LLC-invoice method, deposited to HYSA). Edit any Sale Price below to override.
+      <strong style="color:var(--gold);">Price shift baked in:</strong> The seller's pair total is honored exactly ($3,248k across all four pairs). $50k of equity per pair is shifted from the bank side to the SF side, the SF stated rate is set to <strong>6.0%</strong> (IRS AFR), and the recorded SF deed is auto-derived so payments + 7-yr balloon equal the seller's ask — yielding an <strong>effective 0% rate to the buyer</strong> while creating a <strong>real REPS-side interest deduction</strong>. Bank side carries a <strong>2% seller credit</strong>; SF side carries a <strong>$25k repair escrow</strong> at close (LLC-invoice method, deposited to HYSA). Edit any Sale Price below to override.
     </p>
   </header>
 
@@ -275,7 +275,7 @@
             <div class="metric-value success" id="tot-monthly-income">—</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label" title="Before SF balloons — Angela is still being paid the 6% note">Initial Mo. Cashflow</div>
+            <div class="metric-label" title="Before SF balloons — the seller is still being paid the 6% note">Initial Mo. Cashflow</div>
             <div class="metric-value success" id="tot-init-cashflow">—</div>
           </div>
           <div class="metric-card" style="background:var(--cream2)">
@@ -328,7 +328,7 @@
             <div class="metric-value success" id="tot-tax-savings-yr1">—</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label" title="Lifetime SF interest paid to Angela = sum of (sale − deed) across all 4 SF notes. This is the total deductible interest over the 7-yr balloon window.">Lifetime SF Interest</div>
+            <div class="metric-label" title="Lifetime SF interest paid to the seller = sum of (sale − deed) across all 4 SF notes. This is the total deductible interest over the 7-yr balloon window.">Lifetime SF Interest</div>
             <div class="metric-value" id="tot-sf-interest-life">—</div>
           </div>
           <div class="metric-card" style="background:var(--cream2)">
@@ -350,7 +350,7 @@
               <tr>
                 <th>Address</th>
                 <th>Role</th>
-                <th class="text-right" title="For bank: what the bank lends against. For seller: Angela's total take over the 7-yr note (pmts + balloon = sale price).">Sale Price</th>
+                <th class="text-right" title="For bank: what the bank lends against. For seller: the seller's total take over the 7-yr note (pmts + balloon = sale price).">Sale Price</th>
                 <th class="text-right" title="Sale price minus interest tax shield over the note life. Formula: sale − (sale − deed) × marginal tax rate. Only differs from Sale for seller notes at rate > 0%.">Effective</th>
                 <th class="text-right" title="What gets recorded on the deed. Derived for seller at rate > 0%; = sale price at 0%. Property tax is based on this.">Deed</th>
                 <th class="text-right">Current Bal</th>
@@ -401,7 +401,7 @@
           <h2>12-Year Loan & Pmt Matrix</h2>
           <span class="badge">Individual Modeling</span>
         </div>
-        <p style="font-size:13px; margin-bottom: 16px;">Shows the active monthly payment for each property over time. Seller-financed (SF) loans run at 6% amortized over 20 years with a 7-year balloon — paid to Angela, then refinanced through the bank at maturity.</p>
+        <p style="font-size:13px; margin-bottom: 16px;">Shows the active monthly payment for each property over time. Seller-financed (SF) loans run at 6% amortized over 20 years with a 7-year balloon — paid to the seller, then refinanced through the bank at maturity.</p>
         <div style="overflow-x: auto;">
           <table id="loans-table" style="font-size:12px;">
             <thead>
@@ -430,11 +430,11 @@
     <!-- Sidebar / Inputs -->
     <div class="sidebar">
       
-      <!-- Angela's Payouts Table -->
+      <!-- Seller's Payouts Table -->
       <div class="card mb-4">
-        <h2>Angela's Payouts (Pair Math)</h2>
-        <p style="font-size:12px;margin-bottom:12px;">Seller sale price = what Angela actually collects over the 7-yr note (pmts + balloon), regardless of the SF rate. Raising the rate lowers the recorded deed (property-tax basis) but keeps her take the same. Gap column shows her pair total vs. her original ask.</p>
-        <table id="angela-table" style="font-size:12px;">
+        <h2>Seller's Payouts (Pair Math)</h2>
+        <p style="font-size:12px;margin-bottom:12px;">Seller sale price = what the seller actually collects over the 7-yr note (pmts + balloon), regardless of the SF rate. Raising the rate lowers the recorded deed (property-tax basis) but keeps the take the same. Gap column shows the pair total vs. the original ask.</p>
+        <table id="seller-table" style="font-size:12px;">
           <thead>
             <tr>
               <th>Pair</th>
@@ -466,12 +466,12 @@
         </div>
 
         <div class="input-group">
-          <label title="Bank-side seller credit. Angela contributes this percentage of the bank deed toward closing costs / prepaids, reducing your cash out at close.">Bank Seller Credit (%)</label>
+          <label title="Bank-side seller credit. The seller contributes this percentage of the bank deed toward closing costs / prepaids, reducing your cash out at close.">Bank Seller Credit (%)</label>
           <input type="number" id="inp-bank-credit" value="2" step="0.1" oninput="calculateModel()">
         </div>
 
         <div class="input-group">
-          <label title="Stated note rate per the IRS AFR. Angela's sale price (what she collects) is held fixed; raising this auto-lowers the recorded deed so payments + balloon still sum to her sale price. The effective interest cost to you is 0% — the rate exists to create a deductible interest shield against W-2 income (REPS).">Seller Finance Rate (%)</label>
+          <label title="Stated note rate per the IRS AFR. The seller's sale price (what they collect) is held fixed; raising this auto-lowers the recorded deed so payments + balloon still sum to the sale price. The effective interest cost to you is 0% — the rate exists to create a deductible interest shield against W-2 income (REPS).">Seller Finance Rate (%)</label>
           <input type="number" id="inp-sf-rate" value="6" step="0.1" oninput="calculateModel()">
         </div>
 
@@ -491,7 +491,7 @@
         </div>
 
         <div class="input-group">
-          <label title="Flat repair escrow Angela disburses to the buyer LLC at each SF closing (LLC invoice method). Funds the rehab pool / HYSA — directly reduces cash needed at SF acquisition.">SF Repair Escrow ($)</label>
+          <label title="Flat repair escrow the seller disburses to the buyer LLC at each SF closing (LLC invoice method). Funds the rehab pool / HYSA — directly reduces cash needed at SF acquisition.">SF Repair Escrow ($)</label>
           <input type="number" id="inp-sf-escrow" value="25000" step="1000" oninput="calculateModel()">
         </div>
 
@@ -506,7 +506,7 @@
         </div>
 
         <div class="input-group">
-          <label title="Annual property tax rate (DeSoto / Dallas County is ~2.2%).">Annual Tax Rate (%)</label>
+          <label title="Annual property tax rate (~2.2%).">Annual Tax Rate (%)</label>
           <input type="number" id="inp-tax-rate" value="2.2" step="0.1" oninput="calculateModel()">
         </div>
 
@@ -563,37 +563,37 @@ function fmtPct(n) {
   return (n * 100).toFixed(1) + '%';
 }
 
-// Raw data — DeSoto 8 Portfolio.
+// Raw data — 8-Duplex Portfolio.
 // Each pair has one bank-financed property (full deed price) and one seller-financed
 // property structured via the "price shift": $50k of equity is moved from the bank
 // side onto the seller side, and the SF stated rate is set to 6% so that interest +
-// principal across the 84-month run + the balloon equals exactly Angela's ask. Net
+// principal across the 84-month run + the balloon equals exactly the seller's ask. Net
 // effective interest cost to the buyer is 0% — the deed price is reduced enough to
 // absorb the 6% interest, while the deduction creates a real REPS-side tax shield.
 //
-// `price` = what Angela actually collects over the life of the note (pmts + balloon
+// `price` = what the seller actually collects over the life of the note (pmts + balloon
 // at the chosen SF rate). For bank rows, `price` is also the recorded deed. For SF
 // rows, the recorded deed is auto-derived so total payments + balloon == `price` at
 // the prevailing SF rate. Property tax is charged on the recorded deed.
-// `angelaAsk` is her per-property reference ask; `sfAsk` is the +$50k-shifted SF ask
-// used for the Angela payouts comparison panel.
+// `sellerAsk` is the per-property reference ask; `sfAsk` is the +$50k-shifted SF ask
+// used for the seller payouts comparison panel.
 //
 // Rents reflect the operational assumption: $1,750/unit current and $1,850/unit
 // post-renovation (i.e. $3,500 / $3,700 per duplex). Rehab is "as-they-turn" so
 // nothing forces vacancy.
 const rawData = [
-  // pair 1  (Angela's pair ask $820,000)
-  { pair: 1, type: "bank",   addr: "116/118 Shadybrook", bal: 73937.15,  pmt: 1739.22, curRent: 3500, newRent: 3700, price: 360000, angelaAsk: 410000 },
-  { pair: 1, type: "seller", addr: "141/143 Shadybrook", bal: 69246.44,  pmt: 1723.22, curRent: 3500, newRent: 3700, price: 460000, angelaAsk: 410000, sfAsk: 460000 },
-  // pair 2  (Angela's pair ask $832,000)
-  { pair: 2, type: "bank",   addr: "144/146 Shadybrook", bal: 76637.59,  pmt: 1749.27, curRent: 3500, newRent: 3700, price: 360000, angelaAsk: 410000 },
-  { pair: 2, type: "seller", addr: "125/127 Larchbrook", bal: 72245.79,  pmt: 1817.59, curRent: 3500, newRent: 3700, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 3  (Angela's pair ask $844,000)
-  { pair: 3, type: "bank",   addr: "120/122 Idlecreek",  bal: 81947.65,  pmt: 2202.48, curRent: 3500, newRent: 3700, price: 372000, angelaAsk: 422000 },
-  { pair: 3, type: "seller", addr: "800/802 Summit",     bal: 130972.34, pmt: 2005.17, curRent: 3500, newRent: 3700, price: 472000, angelaAsk: 422000, sfAsk: 472000 },
-  // pair 4  (Angela's pair ask $752,000)
-  { pair: 4, type: "bank",   addr: "804/806 Summit",     bal: 99764.90,  pmt: 1936.05, curRent: 3500, newRent: 3700, price: 372000, angelaAsk: 422000 },
-  { pair: 4, type: "seller", addr: "1419/1421 Deborah",  bal: 51746.39,  pmt: 1269.69, curRent: 3500, newRent: 3700, price: 380000, angelaAsk: 330000, sfAsk: 380000 }
+  // pair 1  (seller's pair ask $820,000)
+  { pair: 1, type: "bank",   addr: "Property 1A", bal: 73937.15,  pmt: 1739.22, curRent: 3500, newRent: 3700, price: 360000, sellerAsk: 410000 },
+  { pair: 1, type: "seller", addr: "Property 1B", bal: 69246.44,  pmt: 1723.22, curRent: 3500, newRent: 3700, price: 460000, sellerAsk: 410000, sfAsk: 460000 },
+  // pair 2  (seller's pair ask $832,000)
+  { pair: 2, type: "bank",   addr: "Property 2A", bal: 76637.59,  pmt: 1749.27, curRent: 3500, newRent: 3700, price: 360000, sellerAsk: 410000 },
+  { pair: 2, type: "seller", addr: "Property 2B", bal: 72245.79,  pmt: 1817.59, curRent: 3500, newRent: 3700, price: 472000, sellerAsk: 422000, sfAsk: 472000 },
+  // pair 3  (seller's pair ask $844,000)
+  { pair: 3, type: "bank",   addr: "Property 3A", bal: 81947.65,  pmt: 2202.48, curRent: 3500, newRent: 3700, price: 372000, sellerAsk: 422000 },
+  { pair: 3, type: "seller", addr: "Property 3B", bal: 130972.34, pmt: 2005.17, curRent: 3500, newRent: 3700, price: 472000, sellerAsk: 422000, sfAsk: 472000 },
+  // pair 4  (seller's pair ask $752,000)
+  { pair: 4, type: "bank",   addr: "Property 4A", bal: 99764.90,  pmt: 1936.05, curRent: 3500, newRent: 3700, price: 372000, sellerAsk: 422000 },
+  { pair: 4, type: "seller", addr: "Property 4B", bal: 51746.39,  pmt: 1269.69, curRent: 3500, newRent: 3700, price: 380000, sellerAsk: 330000, sfAsk: 380000 }
 ];
 
 let chartInstance = null;
@@ -639,7 +639,7 @@ function calculateModel() {
     return pv * Math.pow(1 + monthlyRate, monthsPaid) - p * (Math.pow(1 + monthlyRate, monthsPaid) - 1) / monthlyRate;
   }
 
-  // Given Angela's negotiated sale price (what she collects over the note's life:
+  // Given the seller's negotiated sale price (what they collect over the note's life:
   // sum of monthly pmts + balloon balance), back out the recorded deed price
   // such that amortizing at `rate` over `amortMos` and ballooning at `balloonMos`
   // sums to exactly `salePrice`. At 0%, deed === salePrice (identity).
@@ -672,7 +672,7 @@ function calculateModel() {
   const cashflowRows = [];
 
   const tbodyHtml = rawData.map((p, i) => {
-    // For seller props: p.price is Angela's fixed sale price (what she collects over the
+    // For seller props: p.price is the seller's fixed sale price (what they collect over the
     // note's life). Deed price is derived so total pmts + balloon == sale price at any
     // interest rate. For bank props: sale price == deed (nothing to recharacterize).
     const deedPrice = (p.type === 'seller')
@@ -783,7 +783,7 @@ function calculateModel() {
           netForYear += (annualGross - annualExpenses - (newRefiDebt * 12));
           currentMonthlyDebt = newRefiDebt;
         } else {
-          // Still paying Angela on the SF note at sfRate, minus any payment-holiday months
+          // Still paying the seller on the SF note at sfRate, minus any payment-holiday months
           // that land in this calendar year. Holiday runs from month 0 of the acquisition
           // year; capped at 12 so it stays within year p.pair.
           const holidayThisYear = (y === p.pair) ? sfHolidayMonths : 0;
@@ -835,24 +835,24 @@ function calculateModel() {
     `;
   }).join('');
 
-  // Angela's pair-math validation table
-  const angelaData = { 1:{}, 2:{}, 3:{}, 4:{} };
-  Object.keys(angelaData).forEach(k => {
-    angelaData[k] = { bankPrice:0, sellerPrice:0, askTotal:0, debtsPaid:0, closing:0, cashAtClose:0 };
+  // Seller's pair-math validation table
+  const sellerData = { 1:{}, 2:{}, 3:{}, 4:{} };
+  Object.keys(sellerData).forEach(k => {
+    sellerData[k] = { bankPrice:0, sellerPrice:0, askTotal:0, debtsPaid:0, closing:0, cashAtClose:0 };
   });
 
   rawData.forEach(p => {
-    const d = angelaData[p.pair];
-    d.askTotal += (p.angelaAsk || 0);
+    const d = sellerData[p.pair];
+    d.askTotal += (p.sellerAsk || 0);
     d.debtsPaid += p.bal;
     if (p.type === 'bank')   d.bankPrice   = p.price;
-    if (p.type === 'seller') d.sellerPrice = p.price; // editable deed price = Angela's take at 0%
+    if (p.type === 'seller') d.sellerPrice = p.price; // editable deed price = seller's take at 0%
   });
 
-  Object.keys(angelaData).forEach(k => {
-    const d = angelaData[k];
+  Object.keys(sellerData).forEach(k => {
+    const d = sellerData[k];
     d.closing = d.bankPrice * closingCostsPct;
-    // At close she gets the bank wire, pays off both underlying mortgages and her
+    // At close the seller gets the bank wire, pays off both underlying mortgages and their
     // share of closing. The seller price is collected over the 7-year note term.
     d.cashAtClose = d.bankPrice - d.debtsPaid - d.closing;
     d.pairTotal = d.bankPrice + d.sellerPrice;
@@ -864,8 +864,8 @@ function calculateModel() {
     return `<span style="color:${CC.red}">${fmt(diff)} <span style="font-size:10px;color:${CC.ink3}">(ask ${fmt(askTotal)})</span></span>`;
   };
 
-  document.querySelector('#angela-table tbody').innerHTML = Object.keys(angelaData).map(k => {
-    const d = angelaData[k];
+  document.querySelector('#seller-table tbody').innerHTML = Object.keys(sellerData).map(k => {
+    const d = sellerData[k];
     return `
     <tr>
       <td><strong>${k}</strong></td>
@@ -878,14 +878,14 @@ function calculateModel() {
   }).join('');
 
   // Totals footer row
-  const tot = Object.values(angelaData).reduce((a, d) => ({
+  const tot = Object.values(sellerData).reduce((a, d) => ({
     bankPrice: a.bankPrice + d.bankPrice,
     sellerPrice: a.sellerPrice + d.sellerPrice,
     pairTotal: a.pairTotal + d.pairTotal,
     askTotal: a.askTotal + d.askTotal,
     cashAtClose: a.cashAtClose + d.cashAtClose,
   }), {bankPrice:0, sellerPrice:0, pairTotal:0, askTotal:0, cashAtClose:0});
-  document.querySelector('#angela-table tbody').innerHTML += `
+  document.querySelector('#seller-table tbody').innerHTML += `
     <tr style="background:var(--cream2);">
       <td><strong>Total</strong></td>
       <td class="text-right" style="color:${CC.blue};font-weight:600">${fmt(tot.bankPrice)}</td>
